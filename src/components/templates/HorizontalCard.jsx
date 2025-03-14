@@ -59,28 +59,34 @@ const HorizontalCard = ({ trending }) => {
         ref={scrollRef}
         className="flex overflow-hidden overflow-x-scroll space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth"
       >
-        {trending?.map((item, index) => (
-          <Link key={index} to={`/details/${item.id}`} className="group">
-            <div className="relative w-[180px] min-w-[180px] h-[320px] rounded-lg overflow-hidden bg-zinc-800 shadow-lg transition-transform duration-300 group-hover:scale-105">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-                alt={item.title || item.name || item.original_title || item.original_name}
-                className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
-              />
-              <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4">
-                <h2 className="text-sm md:text-base font-semibold text-white truncate">
-                  {item.title || item.name || item.original_title || item.original_name}
-                </h2>
-                <div className="flex items-center select-none space-x-1 mt-1">
-                <i className="ri-album-fill text-sm text-red-400"></i>
-                <p className="text-xs text-gray-400 uppercase font-semibold tracking-wide">
-                  {item.media_type || ''}
-                </p>
+        {trending?.map((item, index) => {
+          // Determine icon type and color based on media type
+          const iconType = item.media_type === "movie" ? "ri-movie-2-fill" : "ri-tv-fill";
+          const iconColor = item.media_type === "movie" ? "text-red-400" : "text-blue-400";
+
+          return (
+            <Link key={index} to={`/details/${item.id}`} className="group">
+              <div className="relative w-[180px] min-w-[180px] h-[320px] rounded-lg overflow-hidden bg-zinc-800 shadow-lg transition-transform duration-300 group-hover:scale-105">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                  alt={item.title || item.name || item.original_title || item.original_name}
+                  className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
+                />
+                <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4">
+                  <h2 className="text-sm md:text-base font-semibold text-white truncate">
+                    {item.title || item.name || item.original_title || item.original_name}
+                  </h2>
+                  <div className="flex items-center select-none space-x-1 mt-1">
+                    <i className={`${iconType} text-sm ${iconColor}`}></i>
+                    <p className="text-xs text-gray-400 uppercase font-semibold tracking-wide">
+                      {item.media_type || ''}
+                    </p>
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
 
       {showRightButton && (

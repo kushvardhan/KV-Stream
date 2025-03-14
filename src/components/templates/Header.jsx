@@ -9,7 +9,7 @@ const Header = ({ wallpaper }) => {
           <img
             src={`https://image.tmdb.org/t/p/original${wallpaper.backdrop_path}`}
             alt={wallpaper.title || wallpaper.name}
-            className="w-full h-full object-cover object-[12%] select-none"
+            className="w-full h-full object-cover object-[1%] select-none"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
