@@ -35,7 +35,6 @@ const HorizontalCard = ({ trending }) => {
       const { current } = scrollRef;
       const scrollAmount = 200;
       current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
-
       setTimeout(checkScroll, 100);
     }
   };
@@ -60,12 +59,13 @@ const HorizontalCard = ({ trending }) => {
         className="flex overflow-hidden overflow-x-scroll space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth"
       >
         {trending?.map((item, index) => {
-          // Determine icon type and color based on media type
-          const iconType = item.media_type === "movie" ? "ri-movie-2-fill" : "ri-tv-fill";
-          const iconColor = item.media_type === "movie" ? "text-red-400" : "text-blue-400";
+          const isMovie = item.media_type === "movie";
+          const detailsPath = isMovie ? `/movies/details/${item.id}` : `/tv-shows/details/${item.id}`;
+          const iconType = isMovie ? "ri-movie-2-fill" : "ri-tv-fill";
+          const iconColor = isMovie ? "text-red-400" : "text-blue-400";
 
           return (
-            <Link key={index} to={`/details/${item.id}`} className="group">
+            <Link key={index} to={detailsPath} className="group">
               <div className="relative w-[180px] min-w-[180px] h-[320px] rounded-lg overflow-hidden bg-zinc-800 shadow-lg transition-transform duration-300 group-hover:scale-105">
                 <img
                   src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}

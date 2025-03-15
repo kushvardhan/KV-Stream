@@ -98,8 +98,19 @@ const AboutUs = () => {
           transition={{ duration: 1, delay: 1.7 }}
         >
           Thank you for choosing us as your go-to streaming service. We're
-          excited to have you on this journey with us! <span className='ml-12 text-sm select-none text-green-700'>kushvardhan39797@gmail.com</span>
+          excited to have you on this journey with us! 
         </motion.p>
+
+        <motion.div 
+          className="w-full p-3 flex mt-3 justify-center items-center gap-2 bg-[#1f1f1f] rounded-xl shadow-lg"
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.5, delay: 2, ease: "easeOut" }}
+          whileHover={{ scale: 1.02, transition: { duration: 0.5 } }}
+        >
+          <h1 className="text-sm inline-block text-red-800 font-semibold select-none">Contact us:</h1>
+          <span className="text-sm text-bold text-green-700">kushvardhan39797@gmail.com</span>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

@@ -30,7 +30,7 @@ const TVShows = () => {
                 return Array.from(new Map(newData.map(item => [item.id, item])).values());
             });
 
-            if (results.length === 0) setHasMore(false);
+            setHasMore(results.length > 0);
         } catch (err) {
             setHasMore(false);
         } finally {
@@ -42,14 +42,11 @@ const TVShows = () => {
         setTvShows([]);
         setPage(1);
         setHasMore(true);
-        getTVShows(true, category, 1);
     }, [category]);
 
     useEffect(() => {
-        if (page > 1) {
-            getTVShows(false, category, page);
-        }
-    }, [page]);
+        getTVShows(true, category, page);
+    }, [category, page]);
 
     useEffect(() => {
         let timeout;
@@ -93,7 +90,7 @@ const TVShows = () => {
             <div className="w-full flex flex-wrap items-center mb-6 px-4 sm:px-6">
                 <DropDown
                     title="Category"
-                    options={["popular", "top_rated", "upcoming", "airing_today"]}
+                    options={["popular", "top_rated", "airing_today", "on_the_air"]}
                     func={(selected) => {
                         setCategory(selected);
                         setTvShows([]);

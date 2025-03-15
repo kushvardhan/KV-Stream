@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Cards = ({ data, category, hideDetails }) => {
-    const mediaType = data.media_type || category;
+    const mediaType = data.media_type || category;  // Ensure mediaType is correct
 
     const shortOverview = data.overview
         ? data.overview.split(" ").slice(0, 18).join(" ") + "..."
@@ -10,9 +10,16 @@ const Cards = ({ data, category, hideDetails }) => {
 
     const defaultImage = "https://via.placeholder.com/500x750?text=No+Image";
 
+    // ✅ Correcting the routing issue
+    const getPath = () => {
+        if (mediaType === "movie") return `/movies/details/${data.id}`;
+        if (mediaType === "tv") return `/tv-shows/details/${data.id}`;
+        return `/people/details/${data.id}`; // For actors/peoples
+    };
+
     return (
         <Link 
-            to={`/details/${data.id}`}
+            to={getPath()} // ✅ Using corrected path function
             className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full sm:w-[200px] md:w-[220px] lg:w-[240px] h-[370px] group"
         >
             <img

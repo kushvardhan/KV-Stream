@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ContactUs = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const contactEmail = 'kushvardhan39797@gmail.com';
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const contactEmail = "kushvardhan39797@gmail.com";
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name && email && message) {
-      toast.success('Message sent successfully!', {
+      toast.success("Message sent successfully!", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 3000,
-        theme: 'colored',
+        theme: "colored",
       });
-      setName('');
-      setEmail('');
-      setMessage('');
+      setName("");
+      setEmail("");
+      setMessage("");
     } else {
-      toast.error('Please fill in all fields!', {
+      toast.error("Please fill in all fields!", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 3000,
-        theme: 'colored',
+        theme: "colored",
       });
     }
   };
@@ -34,13 +34,13 @@ const ContactUs = () => {
       className="w-full h-screen bg-[#1F1E24] flex flex-col items-center justify-center px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, ease: 'easeInOut' }}
+      transition={{ duration: 1.5, ease: "easeInOut" }}
     >
       <motion.h1
         className="text-3xl sm:text-4xl text-center mt-6 text-zinc-300 font-black select-none mb-6 tracking-wide"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, type: 'spring', stiffness: 100 }}
+        transition={{ duration: 1, type: "spring", stiffness: 100 }}
       >
         Contact Us
       </motion.h1>
@@ -59,11 +59,14 @@ const ContactUs = () => {
             <motion.input
               type="text"
               id="name"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
               className="w-full p-3 mt-1 bg-[#3a3a3a] border-none outline-none rounded-lg text-white placeholder-gray-500"
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              whileFocus={{ scale: 1.05, backgroundColor: '#4a4a4a', transition: { duration: 0.3 } }}
+              whileFocus={{ scale: 1.05, transition: { duration: 0.3 } }}
             />
           </div>
 
@@ -74,11 +77,14 @@ const ContactUs = () => {
             <motion.input
               type="email"
               id="email"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
               className="w-full p-3 mt-1 bg-[#3a3a3a] border-none outline-none rounded-lg text-white placeholder-gray-500"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              whileFocus={{ scale: 1.05, backgroundColor: '#4a4a4a', transition: { duration: 0.3 } }}
+              whileFocus={{ scale: 1.05, transition: { duration: 0.3 } }}
             />
           </div>
 
@@ -88,19 +94,25 @@ const ContactUs = () => {
             </label>
             <motion.textarea
               id="message"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
               className="w-full p-3 mt-1 bg-[#3a3a3a] border-none outline-none rounded-lg text-white placeholder-gray-500"
               rows="4"
               placeholder="Enter your message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              whileFocus={{ scale: 1.05, backgroundColor: '#4a4a4a', transition: { duration: 0.3 } }}
+              whileFocus={{ scale: 1.05, transition: { duration: 0.3 } }}
             ></motion.textarea>
           </div>
 
           <motion.button
             type="submit"
             className="w-full py-3 bg-green-500 hover:bg-green-600 select-none text-white rounded-lg text-xl transition-all duration-300"
-            whileHover={{ scale: 1.05, boxShadow: '0px 3px 10px rgba(0, 255, 0, 0.3)' }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0px 3px 10px rgba(0, 255, 0, 0.3)",
+            }}
             whileTap={{ scale: 0.95 }}
           >
             Send Message
@@ -113,7 +125,9 @@ const ContactUs = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.5 }}
         >
-          <p className="text-zinc-500 select-none">For immediate assistance, email us at:</p>
+          <p className="text-zinc-500 select-none">
+            For immediate assistance, email us at:
+          </p>
           <p className="text-sm font-bold text-green-700">{contactEmail}</p>
         </motion.div>
       </motion.div>

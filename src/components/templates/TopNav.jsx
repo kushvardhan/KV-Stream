@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import noImage from "../../../public/noImage.png";
 import instance from "../../../utils/axios";
 
 const TopNav = () => {
@@ -90,7 +89,7 @@ const TopNav = () => {
                         s.file_path ||
                         s.logo_path
                       }`
-                    : noImage
+                    : "/noImage.png"
                 }
                 alt=""
               />
