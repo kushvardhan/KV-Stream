@@ -1,31 +1,31 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../utils/axios';
 import TopNav from './templates/TopNav';
 import DropDown from './templates/DropDown';
-import axios from '../../utils/axios';
-import Shimmer from './templates/Shimmer'; 
+import Shimmer from './templates/Shimmer';
 import Cards from './templates/Cards';
 
-const Popular = () => {
+const TVShows = () => {
     const navigate = useNavigate();
-    const [category, setCategory] = useState('tv');
-    const [popular, setPopular] = useState([]);
+    const [tvShows, setTvShows] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [showTopButton, setShowTopButton] = useState(false);
+    const [category, setCategory] = useState("popular");
 
-    document.title = "KV | Popular " + category.toUpperCase();
+    document.title = "KV | TV Shows";
 
-    const getPopular = useCallback(async (reset = false) => {
+    const getTVShows = async (reset = false, selectedCategory = category, selectedPage = page) => {
         if (loading || !hasMore) return;
         setLoading(true);
-        
+
         try {
-            const { data } = await axios.get(`/${category}/popular?page=${page}`);
+            const { data } = await axios.get(`/tv/${selectedCategory}?page=${selectedPage}`);
             const results = data.results || [];
 
-            setPopular(prev => {
+            setTvShows(prev => {
                 const newData = reset ? results : [...prev, ...results];
                 return Array.from(new Map(newData.map(item => [item.id, item])).values());
             });
@@ -36,20 +36,20 @@ const Popular = () => {
         } finally {
             setLoading(false);
         }
-    }, [page, category]);
+    };
 
     useEffect(() => {
-        setPopular([]);
+        setTvShows([]);
         setPage(1);
         setHasMore(true);
-        getPopular(true);
+        getTVShows(true, category, 1);
     }, [category]);
 
     useEffect(() => {
         if (page > 1) {
-            setTimeout(() => getPopular(), 300);
+            getTVShows(false, category, page);
         }
-    }, [page, getPopular]);
+    }, [page]);
 
     useEffect(() => {
         let timeout;
@@ -75,15 +75,15 @@ const Popular = () => {
     };
 
     return (
-        <div className="py-4 w-screen min-h-screen bg-[#25262B] flex flex-col overflow-x-hidden">
+        <div className="py-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
             <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
-                <h1 className="font-bold text-zinc-400 text-2xl flex items-center gap-3 pb-2">
-                    <i 
-                        onClick={() => navigate(-1)} 
-                        className="hover:text-orange-500 hover:shadow-[0_0_10px_#FF7F50] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line"
-                    ></i> 
-                    Popular <small className='text-sm select-none text-zinc-600'>({category})</small>
-                </h1> 
+                <h1 className="font-bold text-zinc-200 text-2xl flex items-center gap-3 pb-2">
+                    <i
+                        onClick={() => navigate(-1)}
+                        className="hover:text-blue-300 hover:shadow-[0_0_10px_#1E90FF] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line"
+                    ></i>
+                    TV Shows <small className='text-sm select-none text-zinc-400'>({category})</small>
+                </h1>
             </div>
 
             <div className="w-full mb-6 px-4 sm:px-6">
@@ -91,29 +91,39 @@ const Popular = () => {
             </div>
 
             <div className="w-full flex flex-wrap items-center mb-6 px-4 sm:px-6">
-                <DropDown title="Category" options={["tv", "movie"]} func={setCategory} />
+                <DropDown
+                    title="Category"
+                    options={["popular", "top_rated", "upcoming", "airing_today"]}
+                    func={(selected) => {
+                        setCategory(selected);
+                        setTvShows([]);
+                        setPage(1);
+                        setHasMore(true);
+                        getTVShows(true, selected, 1);
+                    }}
+                />
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6 px-4 sm:px-6">
-                {popular.length === 0 && loading ? (
+            <div className="flex flex-wrap justify-center items-stretch gap-6 px-4 sm:px-6 w-full">
+                {tvShows.length === 0 && loading ? (
                     <Shimmer />
                 ) : (
-                    popular.map(item => (
-                        <Cards key={item.id} data={item} category={category} hideDetails={true} />
+                    tvShows.map(item => (
+                        <Cards key={item.id} data={item} category="tv" hideDetails={false} />
                     ))
                 )}
             </div>
 
             {loading && (
-                <div className="text-center py-4 text-orange-300">
+                <div className="text-center py-4 text-blue-300">
                     <i className="ri-loader-4-line animate-spin text-xl"></i> Loading more...
                 </div>
             )}
 
             {showTopButton && (
-                <button 
-                    onClick={scrollToTop} 
-                    className="fixed bottom-8 right-8 bg-orange-500/50 text-white p-4 rounded-full shadow-lg hover:bg-orange-600 transition"
+                <button
+                    onClick={scrollToTop}
+                    className="fixed bottom-8 right-8 bg-blue-500/50 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition"
                 >
                     <i className="ri-arrow-up-s-line text-xl"></i>
                 </button>
@@ -122,4 +132,4 @@ const Popular = () => {
     );
 };
 
-export default Popular;
+export default TVShows;

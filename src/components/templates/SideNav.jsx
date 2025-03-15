@@ -21,11 +21,11 @@ const SideNav = () => {
           <Link to="/movies" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
             <i className="ri-movie-2-fill text-xl mr-1"></i> Movies
           </Link>
-          <Link to="/tvshows" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
+          <Link to="/tv-shows" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
             <i className="ri-slideshow-3-fill text-xl mr-1"></i> TV Shows
           </Link>
-          <Link to="/people" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
-            <i className="ri-team-fill text-xl mr-1"></i> People
+          <Link to="/peoples" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
+            <i className="ri-team-fill text-xl mr-1"></i> Peoples
           </Link>
         </div>
       </nav>
@@ -35,10 +35,10 @@ const SideNav = () => {
       <nav className="flex flex-col">
         <h1 className="text-2xl mb-5 font-bold text-zinc-200 font-gilroy px-3">Web Info</h1>
         <div className="text-md font-sans tracking-wide flex flex-col gap-2 text-zinc-300 ml-2 select-none">
-          <Link to="/about" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
+          <Link to="/about-us" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
             <i className="ri-file-info-fill text-xl mr-1"></i> About <span className="font-semibold">KV</span>
           </Link>
-          <Link to="/contact" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
+          <Link to="/contact-us" className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2">
             <i className="ri-phone-fill text-xl mr-1"></i> Contact Us
           </Link>
         </div>

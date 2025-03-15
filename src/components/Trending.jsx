@@ -70,7 +70,8 @@ const Trending = () => {
                         onClick={() => navigate(-1)} 
                         className="hover:text-[#a69ddb] hover:shadow-[0_0_10px_#6556CD] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line"
                     ></i> 
-                    Trending
+                    Trending <small className='text-sm select-none text-zinc-600'>({category})</small>
+
                 </h1> 
             </div>
 

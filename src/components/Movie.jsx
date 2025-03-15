@@ -82,7 +82,8 @@ const Movie = () => {
                 onClick={() => navigate(-1)}
                 className="hover:text-green-500 hover:shadow-[0_0_10px_#32CD32] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line"
             ></i>
-            Movies ({category.toUpperCase()})
+            Movies <small className='text-sm select-none text-zinc-600'>({category})</small>
+
         </h1>
     </div>
 
