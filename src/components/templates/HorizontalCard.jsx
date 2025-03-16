@@ -42,7 +42,6 @@ const HorizontalCard = ({ trending }) => {
   return (
     <div className="w-full h-auto p-6 relative mt-3">
       <div className="mb-4">
-        <h1 className="text-2xl font-bold text-white tracking-wide">🔥 Trending Now</h1>
       </div>
 
       {showLeftButton && (

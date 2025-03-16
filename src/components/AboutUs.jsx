@@ -10,7 +10,7 @@ const AboutUs = () => {
       transition={{ duration: 1.5, ease: 'easeInOut' }}
     >
       <motion.h1
-        className="text-5xl text-center text-zinc-300 font-black select-none mb-6 tracking-wide"
+        className="text-5xl text-center text-zinc-300 mt-4 font-black select-none mb-4 tracking-wide"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, type: 'spring', stiffness: 100 }}
@@ -40,7 +40,7 @@ const AboutUs = () => {
         ></motion.div>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-6 text-shadow"
+          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -53,7 +53,7 @@ const AboutUs = () => {
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-6 text-shadow"
+          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
@@ -67,7 +67,7 @@ const AboutUs = () => {
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-6 text-shadow"
+          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1.1 }}
@@ -80,7 +80,7 @@ const AboutUs = () => {
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-6 text-shadow"
+          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1.4 }}
@@ -98,7 +98,17 @@ const AboutUs = () => {
           transition={{ duration: 1, delay: 1.7 }}
         >
           Thank you for choosing us as your go-to streaming service. We're
-          excited to have you on this journey with us! 
+          excited to have you on this journey with us!
+        </motion.p>
+
+        {/* TMDb Attribution */}
+        <motion.p
+          className="text-sm text-gray-400 select-none text-center mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 2 }}
+        >
+          Data sourced from <span className="text-blue-400 font-semibold">TMDb</span>, but we are not affiliated with or endorsed by TMDb.
         </motion.p>
 
         <motion.div 
@@ -112,6 +122,8 @@ const AboutUs = () => {
           <span className="text-sm text-bold text-green-700">kushvardhan39797@gmail.com</span>
         </motion.div>
       </motion.div>
+
+   
     </motion.div>
   );
 };

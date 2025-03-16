@@ -10,6 +10,8 @@ import AboutUs from "./components/AboutUs";
 import MovieDetails from "./components/templates/MovieDetails";
 import TvDetails from "./components/templates/TvDetails";
 import PeopleDetails from "./components/templates/PeopleDetails";
+import Trailer from "./components/templates/Trailer";
+import NotFound from "./components/templates/NotFound";
 
 function App() {
   return (
@@ -18,18 +20,26 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/trending" element={<Trending />} />
         <Route path="/popular" element={<Popular />} />
-        
         <Route path="/movies" element={<Movie />} />
-        <Route path="/movies/details/:id" element={<MovieDetails />} />
         
+        <Route path="/movies/details/:id" element={<MovieDetails />}>
+          <Route path="trailer" element={<Trailer />} />
+        </Route>
+
         <Route path="/tv-shows" element={<TVShows />} />
-        <Route path="/tv-shows/details/:id" element={<TvDetails />} />
-        
+        <Route path="/tv-shows/details/:id" element={<TvDetails />} >
+        <Route path="trailer" element={<Trailer />} />
+        </Route>
+
         <Route path="/peoples" element={<People />} />
         <Route path="/peoples/details/:id" element={<PeopleDetails />} />
         
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
+
+        <Route path='*' element={<NotFound/>} ></Route>
+
+
       </Routes>
     </div>
   );

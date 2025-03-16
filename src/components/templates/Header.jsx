@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = ({ wallpaper, setTrailer }) => {
   const navigate = useNavigate();
@@ -56,16 +57,16 @@ const Header = ({ wallpaper, setTrailer }) => {
           </span>
         </div>
 
-        <button
-  className="mt-4 px-2 py-3 flex items-center gap-2 bg-[#6556CD] hover:bg-[#5747C7] text-white font-bold text-sm rounded-sm transition-all group"
-  onClick={(e) => {
-    e.stopPropagation();
-    setTrailer(wallpaper);
-  }}
+        <Link
+  className="mt-4 px-4 py-3 w-fit flex items-center gap-2 bg-[#6556CD] hover:bg-[#5747C7] 
+             text-white font-bold text-sm rounded-md transition-all duration-300 
+             focus:outline-none focus:ring-2 focus:ring-[#5747C7] group"
+  to={`/${wallpaper?.media_type}/details/${wallpaper?.id}/trailer`}
 >
-  <i className="ri-play-circle-fill text-black text-xl transition-all duration-500 ease-in-out group-hover:text-white"></i> 
+  <i className="ri-play-circle-fill text-black text-xl transition-all duration-300 
+                ease-in-out group-hover:text-white"></i> 
   Watch Trailer
-</button>
+</Link>
       </div>
     </div>
   );
