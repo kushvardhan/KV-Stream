@@ -37,7 +37,7 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
 
-        <Route path='*' element={<NotFound/>} ></Route>
+        <Route path='/notfound' element={<NotFound/>} ></Route>
 
 
       </Routes>

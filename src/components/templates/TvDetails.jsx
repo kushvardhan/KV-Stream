@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { asyncLoadtv } from "../../store/actions/tvAction";
 import { removetv } from "../../store/reducers/tvSlice";
 import HorizontalCard from "./HorizontalCard";
 import Shimmer from "./Shimmer";
 
 const TvDetails = () => {
+  document.title = 'KV | Tv Show Details'
+  const {pathname} = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -199,7 +201,7 @@ const TvDetails = () => {
                        font-medium text-base tracking-wide transition-all duration-200 
                        backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10 
                        hover:bg-opacity-40 cursor-pointer"
-            onClick={() => navigate(`/tv/details/${id}/trailer`)}
+            onClick={() => navigate(`${pathname}/trailer`)}
           >
             🎬 Watch Trailer
           </motion.button>

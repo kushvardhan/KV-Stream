@@ -2,24 +2,16 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Header = ({ wallpaper, setTrailer }) => {
-  const navigate = useNavigate();
-
+const Header = ({ wallpaper }) => {
   if (!wallpaper || !wallpaper.id) return null;
 
-  const handleNavigation = () => {
-    const path =
-      wallpaper.media_type === "tv"
-        ? `/tv-shows/details/${wallpaper.id}`
-        : `/movies/details/${wallpaper.id}`;
-    navigate(path);
-  };
-
+  const detailsPath =
+    wallpaper.media_type === "tv"
+      ? `/tv-shows/details/${wallpaper.id}`
+      : `/movies/details/${wallpaper.id}`;
+  console.log('wallpaper from Header:',wallpaper);
   return (
-    <div
-      className="w-full h-[60vh] relative overflow-hidden bg-zinc-900 cursor-pointer"
-      onClick={handleNavigation}
-    >
+    <div className="w-full h-[60vh] relative overflow-hidden bg-zinc-900 cursor-pointer">
       <img
         src={`https://image.tmdb.org/t/p/original${wallpaper.backdrop_path}`}
         alt={wallpaper.title || wallpaper.name}
@@ -32,7 +24,10 @@ const Header = ({ wallpaper, setTrailer }) => {
           {wallpaper.title || wallpaper.name}
         </h1>
         <p className="text-xs md:text-sm leading-6 opacity-90">
-          {wallpaper.overview?.split(" ").slice(0, 20).join(" ")}...
+          {wallpaper.overview?.split(" ").slice(0, 20).join(" ")}
+          <Link to={detailsPath} className="text-blue-300 hover:text-blue-400 font-semibold hover:underline">
+          ...more
+          </Link>
         </p>
         <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm opacity-85">
           <span className="flex items-center gap-1 font-semibold select-none">
@@ -58,15 +53,16 @@ const Header = ({ wallpaper, setTrailer }) => {
         </div>
 
         <Link
-  className="mt-4 px-4 py-3 w-fit flex items-center gap-2 bg-[#6556CD] hover:bg-[#5747C7] 
+          className="mt-4 px-4 py-3 w-fit flex items-center gap-2 bg-[#6556CD] hover:bg-[#5747C7] 
              text-white font-bold text-sm rounded-md transition-all duration-300 
              focus:outline-none focus:ring-2 focus:ring-[#5747C7] group"
-  to={`/${wallpaper?.media_type}/details/${wallpaper?.id}/trailer`}
->
-  <i className="ri-play-circle-fill text-black text-xl transition-all duration-300 
+             to={ `/${wallpaper.media_type === "tv" ? "tv-shows" : "movies"}/details/${wallpaper.id}/trailer` }
+
+        >
+          <i className="ri-play-circle-fill text-black text-xl transition-all duration-300 
                 ease-in-out group-hover:text-white"></i> 
-  Watch Trailer
-</Link>
+          Watch Trailer
+        </Link>
       </div>
     </div>
   );
