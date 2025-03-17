@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../../../utils/axios";
+import noImage from "/noImage.jpeg";
 
 const TopNav = () => {
   const [searchBar, setSearchBar] = useState("");
@@ -68,10 +69,8 @@ const TopNav = () => {
           }`}
         >
           {searches.map((s, i) => {
-            // Determine the correct route based on the media type
             const type = s.media_type;
-            let linkPath = "#"; // Default to prevent errors
-
+            let linkPath = "#";
             if (type === "movie") {
               linkPath = `/movies/details/${s.id}`;
             } else if (type === "tv") {
@@ -103,7 +102,7 @@ const TopNav = () => {
                           s.file_path ||
                           s.logo_path
                         }`
-                      : "/noImage.png"
+                      : noImage
                   }
                   alt={s.title || s.original_title || s.name || s.original_name}
                 />
