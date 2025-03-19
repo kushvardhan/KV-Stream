@@ -101,7 +101,6 @@ const AboutUs = () => {
           excited to have you on this journey with us!
         </motion.p>
 
-        {/* TMDb Attribution */}
         <motion.p
           className="text-sm text-gray-400 select-none text-center mt-6"
           initial={{ opacity: 0 }}

@@ -15,7 +15,7 @@ const PeopleDetails = () => {
   const { info } = useSelector((state) => state.people);
   const [showFullBio, setShowFullBio] = useState(false);
   
-  const [category,setCategory] = useState('movies');
+  const [category,setCategory] = useState('movie');
 
   useEffect(() => {
     dispatch(asyncloadpeople(id));
@@ -94,7 +94,7 @@ const PeopleDetails = () => {
           className="flex overflow-hidden overflow-x-scroll space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth"
         >
           {data?.map((item, index) => {
-            const isMovie = item.media_type === "movies";
+            const isMovie = item.media_type === "movie";
             const detailsPath = isMovie
               ? `/movies/details/${item.id}`
               : `/tv-shows/details/${item.id}`;
@@ -154,7 +154,6 @@ const PeopleDetails = () => {
 
   return (
     <div className="w-screen min-h-screen px-6 md:px-[8%] py-6 bg-[#1F1E24] text-white">
-      {/* Navbar */}
       <motion.nav
         className="w-full flex justify-between items-center p-4 bg-black/30 rounded-lg"
         initial={{ opacity: 0, y: -20 }}
@@ -181,7 +180,6 @@ const PeopleDetails = () => {
             />
             <hr className="mt-7 mb-5 border-none h-[2px] bg-zinc-500 w-full" />
 
-            {/* Social Media Links */}
             <div className="text-md flex items-center gap-6">
               {info.externalid.facebook_id && (
                 <a
@@ -259,7 +257,6 @@ const PeopleDetails = () => {
               </span>
             </p>
 
-            {/* Also Known As Section */}
             {info.details.also_known_as?.length > 0 && (
               <div className="text-zinc-400 text-md">
                 <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Also Known As:</strong>
@@ -315,23 +312,31 @@ const PeopleDetails = () => {
           <div className="w-full flex justify-between items-center mt-6">
             <h1 className="mt-5 text-xl text-zinc-400 font-semibold">Acting</h1>
 
-          <DropDown title='Category' options={['tv-shows','movies']} func={(e)=> setCategory(e.target.value)} ></DropDown>
+          <DropDown title='Category' options={['tv','movie']} func={(e)=> setCategory(e.target.value)} ></DropDown>
 
           </div>
 
           <div className="list-disc text-zinc-400 w-full h-[60vh] mt-5 overflow-x-hidden p-5 overflow-y-auto shadow-xl shadow-[rgba(255,255,255,.3)] border-2 border-zinc-700 ">
 
-            {info[category+'Credits'].cast.map((c,i)=>(<li key={i} className="hover:text-white hover:bg-[#222129] rounded-lg p-4 duration-300 cursor-pointer">
-              <Link to={`/${category}/details/${c.id}`}>
-              <span >
-                {"Movie: "}
-                {
-                  c.name || c.title || c.original_name || c.original_title
-                }
-              </span>
-              <span className="block">Character: {c.character}</span>
-              </Link>
-            </li>))}
+          {info?.[category + "Credits"]?.cast?.length > 0 ? (
+  info[category + "Credits"].cast.map((c, i) => (
+    <li
+      key={i}
+      className="hover:text-white hover:bg-[#222129] rounded-lg p-4 duration-300 cursor-pointer"
+    >
+<Link to={`/${category === 'movie' ? 'movies' : 'tv'}/details/${c.id}`}>
+<span>
+          {" "}
+          {c.name || c.title || c.original_name || c.original_title}
+        </span>
+        <span className="block">Character: {c.character || "N/A"}</span>
+      </Link>
+    </li>
+  ))
+) : (
+  <p className="text-gray-500">No data available</p>
+)}
+
        
           </div>
 

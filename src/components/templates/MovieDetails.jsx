@@ -338,7 +338,7 @@ const MovieDetails = () => {
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎬 Crew</h2>
           <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
             {info.credit.crew
-              .filter(member => member.profile_path) // Show only those with profile images
+              .filter(member => member.profile_path) 
               .slice(0, 10)
               .map(member => (
                 <Link key={member.id} to={`/people/details/${member.id}`} className="group min-w-[160px]">

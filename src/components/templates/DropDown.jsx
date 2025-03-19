@@ -29,7 +29,7 @@ const DropDown = ({ title, options, func }) => {
                             key={i} 
                             onClick={() => { 
                                 setSelected(option); 
-                                func(option); // ✅ Pass selected option to parent 
+                                func(option);
                                 setIsOpen(false);
                             }} 
                             className="px-3 py-1 text-zinc-300 hover:bg-[#6556CD] hover:text-white cursor-pointer transition duration-300"

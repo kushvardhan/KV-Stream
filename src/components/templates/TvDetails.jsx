@@ -220,7 +220,6 @@ const TvDetails = () => {
       📺 Seasons
     </h2>
 
-    {/* 🔥 Sleek & Bright White Animated Borders */}
     <motion.div
       className="absolute top-0 left-0 w-full h-[2px] bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.8)]"
       initial={{ width: "0%" }}
@@ -244,7 +243,7 @@ const TvDetails = () => {
           transition={{ duration: 0.5, delay: index * 0.1 }}
           style={{ height: "320px" }}
         >
-          {/* Image Section */}
+
           <div className="relative w-full h-full">
             <img
               src={`https://image.tmdb.org/t/p/w300${season.poster_path}`}
@@ -252,27 +251,21 @@ const TvDetails = () => {
               className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             />
 
-            {/* Gradient Overlay (For Text Readability) */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
 
-            {/* Season Details on Image */}
             <div className="absolute bottom-0 p-4 w-full">
-              {/* Season Number Badge */}
               <div className="absolute top-3 right-3 bg-black/70 px-3 py-1 rounded-full text-xs font-semibold text-white tracking-wide shadow-md">
                 {season.season_number === 0 ? "Specials" : `S${season.season_number}`}
               </div>
 
-              {/* Season Name */}
               <h3 className="text-lg font-bold text-white tracking-wide">
                 {season.name}
               </h3>
 
-              {/* Episode Count */}
               <p className="text-sm text-gray-300 font-medium tracking-wide">
                 🎬 {season.episode_count} Episodes
               </p>
 
-              {/* Overview (Only if Available) */}
               {season.overview && season.overview.length > 10 && (
                 <p className="text-xs text-gray-200 italic leading-snug line-clamp-4">
                   {season.overview.split(" ").slice(0, 30).join(" ")}...

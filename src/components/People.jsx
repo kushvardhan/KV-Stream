@@ -123,7 +123,6 @@ const People = () => {
                   <p className="text-gray-400">
                     {item.gender === 1 ? "Female" : "Male"}
                   </p>
-                  {/* ✅ FIX: Removed inner <Link> and used a <span> instead */}
                   <span className="text-red-300 text-xs mt-1 hover:underline block">
                     Click to Know more...
                   </span>
