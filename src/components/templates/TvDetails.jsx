@@ -409,7 +409,7 @@ const TvDetails = () => {
               .filter(actor => actor.profile_path) 
               .slice(0, 10)
               .map(actor => (
-                <Link key={actor.id} to={`/people/details/${actor.id}`} className="group min-w-[160px]">
+                <Link key={actor.id} to={`/peoples/details/${actor.id}`} className="group min-w-[160px]">
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
@@ -432,10 +432,10 @@ const TvDetails = () => {
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎬 Crew</h2>
           <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
             {info.credit.crew
-              .filter(member => member.profile_path) // Show only those with profile images
+              .filter(member => member.profile_path) 
               .slice(0, 10)
               .map(member => (
-                <Link key={member.id} to={`/people/details/${member.id}`} className="group min-w-[160px]">
+                <Link key={member.id} to={`/peoples/details/${member.id}`} className="group min-w-[160px]">
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}

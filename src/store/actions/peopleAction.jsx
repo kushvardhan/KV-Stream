@@ -1,7 +1,7 @@
 import axios from '../../../utils/axios';
 import { loadPeople} from '../reducers/peopleSlice';
 
-export const asyncloadpeople = (id) => async (dispatch, getState) => {
+export const asyncloadpeople = (id) => async (dispatch) => {
   try {
     const detail = await axios.get(`/person/${id}`);
     const externalid = await axios.get(`/person/${id}/external_ids`);

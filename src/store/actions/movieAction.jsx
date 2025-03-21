@@ -1,7 +1,7 @@
 import axios from '../../../utils/axios';
 import { loadMovies } from '../reducers/movieSlice';
 
-export const asyncloadmovies = (id) => async (dispatch, getState) => {
+export const asyncloadmovies = (id) => async (dispatch) => {
   try {
     const detail = await axios.get(`/movie/${id}`);
     const externalid = await axios.get(`/movie/${id}/external_ids`);

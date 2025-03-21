@@ -315,7 +315,7 @@ const MovieDetails = () => {
               .filter(actor => actor.profile_path) 
               .slice(0, 10)
               .map(actor => (
-                <Link key={actor.id} to={`/people/details/${actor.id}`} className="group min-w-[160px]">
+                <Link key={actor.id} to={`/peoples/details/${actor.id}`} className="group min-w-[160px]">
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
@@ -341,7 +341,7 @@ const MovieDetails = () => {
               .filter(member => member.profile_path) 
               .slice(0, 10)
               .map(member => (
-                <Link key={member.id} to={`/people/details/${member.id}`} className="group min-w-[160px]">
+                <Link key={member.id} to={`/peoples/details/${member.id}`} className="group min-w-[160px]">
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}

@@ -6,7 +6,6 @@ import { removePeople } from "../../store/reducers/peopleSlice";
 import Shimmer from "./Shimmer";
 import { motion } from "framer-motion";
 import noImage from "/noImage.jpeg";
-import DropDown from './DropDown';
 
 const PeopleDetails = () => {
   const navigate = useNavigate();
@@ -94,7 +93,7 @@ const PeopleDetails = () => {
           className="flex overflow-hidden overflow-x-scroll space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth"
         >
           {data?.map((item, index) => {
-            const isMovie = item.media_type === "movie";
+            const isMovie = item.media_type === "movies";
             const detailsPath = isMovie
               ? `/movies/details/${item.id}`
               : `/tv-shows/details/${item.id}`;
@@ -294,7 +293,7 @@ const PeopleDetails = () => {
               {showFullBio ? bioText : truncatedBio}
               <button
                 onClick={() => setShowFullBio(!showFullBio)}
-                className="ml-2 text-indigo-400 hover:underline transition-all"
+                className="ml-2 text-blue-300 text-sm hover:underline transition-all"
               >
                 {showFullBio ? "Show Less" : "Show More"}
               </button>
@@ -312,7 +311,6 @@ const PeopleDetails = () => {
           <div className="w-full flex justify-between items-center mt-6">
             <h1 className="mt-5 text-xl text-zinc-400 font-semibold">Acting</h1>
 
-          <DropDown title='Category' options={['tv','movie']} func={(e)=> setCategory(e.target.value)} ></DropDown>
 
           </div>
 
@@ -322,9 +320,10 @@ const PeopleDetails = () => {
   info[category + "Credits"].cast.map((c, i) => (
     <li
       key={i}
-      className="hover:text-white hover:bg-[#222129] rounded-lg p-4 duration-300 cursor-pointer"
+      title="non-clickable"
+      className="hover:text-white hover:bg-[#222129] rounded-lg p-4 duration-300"
     >
-<Link to={`/${category === 'movie' ? 'movies' : 'tv'}/details/${c.id}`}>
+<Link >
 <span>
           {" "}
           {c.name || c.title || c.original_name || c.original_title}
