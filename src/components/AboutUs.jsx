@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const AboutUs = () => {
+  const navigate = useNavigate();
   return (
     <motion.div
       className="w-full h-screen bg-gradient-to-b from-[#1F1E24] to-[#2c2c2c] flex flex-col items-center justify-center px-6 overflow-hidden"
@@ -9,6 +11,11 @@ const AboutUs = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: 'easeInOut' }}
     >
+      <button
+        onClick={() => navigate(-1)}
+        className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-green-200 absolute top-6 left-10"
+      ></button>
+
       <motion.h1
         className="text-5xl text-center text-zinc-300 mt-4 font-black select-none mb-4 tracking-wide"
         initial={{ y: -100, opacity: 0 }}
@@ -121,8 +128,6 @@ const AboutUs = () => {
           <span className="text-sm text-bold text-green-700">kushvardhan39797@gmail.com</span>
         </motion.div>
       </motion.div>
-
-   
     </motion.div>
   );
 };

@@ -13,7 +13,7 @@ const MovieDetails = () => {
   const dispatch = useDispatch();
   const { info } = useSelector((state) => state.movie);
   const [showAllLanguages, setShowAllLanguages] = useState(false);
-  console.log(info);
+  info;
   useEffect(() => {
     dispatch(asyncloadmovies(id));
     return () => {
@@ -47,7 +47,11 @@ const MovieDetails = () => {
     <div
       className="w-screen min-h-screen relative p-6 flex flex-col items-center"
       style={{
-        background: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(https://image.tmdb.org/t/p/original/${info.details.backdrop_path})`,
+        background: `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(${
+          info.details.backdrop_path
+            ? `https://image.tmdb.org/t/p/original/${info.details.backdrop_path}`
+            : "https://images.unsplash.com/photo-1554791756-6d6cb6b45d5d?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        })`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -100,13 +104,17 @@ const MovieDetails = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <motion.img
-          className="h-[50vh] max-w-[250px] rounded-lg shadow-lg"
-          src={`https://image.tmdb.org/t/p/original/${info.details.poster_path || info.details.backdrop_path}`}
-          alt={info.details.title}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
-        />
+        {info.details.poster_path || info.details.backdrop_path ? (
+          <motion.img
+            className="h-[50vh] max-w-[250px] rounded-lg shadow-lg"
+            src={`https://image.tmdb.org/t/p/original/${
+              info.details.poster_path || info.details.backdrop_path
+            }`}
+            alt={info.details.title}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+          />
+        ) : null}
         <motion.div
           className="flex-1 text-white space-y-6 p-6 bg-black/30 rounded-lg shadow-lg relative overflow-hidden"
           initial={{ opacity: 0, x: 50 }}
@@ -114,19 +122,27 @@ const MovieDetails = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-5xl font-black">
-            {info.details.title || info.details.original_name || info.details.original_title} 
+            {info.details.title ||
+              info.details.original_name ||
+              info.details.original_title}
             <small className="ml-2 text-2xl text-gray-400">
-              ({info.details.release_date.split('-')[0]})
+              ({info.details.release_date.split("-")[0]})
             </small>
           </h1>
 
           <div className="flex flex-wrap items-center gap-6 text-zinc-300 text-lg">
-
-            {info.details.vote_average && (
+            {info.details.vote_average > 0 && (
               <div className="flex items-center gap-2 select-none">
                 <div className="relative w-12 h-12">
                   <svg className="w-full h-full">
-                    <circle cx="50%" cy="50%" r="20" fill="transparent" stroke="gray" strokeWidth="5" />
+                    <circle
+                      cx="50%"
+                      cy="50%"
+                      r="20"
+                      fill="transparent"
+                      stroke="gray"
+                      strokeWidth="5"
+                    />
                     <circle
                       cx="50%"
                       cy="50%"
@@ -135,7 +151,9 @@ const MovieDetails = () => {
                       stroke="limegreen"
                       strokeWidth="5"
                       strokeDasharray="125"
-                      strokeDashoffset={`${125 - (info.details.vote_average * 12.5)}`}
+                      strokeDashoffset={`${
+                        125 - info.details.vote_average * 12.5
+                      }`}
                       strokeLinecap="round"
                     />
                   </svg>
@@ -143,7 +161,9 @@ const MovieDetails = () => {
                     {info.details.vote_average.toFixed(1)}
                   </span>
                 </div>
-                <span className="font-semibold text-sm leading-none">User Score</span>
+                <span className="font-semibold text-sm leading-none">
+                  User Score
+                </span>
               </div>
             )}
 
@@ -155,7 +175,10 @@ const MovieDetails = () => {
 
             <div className="flex flex-wrap gap-2 select-none">
               {info.details.genres.map((genre, index) => (
-                <span key={index} className="bg-indigo-600 px-2 py-1 rounded-md text-white text-sm">
+                <span
+                  key={index}
+                  className="bg-indigo-600 px-2 py-1 rounded-md text-white text-sm"
+                >
                   {genre.name}
                 </span>
               ))}
@@ -166,13 +189,17 @@ const MovieDetails = () => {
               <span className="font-medium">Duration:</span>
               <span>{info.details.runtime} min</span>
             </div>
-
           </div>
 
-          <p className="text-gray-300 leading-relaxed">{info.details.overview}</p>
+          <p className="text-gray-300 leading-relaxed">
+            {info.details.overview}
+          </p>
 
           <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)" }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
+            }}
             whileTap={{ scale: 0.97 }}
             className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
                        font-medium text-base tracking-wide transition-all duration-200 
@@ -182,9 +209,8 @@ const MovieDetails = () => {
           >
             🎬 Watch Trailer
           </motion.button>
-
         </motion.div>
-      </motion.div>   
+      </motion.div>
 
       {info.watchProvider && (
         <motion.div
@@ -270,7 +296,9 @@ const MovieDetails = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-lg font-semibold text-zinc-400 mb-4">Available Translations:</h2>
+        <h2 className="text-lg font-semibold text-zinc-400 mb-4">
+          Available Translations:
+        </h2>
         <div className="flex flex-wrap gap-4">
           {displayedTranslations.map((lang, index) => (
             <span
@@ -293,29 +321,37 @@ const MovieDetails = () => {
 
       {info.similar?.length > 0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
-          <h2 className="text-lg font-semibold text-zinc-400 mb-1">🔥 Similar </h2>
+          <h2 className="text-lg font-semibold text-zinc-400 mb-1">
+            🔥 Similar{" "}
+          </h2>
           <HorizontalCard trending={info.similar} />
         </div>
       )}
 
       {info.recommendation?.length > 0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
-          <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎥 Recommendation</h2>
+          <h2 className="text-lg font-semibold text-zinc-400 mb-1">
+            🎥 Recommendation
+          </h2>
           <HorizontalCard trending={info.recommendation.slice(0, 12)} />
         </div>
       )}
 
       <div className="my-8"></div>
 
-      {info.credit?.cast?.filter(actor => actor.profile_path).length > 0 && (
+      {info.credit?.cast?.filter((actor) => actor.profile_path).length > 0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎭 Cast</h2>
           <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
             {info.credit.cast
-              .filter(actor => actor.profile_path) 
+              .filter((actor) => actor.profile_path)
               .slice(0, 10)
-              .map(actor => (
-                <Link key={actor.id} to={`/peoples/details/${actor.id}`} className="group min-w-[160px]">
+              .map((actor, index) => (
+                <Link
+                  key={`${actor.id}-${index}`}
+                  to={`/peoples/details/${actor.id}`}
+                  className="group min-w-[160px]"
+                >
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
@@ -323,7 +359,9 @@ const MovieDetails = () => {
                       className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
                     />
                     <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-3">
-                      <h2 className="text-sm font-semibold text-white truncate">{actor.name}</h2>
+                      <h2 className="text-sm font-semibold text-white truncate">
+                        {actor.name}
+                      </h2>
                       <p className="text-xs text-gray-400">{actor.character}</p>
                     </div>
                   </div>
@@ -333,15 +371,20 @@ const MovieDetails = () => {
         </div>
       )}
 
-      {info.credit?.crew?.filter(member => member.profile_path).length > 0 && (
+      {info.credit?.crew?.filter((member) => member.profile_path).length >
+        0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎬 Crew</h2>
           <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
             {info.credit.crew
-              .filter(member => member.profile_path) 
+              .filter((member) => member.profile_path)
               .slice(0, 10)
-              .map(member => (
-                <Link key={member.id} to={`/peoples/details/${member.id}`} className="group min-w-[160px]">
+              .map((member, index) => (
+                <Link
+                  key={`${member.id}-${index}`}
+                  to={`/peoples/details/${member.id}`}
+                  className="group min-w-[160px]"
+                >
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
@@ -349,7 +392,9 @@ const MovieDetails = () => {
                       className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
                     />
                     <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-3">
-                      <h2 className="text-sm font-semibold text-white truncate">{member.name}</h2>
+                      <h2 className="text-sm font-semibold text-white truncate">
+                        {member.name}
+                      </h2>
                       <p className="text-xs text-gray-400">{member.job}</p>
                     </div>
                   </div>

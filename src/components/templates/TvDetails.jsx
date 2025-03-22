@@ -1,15 +1,21 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { asyncLoadtv } from "../../store/actions/tvAction";
 import { removetv } from "../../store/reducers/tvSlice";
 import HorizontalCard from "./HorizontalCard";
 import Shimmer from "./Shimmer";
 
 const TvDetails = () => {
-  document.title = 'KV | Tv Show Details'
-  const {pathname} = useLocation();
+  document.title = "KV | Tv Show Details";
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -45,7 +51,7 @@ const TvDetails = () => {
     ? info.translations
     : info.translations.slice(0, 6);
 
-  const currentSeason = info.details.seasons.find(
+  const currentSeason = info.details.seasons?.find(
     (season) => season.season_number === info.details.number_of_seasons
   );
 
@@ -56,7 +62,9 @@ const TvDetails = () => {
     <div
       className="w-screen min-h-screen relative p-6 flex flex-col items-center"
       style={{
-        background: `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(https://image.tmdb.org/t/p/original/${info.details.backdrop_path})`,
+        background: info.details.backdrop_path
+          ? `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(https://image.tmdb.org/t/p/original/${info.details.backdrop_path})`
+          : "linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(https://images.unsplash.com/photo-1554791756-6d6cb6b45d5d?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -113,7 +121,9 @@ const TvDetails = () => {
       >
         <motion.img
           className="h-[60vh] max-w-[250px] rounded-lg shadow-lg"
-          src={`https://image.tmdb.org/t/p/original/${info.details.poster_path || info.details.backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/original/${
+            info.details.poster_path || info.details.backdrop_path
+          }`}
           alt={info.details.title}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
@@ -125,19 +135,29 @@ const TvDetails = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-5xl font-black">
-            {info.details.title || info.details.original_name || info.details.original_title} 
+            {info.details.title ||
+              info.details.original_name ||
+              info.details.original_title}
             <small className="ml-2 text-2xl text-gray-400">
-              {info.details.first_air_date ? `(${info.details.first_air_date.split('-')[0]})` : ''}
+              {info.details.first_air_date
+                ? `(${info.details.first_air_date.split("-")[0]})`
+                : ""}
             </small>
           </h1>
 
           <div className="flex flex-wrap items-center gap-6 text-zinc-300 text-lg">
-
-            {info.details.vote_average && (
+            {info.details.vote_average > 0 && (
               <div className="flex items-center gap-2 select-none">
                 <div className="relative w-12 h-12">
                   <svg className="w-full h-full">
-                    <circle cx="50%" cy="50%" r="20" fill="transparent" stroke="gray" strokeWidth="5" />
+                    <circle
+                      cx="50%"
+                      cy="50%"
+                      r="20"
+                      fill="transparent"
+                      stroke="gray"
+                      strokeWidth="5"
+                    />
                     <circle
                       cx="50%"
                       cy="50%"
@@ -146,7 +166,9 @@ const TvDetails = () => {
                       stroke="limegreen"
                       strokeWidth="5"
                       strokeDasharray="125"
-                      strokeDashoffset={`${125 - (info.details.vote_average * 12.5)}`}
+                      strokeDashoffset={`${
+                        125 - info.details.vote_average * 12.5
+                      }`}
                       strokeLinecap="round"
                     />
                   </svg>
@@ -154,7 +176,9 @@ const TvDetails = () => {
                     {info.details.vote_average.toFixed(1)}
                   </span>
                 </div>
-                <span className="font-semibold text-sm leading-none">User Score</span>
+                <span className="font-semibold text-sm leading-none">
+                  User Score
+                </span>
               </div>
             )}
 
@@ -162,7 +186,9 @@ const TvDetails = () => {
               <div className="flex items-center gap-2 select-none bg-gray-700 px-3 text-sm py-1 rounded-lg shadow-md">
                 <i className="ri-calendar-2-line text-xl text-indigo-400"></i>
                 <span className="font-medium">Last Episode:</span>
-                <span>{currentEpisode.name} ({currentEpisode.air_date})</span>
+                <span>
+                  {currentEpisode.name} ({currentEpisode.air_date})
+                </span>
               </div>
             )}
 
@@ -170,7 +196,9 @@ const TvDetails = () => {
               <div className="flex items-center gap-2 select-none bg-gray-700 px-3 text-sm py-1 rounded-lg shadow-md">
                 <i className="ri-calendar-2-line text-xl text-indigo-400"></i>
                 <span className="font-medium">Next Episode:</span>
-                <span>{nextEpisode.name} ({nextEpisode.air_date})</span>
+                <span>
+                  {nextEpisode.name} ({nextEpisode.air_date})
+                </span>
               </div>
             )}
 
@@ -184,101 +212,111 @@ const TvDetails = () => {
 
             <div className="flex flex-wrap gap-2 select-none">
               {info.details.genres.map((genre, index) => (
-                <span key={index} className="bg-indigo-600 px-2 py-1 rounded-md text-white text-sm">
+                <span
+                  key={`${genre.id}-${index}`}
+                  className="bg-indigo-600 px-2 py-1 rounded-md text-white text-sm"
+                >
                   {genre.name}
                 </span>
               ))}
             </div>
-
           </div>
 
-          <p className="text-gray-300 leading-relaxed">{info.details.overview}</p>
+          {info.details.overview && (
+            <p className="text-gray-300 leading-relaxed">
+              {info.details.overview}
+            </p>
+          )}
 
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)" }}
-            whileTap={{ scale: 0.97 }}
-            className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
-                       font-medium text-base tracking-wide transition-all duration-200 
-                       backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10 
-                       hover:bg-opacity-40 cursor-pointer"
-            onClick={() => navigate(`${pathname}/trailer`)}
-          >
-            🎬 Watch Trailer
-          </motion.button>
-
+          {info.videos && (
+            <motion.button
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
+              }}
+              whileTap={{ scale: 0.97 }}
+              className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
+                         font-medium text-base tracking-wide transition-all duration-200 
+                         backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10 
+                         hover:bg-opacity-40 cursor-pointer"
+              onClick={() => navigate(`${pathname}/trailer`)}
+            >
+              🎬 Watch Trailer
+            </motion.button>
+          )}
         </motion.div>
-      </motion.div>   
+      </motion.div>
 
       {info.details.seasons?.length > 0 && (
-  <motion.div
-    className="mt-8 w-[95%] p-4 relative overflow-hidden rounded-2xl border-transparent"
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, ease: "easeOut" }}
-  >
-    <h2 className="text-2xl font-bold text-white mb-4 tracking-wide uppercase">
-      📺 Seasons
-    </h2>
-
-    <motion.div
-      className="absolute top-0 left-0 w-full h-[2px] bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-      initial={{ width: "0%" }}
-      animate={{ width: "100%" }}
-      transition={{ duration: 1, ease: "easeOut" }}
-    />
-    <motion.div
-      className="absolute bottom-0 left-0 w-full h-[2px] bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-      initial={{ width: "0%" }}
-      animate={{ width: "100%" }}
-      transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-    />
-
-    <div className="flex overflow-x-auto space-x-6 scrollbar-hide p-2">
-      {info.details.seasons.map((season, index) => (
         <motion.div
-          key={index}
-          className="relative min-w-[240px] backdrop-blur-md bg-white/10 rounded-lg shadow-lg overflow-hidden transform hover:scale-[1.03] transition-all duration-500"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          style={{ height: "320px" }}
+          className="mt-8 w-[95%] p-4 relative overflow-hidden rounded-2xl border-transparent"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
+          <h2 className="text-2xl font-bold text-white mb-4 tracking-wide uppercase">
+            📺 Seasons
+          </h2>
 
-          <div className="relative w-full h-full">
-            <img
-              src={`https://image.tmdb.org/t/p/w300${season.poster_path}`}
-              alt={season.name}
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            />
+          <motion.div
+            className="absolute top-0 left-0 w-full h-[2px] bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          />
+          <motion.div
+            className="absolute bottom-0 left-0 w-full h-[2px] bg-white/80 shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
+          <div className="flex overflow-x-auto space-x-6 scrollbar-hide p-2">
+            {info.details.seasons.map((season, index) => (
+              <motion.div
+                key={index}
+                className="relative min-w-[240px] backdrop-blur-md bg-white/10 rounded-lg shadow-lg overflow-hidden transform hover:scale-[1.03] transition-all duration-500"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                style={{ height: "320px" }}
+              >
+                <div className="relative w-full h-full">
+                  <img
+                    src={`https://image.tmdb.org/t/p/w300${season.poster_path}`}
+                    alt={season.name}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
 
-            <div className="absolute bottom-0 p-4 w-full">
-              <div className="absolute top-3 right-3 bg-black/70 px-3 py-1 rounded-full text-xs font-semibold text-white tracking-wide shadow-md">
-                {season.season_number === 0 ? "Specials" : `S${season.season_number}`}
-              </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
 
-              <h3 className="text-lg font-bold text-white tracking-wide">
-                {season.name}
-              </h3>
+                  <div className="absolute bottom-0 p-4 w-full">
+                    <div className="absolute top-3 right-3 bg-black/70 px-3 py-1 rounded-full text-xs font-semibold text-white tracking-wide shadow-md">
+                      {season.season_number === 0
+                        ? "Specials"
+                        : `S${season.season_number}`}
+                    </div>
 
-              <p className="text-sm text-gray-300 font-medium tracking-wide">
-                🎬 {season.episode_count} Episodes
-              </p>
+                    <h3 className="text-lg font-bold text-white tracking-wide">
+                      {season.name}
+                    </h3>
 
-              {season.overview && season.overview.length > 10 && (
-                <p className="text-xs text-gray-200 italic leading-snug line-clamp-4">
-                  {season.overview.split(" ").slice(0, 30).join(" ")}...
-                </p>
-              )}
-            </div>
+                    <p className="text-sm text-gray-300 font-medium tracking-wide">
+                      🎬 {season.episode_count} Episodes
+                    </p>
+
+                    {season.overview && season.overview.length > 10 && (
+                      <p className="text-xs text-gray-200 italic leading-snug line-clamp-4">
+                        {season.overview.split(" ").slice(0, 30).join(" ")}...
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
-      ))}
-    </div>
-  </motion.div>
-)}
-
+      )}
 
       {info.watchProvider && (
         <motion.div
@@ -364,11 +402,13 @@ const TvDetails = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-lg font-semibold text-zinc-400 mb-4">Available Translations:</h2>
+        <h2 className="text-lg font-semibold text-zinc-400 mb-4">
+          Available Translations:
+        </h2>
         <div className="flex flex-wrap gap-4">
           {displayedTranslations.map((lang, index) => (
             <span
-              key={index}
+              key={`${lang.language}-${index}`}
               className="bg-[#6556CD] px-3 py-1 text-white text-sm rounded-md shadow-md"
             >
               {lang.language} ({lang.native})
@@ -387,29 +427,37 @@ const TvDetails = () => {
 
       {info.similar?.length > 0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
-          <h2 className="text-lg font-semibold text-zinc-400 mb-1">🔥 Similar </h2>
+          <h2 className="text-lg font-semibold text-zinc-400 mb-1">
+            🔥 Similar{" "}
+          </h2>
           <HorizontalCard trending={info.similar} />
         </div>
       )}
 
       {info.recommendation?.length > 0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
-          <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎥 Recommendation</h2>
+          <h2 className="text-lg font-semibold text-zinc-400 mb-1">
+            🎥 Recommendation
+          </h2>
           <HorizontalCard trending={info.recommendation.slice(0, 12)} />
         </div>
       )}
 
       <div className="my-8"></div>
 
-      {info.credit?.cast?.filter(actor => actor.profile_path).length > 0 && (
+      {info.credit?.cast?.filter((actor) => actor.profile_path).length > 0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎭 Cast</h2>
           <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
             {info.credit.cast
-              .filter(actor => actor.profile_path) 
+              .filter((actor) => actor.profile_path)
               .slice(0, 10)
-              .map(actor => (
-                <Link key={actor.id} to={`/peoples/details/${actor.id}`} className="group min-w-[160px]">
+              .map((actor, index) => (
+                <Link
+                  key={`${actor.id}-${index}`}
+                  to={`/peoples/details/${actor.id}`}
+                  className="group min-w-[160px]"
+                >
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
@@ -417,7 +465,9 @@ const TvDetails = () => {
                       className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
                     />
                     <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-3">
-                      <h2 className="text-sm font-semibold text-white truncate">{actor.name}</h2>
+                      <h2 className="text-sm font-semibold text-white truncate">
+                        {actor.name}
+                      </h2>
                       <p className="text-xs text-gray-400">{actor.character}</p>
                     </div>
                   </div>
@@ -427,15 +477,20 @@ const TvDetails = () => {
         </div>
       )}
 
-      {info.credit?.crew?.filter(member => member.profile_path).length > 0 && (
+      {info.credit?.crew?.filter((member) => member.profile_path).length >
+        0 && (
         <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎬 Crew</h2>
           <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
             {info.credit.crew
-              .filter(member => member.profile_path) 
+              .filter((member) => member.profile_path)
               .slice(0, 10)
-              .map(member => (
-                <Link key={member.id} to={`/peoples/details/${member.id}`} className="group min-w-[160px]">
+              .map((member, index) => (
+                <Link
+                  key={`${member.id}-${index}`}
+                  to={`/peoples/details/${member.id}`}
+                  className="group min-w-[160px]"
+                >
                   <div className="relative w-[160px] h-[240px] rounded-xl overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
@@ -443,7 +498,9 @@ const TvDetails = () => {
                       className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
                     />
                     <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-3">
-                      <h2 className="text-sm font-semibold text-white truncate">{member.name}</h2>
+                      <h2 className="text-sm font-semibold text-white truncate">
+                        {member.name}
+                      </h2>
                       <p className="text-xs text-gray-400">{member.job}</p>
                     </div>
                   </div>

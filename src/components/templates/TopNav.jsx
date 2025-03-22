@@ -17,7 +17,7 @@ const TopNav = () => {
       const { data } = await instance.get(`/search/multi?query=${searchBar}`);
       setSearches(data.results);
     } catch (err) {
-      console.log(err);
+      err;
     }
   };
 
@@ -47,7 +47,7 @@ const TopNav = () => {
         value={searchBar}
         onChange={(e) => setSearchBar(e.target.value)}
         type="text"
-        className={`border-[1px] border-zinc-600 bg-zinc-800 w-[50%] max-w-[500px] mt-3 ml-5 mr-1 p-2 px-5 outline-none transition-all duration-300 ${
+        className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[50%] max-w-[500px] mt-3 ml-5 mr-1 p-2 px-5 outline-none transition-all duration-300 ${
           searchBar ? "rounded-r-md rounded-l-full" : "rounded-full"
         }`}
         placeholder="Search..."

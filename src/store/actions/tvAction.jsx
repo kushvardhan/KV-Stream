@@ -1,5 +1,5 @@
-import axios from '../../../utils/axios';
-import { loadtv } from '../reducers/tvSlice';
+import axios from "../../../utils/axios";
+import { loadtv } from "../reducers/tvSlice";
 
 export const asyncLoadtv = (id) => async (dispatch) => {
   try {
@@ -19,17 +19,17 @@ export const asyncLoadtv = (id) => async (dispatch) => {
       externalid: externalid.data,
       recommendation: recommendations.data.results,
       similar: similar.data.results,
-      videos: videos.data.results.find(v => v.type === 'Trailer'),
+      videos: videos.data.results.find((v) => v.type === "Trailer"),
       watchProvider: watchProvider.data.results.IN,
       translations: translations.data.translations.map((t) => ({
         language: t.english_name,
-        native: t.name
+        native: t.name,
       })),
       credit: credits.data,
       reviews: reviews.data,
-      images: images.data
+      images: images.data,
     };
-    console.log("TV details: ",ultimateData);
+    "TV details: ", ultimateData;
     dispatch(loadtv(ultimateData));
   } catch (error) {
     console.error(error);

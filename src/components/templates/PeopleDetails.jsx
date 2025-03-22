@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { asyncloadpeople } from "../../store/actions/peopleAction";
 import { removePeople } from "../../store/reducers/peopleSlice";
 import Shimmer from "./Shimmer";
-import { motion } from "framer-motion";
 import noImage from "/noImage.jpeg";
 
 const PeopleDetails = () => {
@@ -13,8 +13,9 @@ const PeopleDetails = () => {
   const dispatch = useDispatch();
   const { info } = useSelector((state) => state.people);
   const [showFullBio, setShowFullBio] = useState(false);
-  
-  const [category,setCategory] = useState('movie');
+  "people: " + info;
+
+  const [category, setCategory] = useState("movie");
 
   useEffect(() => {
     dispatch(asyncloadpeople(id));
@@ -93,7 +94,7 @@ const PeopleDetails = () => {
           className="flex overflow-hidden overflow-x-scroll space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth"
         >
           {data?.map((item, index) => {
-            const isMovie = item.media_type === "movies";
+            const isMovie = item.media_type === "movie";
             const detailsPath = isMovie
               ? `/movies/details/${item.id}`
               : `/tv-shows/details/${item.id}`;
@@ -169,12 +170,16 @@ const PeopleDetails = () => {
         <div className="flex flex-col w-full md:w-[35%] items-center md:items-start gap-10">
           <div className="w-full flex flex-col items-center">
             <motion.img
-              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg"
-              src={info.details.profile_path || info.details.poster_path 
-                ? `https://image.tmdb.org/t/p/original/${info.details.profile_path || info.details.poster_path}`
-                : noImage}
-                            alt={info.details.name}
-              whileHover={{ scale: 1.05 }}
+              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg select-none"
+              src={
+                info.details.profile_path || info.details.poster_path
+                  ? `https://image.tmdb.org/t/p/original/${
+                      info.details.profile_path || info.details.poster_path
+                    }`
+                  : noImage
+              }
+              alt={info.details.name}
+              whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             />
             <hr className="mt-7 mb-5 border-none h-[2px] bg-zinc-500 w-full" />
@@ -217,7 +222,9 @@ const PeopleDetails = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span className="transition-all hover:text-indigo-400">IMDB</span>
+                  <span className="transition-all hover:text-indigo-400">
+                    IMDB
+                  </span>
                 </a>
               )}
             </div>
@@ -227,43 +234,73 @@ const PeopleDetails = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full space-y-3 bg-black/30 p-5 rounded-xl shadow-lg backdrop-blur-md"
+            className="w-full space-y-3 bg-black/30 px-3 py-5 rounded-xl shadow-lg backdrop-blur-md"
           >
-            <p className="text-zinc-400 text-md flex gap-2 items-center">
-              <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Birthday:</strong>
-              <span className="text-regular text-zinc-300">{info.details.birthday}</span>
-            </p>
+            {info.details.birthday && (
+              <p className="text-zinc-400 text-md flex flex-wrap gap-2 items-center">
+                <strong className="text-indigo-400 text-sm select-none hover:text-indigo-300 transition-all">
+                  Birthday:
+                </strong>
+                <span className="text-regular text-zinc-300 whitespace-normal break-words">
+                  {info.details.birthday}
+                </span>
+              </p>
+            )}
 
-            <p className="text-zinc-400 text-md flex gap-2 items-center">
-              <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Gender:</strong>
-              <span className="text-regular text-zinc-300">{info.details.gender === 1 ? "Female" : "Male"}</span>
-            </p>
+            {info.details.gender !== undefined && (
+              <p className="text-zinc-400 text-md flex flex-wrap gap-2 items-center">
+                <strong className="text-indigo-400 text-sm select-none hover:text-indigo-300 transition-all">
+                  Gender:
+                </strong>
+                <span className="text-regular text-zinc-300 whitespace-normal break-words">
+                  {info.details.gender === 1 ? "Female" : "Male"}
+                </span>
+              </p>
+            )}
 
-            <p className="text-zinc-400 text-md flex gap-2 items-center">
-              <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Profession:</strong>
-              <span className="text-regular text-zinc-300">{info.details.known_for_department}</span>
-            </p>
+            {info.details.known_for_department && (
+              <p className="text-zinc-400 text-md flex flex-wrap gap-2 items-center">
+                <strong className="text-indigo-400 text-sm select-none hover:text-indigo-300 transition-all">
+                  Profession:
+                </strong>
+                <span className="text-regular text-zinc-300 whitespace-normal break-words">
+                  {info.details.known_for_department}
+                </span>
+              </p>
+            )}
 
-            <p className="text-zinc-400 text-md flex gap-2 items-center">
-              <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Place of Birth:</strong>
-              <span className="text-regular text-zinc-300">{info.details.place_of_birth}</span>
-            </p>
+            {info.details.place_of_birth && (
+              <p className="text-zinc-400 text-md flex flex-wrap gap-2 items-center">
+                <strong className="text-indigo-400 text-sm select-none hover:text-indigo-300 transition-all">
+                  Place of Birth:
+                </strong>
+                <span className="text-regular text-zinc-300 whitespace-normal break-words">
+                  {info.details.place_of_birth}
+                </span>
+              </p>
+            )}
 
-            <p className="text-zinc-400 text-md flex gap-2 items-center">
-              <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Deathday:</strong>
-              <span className="text-regular text-zinc-300">
-                {info.details.deathday ? info.details.deathday : "Still Alive"}
-              </span>
-            </p>
+            {info.details.deathday && (
+              <p className="text-zinc-400 text-md flex flex-wrap gap-2 items-center">
+                <strong className="text-indigo-400 text-sm select-none hover:text-indigo-300 transition-all">
+                  Deathday:
+                </strong>
+                <span className="text-regular text-zinc-300 whitespace-normal break-words">
+                  {info.details.deathday}
+                </span>
+              </p>
+            )}
 
             {info.details.also_known_as?.length > 0 && (
               <div className="text-zinc-400 text-md">
-                <strong className="text-indigo-400 hover:text-indigo-300 transition-all">Also Known As:</strong>
+                <strong className="text-indigo-400 text-sm hover:text-indigo-300 select-none transition-all">
+                  Also Known As:
+                </strong>
                 <ul className="mt-2 space-y-1">
                   {info.details.also_known_as.map((name, index) => (
                     <motion.li
                       key={index}
-                      className="text-regular text-zinc-300"
+                      className="text-regular text-zinc-300 whitespace-normal break-words"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
@@ -279,7 +316,9 @@ const PeopleDetails = () => {
 
         <div className="w-full md:w-[65%] min-h-screen bg-zinc-900 py-6 space-y-6 px-6 rounded-lg shadow-lg">
           {info.details.name && (
-            <h1 className="text-6xl font-black text-zinc-300">{info.details.name}</h1>
+            <h1 className="text-6xl font-black text-zinc-300">
+              {info.details.name}
+            </h1>
           )}
 
           {bioText && (
@@ -302,43 +341,40 @@ const PeopleDetails = () => {
 
           {info.combinedCredits.cast.length > 0 && (
             <div>
-              <h1 className="ml-2 text-regular text-indigo-300 transition-all">Known for: </h1>
+              <h1 className="ml-2 text-regular text-indigo-300 transition-all">
+                Known for:{" "}
+              </h1>
               <HorizontalCardForPeople data={info.combinedCredits.cast} />
             </div>
           )}
 
-
           <div className="w-full flex justify-between items-center mt-6">
             <h1 className="mt-5 text-xl text-zinc-400 font-semibold">Acting</h1>
-
-
           </div>
 
           <div className="list-disc text-zinc-400 w-full h-[60vh] mt-5 overflow-x-hidden p-5 overflow-y-auto shadow-xl shadow-[rgba(255,255,255,.3)] border-2 border-zinc-700 ">
-
-          {info?.[category + "Credits"]?.cast?.length > 0 ? (
-  info[category + "Credits"].cast.map((c, i) => (
-    <li
-      key={i}
-      title="non-clickable"
-      className="hover:text-white hover:bg-[#222129] rounded-lg p-4 duration-300"
-    >
-<Link >
-<span>
-          {" "}
-          {c.name || c.title || c.original_name || c.original_title}
-        </span>
-        <span className="block">Character: {c.character || "N/A"}</span>
-      </Link>
-    </li>
-  ))
-) : (
-  <p className="text-gray-500">No data available</p>
-)}
-
-       
+            {info?.[category + "Credits"]?.cast?.length > 0 ? (
+              info[category + "Credits"].cast.map((c, i) => (
+                <li
+                  key={i}
+                  title="non-clickable"
+                  className="hover:text-white hover:bg-[#222129] rounded-lg p-4 duration-300"
+                >
+                  <Link>
+                    <span>
+                      {c.name || c.title || c.original_name || c.original_title}
+                    </span>
+                    <span className="block">
+                      Character: {c.character || "N/A"}
+                    </span>
+                  </Link>
+                  <hr className="mt-4 b text-zinc-800" />
+                </li>
+              ))
+            ) : (
+              <p className="text-gray-500">No data available</p>
+            )}
           </div>
-
         </div>
       </div>
     </div>

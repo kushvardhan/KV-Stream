@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 
 const ContactUs = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -36,6 +38,10 @@ const ContactUs = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
     >
+            <button
+        onClick={() => navigate(-1)}
+        className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-green-200 absolute top-6 left-10"
+      ></button>
       <motion.h1
         className="text-3xl sm:text-4xl text-center mt-6 text-zinc-300 font-black select-none mb-6 tracking-wide"
         initial={{ y: -100, opacity: 0 }}

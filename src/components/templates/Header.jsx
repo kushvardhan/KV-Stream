@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const Header = ({ wallpaper }) => {
@@ -9,7 +8,7 @@ const Header = ({ wallpaper }) => {
     wallpaper.media_type === "tv"
       ? `/tv-shows/details/${wallpaper.id}`
       : `/movies/details/${wallpaper.id}`;
-  console.log('wallpaper from Header:',wallpaper);
+  "wallpaper from Header:", wallpaper;
   return (
     <div className="w-full h-[60vh] relative overflow-hidden bg-zinc-900 cursor-pointer">
       <img
@@ -25,8 +24,11 @@ const Header = ({ wallpaper }) => {
         </h1>
         <p className="text-xs md:text-sm leading-6 opacity-90">
           {wallpaper.overview?.split(" ").slice(0, 20).join(" ")}
-          <Link to={detailsPath} className="text-blue-300 hover:text-blue-400 font-semibold hover:underline">
-          ...more
+          <Link
+            to={detailsPath}
+            className="text-blue-300 hover:text-blue-400 font-semibold hover:underline"
+          >
+            ...more
           </Link>
         </p>
         <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm opacity-85">
@@ -56,11 +58,14 @@ const Header = ({ wallpaper }) => {
           className="mt-4 px-4 py-3 w-fit flex items-center gap-2 bg-[#6556CD] hover:bg-[#5747C7] 
              text-white font-bold text-sm rounded-md transition-all duration-300 
              focus:outline-none focus:ring-2 focus:ring-[#5747C7] group"
-             to={ `/${wallpaper.media_type === "tv" ? "tv-shows" : "movies"}/details/${wallpaper.id}/trailer` }
-
+          to={`/${
+            wallpaper.media_type === "tv" ? "tv-shows" : "movies"
+          }/details/${wallpaper.id}/trailer`}
         >
-          <i className="ri-play-circle-fill text-black text-xl transition-all duration-300 
-                ease-in-out group-hover:text-white"></i> 
+          <i
+            className="ri-play-circle-fill text-black text-xl transition-all duration-500 
+                ease-in-out group-hover:text-white hover:text-black"
+          ></i>
           Watch Trailer
         </Link>
       </div>
