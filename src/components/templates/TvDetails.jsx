@@ -145,7 +145,7 @@ const TvDetails = () => {
             </small>
           </h1>
 
-          <div className="flex flex-wrap items-center gap-6 text-zinc-300 text-lg">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 text-zinc-300 text-sm sm:text-base md:text-lg">
             {info.details.vote_average > 0 && (
               <div className="flex items-center gap-2 select-none">
                 <div className="relative w-12 h-12">
