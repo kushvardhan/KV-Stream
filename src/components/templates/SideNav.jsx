@@ -38,7 +38,7 @@ const SideNav = ({ onToggle }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile, isOpen]);
 
-  // Toggle body scroll when mobile menu is open
+  // Toggle body scroll when mobile menu is open and notify parent component
   useEffect(() => {
     if (isMobile) {
       if (isOpen) {
@@ -47,18 +47,30 @@ const SideNav = ({ onToggle }) => {
         document.body.style.overflow = "auto";
       }
     }
+
+    // Notify parent component about sidebar state
+    if (onToggle) {
+      onToggle(isOpen);
+    }
+
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isOpen, isMobile]);
+  }, [isOpen, isMobile, onToggle]);
 
   return (
     <>
       {/* Mobile hamburger menu */}
       {isMobile && (
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="hamburger-button fixed top-4 right-4 z-[110] p-2 rounded-md bg-[#6556CD] text-white shadow-lg focus:outline-none md:hidden"
+          onClick={() => {
+            const newState = !isOpen;
+            setIsOpen(newState);
+            if (onToggle) onToggle(newState);
+          }}
+          className={`hamburger-button fixed top-4 ${
+            isOpen ? "right-4" : "left-4"
+          } z-[110] p-2 rounded-md bg-[#6556CD] text-white shadow-lg focus:outline-none md:hidden transition-all duration-300`}
           aria-label="Toggle menu"
         >
           <i className={`ri-${isOpen ? "close" : "menu"}-line text-xl`}></i>
@@ -90,35 +102,60 @@ const SideNav = ({ onToggle }) => {
             <Link
               to="/trending"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-fire-fill text-xl mr-1"></i> Trending
             </Link>
             <Link
               to="/popular"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-bard-fill text-xl mr-1"></i> Popular
             </Link>
             <Link
               to="/movies"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-movie-2-fill text-xl mr-1"></i> Movies
             </Link>
             <Link
               to="/tv-shows"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-slideshow-3-fill text-xl mr-1"></i> TV Shows
             </Link>
             <Link
               to="/peoples"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-team-fill text-xl mr-1"></i> Peoples
             </Link>
@@ -135,7 +172,12 @@ const SideNav = ({ onToggle }) => {
             <Link
               to="/about-us"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-file-info-fill text-xl mr-1"></i> About{" "}
               <span className="font-semibold">KV</span>
@@ -143,7 +185,12 @@ const SideNav = ({ onToggle }) => {
             <Link
               to="/contact-us"
               className="hover:bg-[#6556CD] hover:text-white duration-300 rounded-md p-2"
-              onClick={() => isMobile && setIsOpen(false)}
+              onClick={() => {
+                if (isMobile) {
+                  setIsOpen(false);
+                  if (onToggle) onToggle(false);
+                }
+              }}
             >
               <i className="ri-phone-fill text-xl mr-1"></i> Contact Us
             </Link>
@@ -155,7 +202,10 @@ const SideNav = ({ onToggle }) => {
       {isMobile && isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-[90] backdrop-blur-[2px]"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            if (onToggle) onToggle(false);
+          }}
         ></div>
       )}
     </>

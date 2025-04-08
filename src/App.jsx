@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import AboutUs from "./components/AboutUs";
+import CategoryContent from "./components/CategoryContent";
 import ContactUs from "./components/ContactUs";
 import Home from "./components/Home";
 import Movie from "./components/Movie";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/trending" element={<Trending />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/movies" element={<Movie />} />
+        <Route path="/category/:category" element={<CategoryContent />} />
 
         <Route path="/movies/details/:id" element={<MovieDetails />}>
           <Route path="trailer" element={<Trailer />} />

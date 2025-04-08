@@ -151,8 +151,9 @@ const Home = () => {
                     color: "bg-teal-500",
                   },
                 ].map((category, index) => (
-                  <div
+                  <Link
                     key={index}
+                    to={`/category/${category.name.toLowerCase()}`}
                     className={`${category.color} rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transform transition-transform hover:scale-105 h-24 sm:h-32`}
                   >
                     <i
@@ -161,7 +162,7 @@ const Home = () => {
                     <span className="text-sm sm:text-base font-medium text-white text-center">
                       {category.name}
                     </span>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
