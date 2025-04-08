@@ -73,7 +73,11 @@ const SideNav = ({ onToggle }) => {
           } z-[110] p-2 rounded-md bg-[#1F1E24] text-white shadow-md focus:outline-none md:hidden transition-all duration-300`}
           aria-label="Toggle menu"
         >
-          <i className={`ri-${isOpen ? "close" : "menu"}-line text-xl`}></i>
+          {isOpen ? (
+            <i className="ri-arrow-left-line text-xl"></i>
+          ) : (
+            <i className="ri-menu-line text-xl"></i>
+          )}
         </button>
       )}
 
@@ -87,12 +91,15 @@ const SideNav = ({ onToggle }) => {
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         }`}
       >
-        <h1 className="flex items-center px-3 select-none mt-4 md:mt-0">
+        <Link
+          to="/"
+          className="flex items-center px-3 select-none mt-4 md:mt-0"
+        >
           <i className="ri-tv-fill text-[#6556CD] text-center text-4xl"></i>
           <span className="text-3xl text-center font-bold ml-2 tracking-wide">
             KV.
           </span>
-        </h1>
+        </Link>
 
         <nav className="flex flex-col">
           <h1 className="text-xl md:text-2xl mt-8 mb-5 font-bold text-zinc-200 font-gilroy px-3">

@@ -62,7 +62,7 @@ const TopNav = () => {
       {searches && (
         <div
           ref={searchContainerRef}
-          className={`absolute max-w-[90%] sm:max-w-[80%] md:max-w-[60%] w-auto min-w-[80vw] sm:min-w-[60vw] md:min-w-[50vw] max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[100%] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[105] shadow-lg ${
+          className={`absolute max-w-[90%] sm:max-w-[80%] md:max-w-[60%] w-auto min-w-[80vw] sm:min-w-[60vw] md:min-w-[50vw] max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[100%] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[200] shadow-lg ${
             searchBar
               ? "opacity-100 scale-100 translate-y-0"
               : "opacity-0 scale-95 translate-y-2 pointer-events-none"

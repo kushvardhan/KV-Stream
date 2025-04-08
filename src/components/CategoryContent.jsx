@@ -144,7 +144,7 @@ const CategoryContent = () => {
             <div className="flex flex-col space-y-2">
               <button
                 onClick={() => navigate(-1)}
-                className="flex items-center text-zinc-400 hover:text-white transition-colors w-fit"
+                className="flex items-center text-zinc-400 hover:text-white transition-colors w-fit bg-[#2c2c2c] p-2 rounded-md mb-2"
               >
                 <i className="ri-arrow-left-line mr-1 text-lg"></i> Back
               </button>
@@ -170,7 +170,7 @@ const CategoryContent = () => {
             <Shimmer />
           ) : (
             <>
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                 {content?.map((item, index) => (
                   <Cards key={index} data={item} category={mediaType} />
                 ))}
