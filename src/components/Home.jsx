@@ -182,9 +182,12 @@ const Home = () => {
                       Explore our latest improvements
                     </p>
                   </div>
-                  <button className="mt-2 sm:mt-0 px-4 py-2 bg-[#6556CD] hover:bg-[#5747C7] text-white rounded-md text-sm font-medium transition-colors">
+                  <Link
+                    to="/features"
+                    className="mt-2 sm:mt-0 px-4 py-2 bg-[#6556CD] hover:bg-[#5747C7] text-white rounded-md text-sm font-medium transition-colors inline-block"
+                  >
                     Learn More
-                  </button>
+                  </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-2">
                   {[
@@ -201,14 +204,18 @@ const Home = () => {
                       desc: "Watch movies together with friends",
                     },
                   ].map((feature, index) => (
-                    <div key={index} className="bg-zinc-700 p-3 rounded-md">
+                    <Link
+                      key={index}
+                      to="/features"
+                      className="bg-zinc-700 p-3 rounded-md block hover:bg-zinc-600 transition-colors"
+                    >
                       <h4 className="font-medium text-white">
                         {feature.title}
                       </h4>
                       <p className="text-zinc-400 text-xs mt-1">
                         {feature.desc}
                       </p>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

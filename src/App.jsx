@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import AboutUs from "./components/AboutUs";
 import CategoryContent from "./components/CategoryContent";
 import ContactUs from "./components/ContactUs";
+import Features from "./components/Features";
 import Home from "./components/Home";
 import Movie from "./components/Movie";
 import People from "./components/People";
