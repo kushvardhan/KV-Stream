@@ -18,7 +18,7 @@ const Cards = ({ data, category, hideDetails }) => {
   return (
     <Link
       to={getPath()}
-      className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full sm:w-[200px] md:w-[220px] lg:w-[240px] h-[370px] group"
+      className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full sm:w-[180px] md:w-[200px] lg:w-[220px] xl:w-[240px] h-[300px] sm:h-[320px] md:h-[350px] lg:h-[370px] group"
     >
       <img
         src={
@@ -32,11 +32,11 @@ const Cards = ({ data, category, hideDetails }) => {
         className="w-full h-full object-cover brightness-90 group-hover:brightness-120 transition-all duration-300"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t select-none from-black via-black/40 to-transparent p-3 flex flex-col justify-end opacity-100 group-hover:opacity-100 transition-opacity duration-300">
-        <h2 className="text-sm font-bold text-white truncate">
+      <div className="absolute inset-0 bg-gradient-to-t select-none from-black via-black/40 to-transparent p-2 sm:p-3 flex flex-col justify-end opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+        <h2 className="text-xs sm:text-sm font-bold text-white truncate">
           {data.title || data.name}
         </h2>
-        <p className="text-xs text-gray-300 leading-tight mt-1">
+        <p className="text-xs text-gray-300 leading-tight mt-1 line-clamp-3 sm:line-clamp-4">
           {shortOverview}
         </p>
 
@@ -47,7 +47,7 @@ const Cards = ({ data, category, hideDetails }) => {
                 mediaType === "movie"
                   ? "ri-movie-2-fill text-red-400"
                   : "ri-tv-fill text-blue-400"
-              } text-sm`}
+              } text-xs sm:text-sm`}
             ></i>
             <p className="text-xs text-gray-400 uppercase font-bold tracking-wide">
               {mediaType}

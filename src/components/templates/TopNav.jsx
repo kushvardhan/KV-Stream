@@ -41,20 +41,20 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="w-full h-[10vh] relative px-4 py-3 flex items-center justify-center z-50">
-      <i className="ri-search-line text-zinc-300 text-2xl mt-3"></i>
+    <div className="w-full h-[10vh] px-2 sm:px-4 py-2 sm:py-3 flex items-center justify-center z-50 fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
+      <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl mt-3"></i>
       <input
         value={searchBar}
         onChange={(e) => setSearchBar(e.target.value)}
         type="text"
-        className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[50%] max-w-[500px] mt-3 ml-5 mr-1 p-2 px-5 outline-none transition-all duration-300 ${
+        className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px] mt-3 ml-2 sm:ml-5 mr-1 p-1 sm:p-2 px-3 sm:px-5 outline-none transition-all duration-300 text-sm sm:text-base ${
           searchBar ? "rounded-r-md rounded-l-full" : "rounded-full"
         }`}
         placeholder="Search..."
       />
       <i
         onClick={() => setSearchBar("")}
-        className={`ri-close-line text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 mt-3 cursor-pointer transition-all duration-300 ${
+        className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 mt-3 cursor-pointer transition-all duration-300 ${
           searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
       ></i>
@@ -62,7 +62,7 @@ const TopNav = () => {
       {searches && (
         <div
           ref={searchContainerRef}
-          className={`absolute max-w-[60%] w-auto min-w-[50vw] max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[100%] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[9999] shadow-lg ${
+          className={`absolute max-w-[90%] sm:max-w-[80%] md:max-w-[60%] w-auto min-w-[80vw] sm:min-w-[60vw] md:min-w-[50vw] max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[100%] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[9999] shadow-lg ${
             searchBar
               ? "opacity-100 scale-100 translate-y-0"
               : "opacity-0 scale-95 translate-y-2 pointer-events-none"
@@ -83,10 +83,10 @@ const TopNav = () => {
               <Link
                 key={i}
                 to={linkPath}
-                className="flex items-center w-full py-4 px-5 bg-zinc-700 text-zinc-300 font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white"
+                className="flex items-center w-full py-3 sm:py-4 px-3 sm:px-5 bg-zinc-700 text-zinc-300 font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white"
               >
                 <img
-                  className="w-14 h-14 object-cover rounded shadow-md transition-transform duration-300 ease-in-out hover:scale-110"
+                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-cover rounded shadow-md transition-transform duration-300 ease-in-out hover:scale-110"
                   src={
                     s.poster_path ||
                     s.profile_path ||
@@ -106,7 +106,7 @@ const TopNav = () => {
                   }
                   alt={s.title || s.original_title || s.name || s.original_name}
                 />
-                <h3 className="ml-3 text-sm md:text-base">
+                <h3 className="ml-2 sm:ml-3 text-xs sm:text-sm md:text-base truncate">
                   {s.title || s.original_title || s.name || s.original_name}
                 </h3>
               </Link>
