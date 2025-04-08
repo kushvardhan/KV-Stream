@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from 'react-router-dom';
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -33,14 +33,14 @@ const ContactUs = () => {
 
   return (
     <motion.div
-      className="w-full h-screen bg-[#1F1E24] flex flex-col items-center justify-center px-6"
+      className="w-full min-h-screen bg-[#1F1E24] flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-8 overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
     >
-            <button
+      <button
         onClick={() => navigate(-1)}
-        className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-green-200 absolute top-6 left-10"
+        className="ri-arrow-left-line text-2xl sm:text-3xl cursor-pointer transition-all hover:text-green-200 absolute top-4 sm:top-6 left-4 sm:left-10 flex items-center justify-center bg-[#2c2c2c] p-2 rounded-full"
       ></button>
       <motion.h1
         className="text-3xl sm:text-4xl text-center mt-6 text-zinc-300 font-black select-none mb-6 tracking-wide"
@@ -77,7 +77,10 @@ const ContactUs = () => {
           </div>
 
           <div className="mb-4">
-            <label className="text-lg text-gray-400 select-none" htmlFor="email">
+            <label
+              className="text-lg text-gray-400 select-none"
+              htmlFor="email"
+            >
               Email
             </label>
             <motion.input
@@ -95,7 +98,10 @@ const ContactUs = () => {
           </div>
 
           <div className="mb-4">
-            <label className="text-lg text-gray-400 select-none" htmlFor="message">
+            <label
+              className="text-lg text-gray-400 select-none"
+              htmlFor="message"
+            >
               Message
             </label>
             <motion.textarea

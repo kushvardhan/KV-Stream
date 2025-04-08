@@ -1,26 +1,26 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { motion } from "framer-motion";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
   const navigate = useNavigate();
   return (
     <motion.div
-      className="w-full h-screen bg-gradient-to-b from-[#1F1E24] to-[#2c2c2c] flex flex-col items-center justify-center px-6 overflow-hidden"
+      className="w-full min-h-screen bg-gradient-to-b from-[#1F1E24] to-[#2c2c2c] flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-8 overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, ease: 'easeInOut' }}
+      transition={{ duration: 1.5, ease: "easeInOut" }}
     >
       <button
         onClick={() => navigate(-1)}
-        className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-green-200 absolute top-6 left-10"
+        className="ri-arrow-left-line text-2xl sm:text-3xl cursor-pointer transition-all hover:text-green-200 absolute top-4 sm:top-6 left-4 sm:left-10 flex items-center justify-center bg-[#2c2c2c] p-2 rounded-full"
       ></button>
 
       <motion.h1
-        className="text-5xl text-center text-zinc-300 mt-4 font-black select-none mb-4 tracking-wide"
+        className="text-3xl sm:text-4xl md:text-5xl text-center text-zinc-300 mt-12 sm:mt-4 font-black select-none mb-4 tracking-wide"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, type: 'spring', stiffness: 100 }}
+        transition={{ duration: 1, type: "spring", stiffness: 100 }}
       >
         About Us
       </motion.h1>
@@ -37,7 +37,7 @@ const AboutUs = () => {
           animate={{
             y: -window.innerHeight,
             opacity: 0.3,
-            transition: { duration: 4, ease: 'easeOut' },
+            transition: { duration: 4, ease: "easeOut" },
           }}
           exit={{
             opacity: 0,
@@ -47,47 +47,54 @@ const AboutUs = () => {
         ></motion.div>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
+          className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
           Welcome to{" "}
-          <span className="text-green-500 font-semibold select-none">KV Stream</span> — your
-          ultimate destination for endless entertainment! We’re an innovative
-          streaming platform that brings the best movies, shows, and exclusive
-          content right to your screen.
+          <span className="text-green-500 font-semibold select-none">
+            KV Stream
+          </span>{" "}
+          — your ultimate destination for endless entertainment! We’re an
+          innovative streaming platform that brings the best movies, shows, and
+          exclusive content right to your screen.
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
+          className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
         >
           Whether you’re into the latest blockbusters, timeless classics, or
           original series,{" "}
-          <span className="text-green-500 font-semibold select-none">KV Stream</span> has
-          something for everyone. Our mission is to provide an unparalleled
+          <span className="text-green-500 font-semibold select-none">
+            KV Stream
+          </span>{" "}
+          has something for everyone. Our mission is to provide an unparalleled
           streaming experience with a wide selection of content, seamless
           streaming quality, and a user-friendly interface.
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
+          className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1.1 }}
         >
-          At <span className="text-green-500 font-semibold select-none">KV Stream</span>,
-          we’re committed to delivering entertainment that fits into your
+          At{" "}
+          <span className="text-green-500 font-semibold select-none">
+            KV Stream
+          </span>
+          , we’re committed to delivering entertainment that fits into your
           lifestyle. Whether you’re watching on your couch, on the go, or with
           friends, our platform ensures that you have access to your favorite
           titles anytime, anywhere.
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
+          className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1.4 }}
@@ -95,11 +102,14 @@ const AboutUs = () => {
           Join us today and dive into the world of unlimited movies, TV shows,
           and exclusive content. It's time to start streaming your favorites and
           discover new ones with{" "}
-          <span className="text-green-500 font-semibold select-none">KV Stream</span>.
+          <span className="text-green-500 font-semibold select-none">
+            KV Stream
+          </span>
+          .
         </motion.p>
 
         <motion.p
-          className="text-lg text-gray-300 leading-relaxed text-shadow"
+          className="text-base sm:text-lg text-gray-300 leading-relaxed text-shadow"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 1.7 }}
@@ -114,18 +124,24 @@ const AboutUs = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 2 }}
         >
-          Data sourced from <span className="text-blue-400 font-semibold">TMDb</span>, but we are not affiliated with or endorsed by TMDb.
+          Data sourced from{" "}
+          <span className="text-blue-400 font-semibold">TMDb</span>, but we are
+          not affiliated with or endorsed by TMDb.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           className="w-full p-3 flex mt-3 justify-center items-center gap-2 bg-[#1f1f1f] rounded-xl shadow-lg"
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1.5, delay: 2, ease: "easeOut" }}
           whileHover={{ scale: 1.02, transition: { duration: 0.5 } }}
         >
-          <h1 className="text-sm inline-block text-red-800 font-semibold select-none">Contact us:</h1>
-          <span className="text-sm text-bold text-green-700">kushvardhan39797@gmail.com</span>
+          <h1 className="text-sm inline-block text-red-800 font-semibold select-none">
+            Contact us:
+          </h1>
+          <span className="text-sm text-bold text-green-700">
+            kushvardhan39797@gmail.com
+          </span>
         </motion.div>
       </motion.div>
     </motion.div>

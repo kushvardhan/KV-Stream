@@ -141,9 +141,17 @@ const CategoryContent = () => {
 
         <div className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </h1>
+            <div className="flex flex-col space-y-2">
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center text-zinc-400 hover:text-white transition-colors w-fit"
+              >
+                <i className="ri-arrow-left-line mr-1 text-lg"></i> Back
+              </button>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </h1>
+            </div>
             <div className="flex flex-wrap gap-2">
               <DropDown
                 title="Sort By"
@@ -162,7 +170,7 @@ const CategoryContent = () => {
             <Shimmer />
           ) : (
             <>
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8">
                 {content?.map((item, index) => (
                   <Cards key={index} data={item} category={mediaType} />
                 ))}
