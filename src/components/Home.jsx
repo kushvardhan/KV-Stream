@@ -58,10 +58,21 @@ const Home = () => {
     getTrending();
   }, []);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Function to handle sidebar state changes
+  const handleSidebarToggle = (isOpen) => {
+    setSidebarOpen(isOpen);
+  };
+
   return (
     <div className="w-full h-full flex flex-col md:flex-row">
-      <SideNav />
-      <div className="w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300">
+      <SideNav onToggle={handleSidebarToggle} />
+      <div
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
+          sidebarOpen ? "filter brightness-[0.7]" : ""
+        }`}
+      >
         <TopNav />
 
         {loading ? (
