@@ -241,7 +241,7 @@ const PeopleDetails = () => {
                 <strong className="text-indigo-400 text-xs sm:text-sm select-none hover:text-indigo-300 transition-all">
                   Birthday:
                 </strong>
-                <span className="text-regular text-zinc-300 whitespace-normal break-words">
+                <span className="text-xs sm:text-sm text-zinc-300 whitespace-normal break-words">
                   {info.details.birthday}
                 </span>
               </p>
@@ -314,7 +314,7 @@ const PeopleDetails = () => {
           </motion.div>
         </div>
 
-        <div className="w-full md:w-[65%] min-h-screen bg-zinc-900 py-6 space-y-6 px-6 rounded-lg shadow-lg">
+        <div className="w-full md:w-[65%] min-h-screen bg-zinc-900 py-3 sm:py-4 md:py-6 space-y-3 sm:space-y-4 md:space-y-6 px-3 sm:px-4 md:px-6 rounded-lg shadow-lg">
           {info.details.name && (
             <h1 className="text-6xl font-black text-zinc-300">
               {info.details.name}
