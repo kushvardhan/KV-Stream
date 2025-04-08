@@ -121,16 +121,16 @@ const MovieDetails = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-5xl font-black">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black">
             {info.details.title ||
               info.details.original_name ||
               info.details.original_title}
-            <small className="ml-2 text-2xl text-gray-400">
+            <small className="ml-2 text-base sm:text-xl md:text-2xl text-gray-400">
               ({info.details.release_date.split("-")[0]})
             </small>
           </h1>
 
-          <div className="flex flex-wrap items-center gap-6 text-zinc-300 text-lg">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 text-zinc-300 text-sm sm:text-base md:text-lg">
             {info.details.vote_average > 0 && (
               <div className="flex items-center gap-2 select-none">
                 <div className="relative w-12 h-12">
@@ -191,7 +191,7 @@ const MovieDetails = () => {
             </div>
           </div>
 
-          <p className="text-gray-300 leading-relaxed">
+          <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
             {info.details.overview}
           </p>
 
@@ -201,8 +201,8 @@ const MovieDetails = () => {
               boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
             }}
             whileTap={{ scale: 0.97 }}
-            className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white
-                       font-medium text-base tracking-wide transition-all duration-200
+            className="relative px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white
+                       font-medium text-sm sm:text-base tracking-wide transition-all duration-200
                        backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10
                        hover:bg-opacity-40 cursor-pointer"
             onClick={() => navigate(`/movies/details/${id}/trailer`)}

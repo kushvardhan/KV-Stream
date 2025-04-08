@@ -60,7 +60,7 @@ const TvDetails = () => {
 
   return (
     <div
-      className="w-screen min-h-screen relative p-6 flex flex-col items-center"
+      className="w-screen min-h-screen relative p-3 sm:p-4 md:p-6 flex flex-col items-center overflow-x-hidden"
       style={{
         background: info.details.backdrop_path
           ? `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(https://image.tmdb.org/t/p/original/${info.details.backdrop_path})`
@@ -71,7 +71,7 @@ const TvDetails = () => {
       }}
     >
       <motion.nav
-        className="w-full flex justify-between items-center p-4 bg-black/30 rounded-lg"
+        className="w-full flex justify-between items-center p-2 sm:p-3 md:p-4 bg-black/30 rounded-lg"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -114,13 +114,13 @@ const TvDetails = () => {
       </motion.nav>
 
       <motion.div
-        className="flex flex-wrap md:flex-nowrap p-4 justify-start items-start gap-6 mt-8 w-full"
+        className="flex flex-col sm:flex-row flex-wrap md:flex-nowrap p-2 sm:p-4 justify-start items-center sm:items-start gap-4 sm:gap-6 mt-4 sm:mt-8 w-full"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
       >
         <motion.img
-          className="h-[60vh] max-w-[250px] rounded-lg shadow-lg"
+          className="h-[40vh] sm:h-[50vh] md:h-[60vh] max-w-full sm:max-w-[200px] md:max-w-[250px] rounded-lg shadow-lg object-cover"
           src={`https://image.tmdb.org/t/p/original/${
             info.details.poster_path || info.details.backdrop_path
           }`}
@@ -129,16 +129,16 @@ const TvDetails = () => {
           transition={{ duration: 0.3 }}
         />
         <motion.div
-          className="flex-1 text-white space-y-6 p-6 bg-black/30 rounded-lg shadow-lg relative overflow-hidden"
+          className="flex-1 text-white space-y-4 sm:space-y-6 p-3 sm:p-4 md:p-6 bg-black/30 rounded-lg shadow-lg relative overflow-hidden w-full sm:w-auto"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-5xl font-black">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black">
             {info.details.title ||
               info.details.original_name ||
               info.details.original_title}
-            <small className="ml-2 text-2xl text-gray-400">
+            <small className="ml-2 text-base sm:text-xl md:text-2xl text-gray-400">
               {info.details.first_air_date
                 ? `(${info.details.first_air_date.split("-")[0]})`
                 : ""}
