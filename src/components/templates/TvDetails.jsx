@@ -223,7 +223,7 @@ const TvDetails = () => {
           </div>
 
           {info.details.overview && (
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
               {info.details.overview}
             </p>
           )}
@@ -235,8 +235,8 @@ const TvDetails = () => {
                 boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
               }}
               whileTap={{ scale: 0.97 }}
-              className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white
-                         font-medium text-base tracking-wide transition-all duration-200
+              className="relative px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white
+                         font-medium text-sm sm:text-base tracking-wide transition-all duration-200
                          backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10
                          hover:bg-opacity-40 cursor-pointer"
               onClick={() => navigate(`${pathname}/trailer`)}

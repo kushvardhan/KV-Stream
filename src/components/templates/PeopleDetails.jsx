@@ -153,9 +153,9 @@ const PeopleDetails = () => {
   };
 
   return (
-    <div className="w-screen min-h-screen px-6 md:px-[8%] py-6 bg-[#1F1E24] text-white">
+    <div className="w-screen min-h-screen px-3 sm:px-4 md:px-[8%] py-3 sm:py-6 bg-[#1F1E24] text-white overflow-x-hidden">
       <motion.nav
-        className="w-full flex justify-between items-center p-4 bg-black/30 rounded-lg"
+        className="w-full flex justify-between items-center p-2 sm:p-3 md:p-4 bg-black/30 rounded-lg"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -166,11 +166,11 @@ const PeopleDetails = () => {
         ></button>
       </motion.nav>
 
-      <div className="flex flex-col md:flex-row gap-8 p-6">
+      <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 p-2 sm:p-4 md:p-6">
         <div className="flex flex-col w-full md:w-[35%] items-center md:items-start gap-10">
           <div className="w-full flex flex-col items-center">
             <motion.img
-              className="w-full max-w-xs md:max-w-sm rounded-lg shadow-lg select-none"
+              className="w-full max-w-[200px] sm:max-w-xs md:max-w-sm rounded-lg shadow-lg select-none object-cover"
               src={
                 info.details.profile_path || info.details.poster_path
                   ? `https://image.tmdb.org/t/p/original/${
@@ -184,7 +184,7 @@ const PeopleDetails = () => {
             />
             <hr className="mt-7 mb-5 border-none h-[2px] bg-zinc-500 w-full" />
 
-            <div className="text-md flex items-center gap-6">
+            <div className="text-md flex items-center gap-3 sm:gap-4 md:gap-6 flex-wrap justify-center md:justify-start">
               {info.externalid.facebook_id && (
                 <a
                   title="facebook"
@@ -192,7 +192,7 @@ const PeopleDetails = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <i className="ri-facebook-fill text-3xl transition-all hover:text-indigo-400"></i>
+                  <i className="ri-facebook-fill text-2xl sm:text-3xl transition-all hover:text-indigo-400"></i>
                 </a>
               )}
               {info.externalid.instagram_id && (
@@ -202,7 +202,7 @@ const PeopleDetails = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <i className="ri-instagram-fill text-3xl transition-all hover:text-indigo-400"></i>
+                  <i className="ri-instagram-fill text-2xl sm:text-3xl transition-all hover:text-indigo-400"></i>
                 </a>
               )}
               {info.externalid.twitter_id && (
@@ -212,7 +212,7 @@ const PeopleDetails = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <i className="ri-twitter-fill text-3xl transition-all hover:text-indigo-400"></i>
+                  <i className="ri-twitter-fill text-2xl sm:text-3xl transition-all hover:text-indigo-400"></i>
                 </a>
               )}
               {info.externalid.imdb_id && (
@@ -222,7 +222,7 @@ const PeopleDetails = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span className="transition-all hover:text-indigo-400">
+                  <span className="text-sm sm:text-base md:text-lg font-bold transition-all hover:text-indigo-400">
                     IMDB
                   </span>
                 </a>
@@ -234,11 +234,11 @@ const PeopleDetails = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full space-y-3 bg-black/30 px-3 py-5 rounded-xl shadow-lg backdrop-blur-md"
+            className="w-full space-y-2 sm:space-y-3 bg-black/30 px-2 sm:px-3 py-3 sm:py-5 rounded-xl shadow-lg backdrop-blur-md"
           >
             {info.details.birthday && (
-              <p className="text-zinc-400 text-md flex flex-wrap gap-2 items-center">
-                <strong className="text-indigo-400 text-sm select-none hover:text-indigo-300 transition-all">
+              <p className="text-zinc-400 text-xs sm:text-sm md:text-md flex flex-wrap gap-1 sm:gap-2 items-center">
+                <strong className="text-indigo-400 text-xs sm:text-sm select-none hover:text-indigo-300 transition-all">
                   Birthday:
                 </strong>
                 <span className="text-regular text-zinc-300 whitespace-normal break-words">
