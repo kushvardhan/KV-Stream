@@ -24,7 +24,12 @@ const SideNav = () => {
   // Close sidebar when clicking outside on mobile
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (isMobile && isOpen && !e.target.closest(".sidebar-container")) {
+      if (
+        isMobile &&
+        isOpen &&
+        !e.target.closest(".sidebar-container") &&
+        !e.target.closest(".hamburger-button")
+      ) {
         setIsOpen(false);
       }
     };
@@ -53,7 +58,7 @@ const SideNav = () => {
       {isMobile && (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="fixed top-4 left-4 z-50 p-2 rounded-md bg-[#6556CD] text-white shadow-lg focus:outline-none"
+          className="hamburger-button fixed top-4 right-4 z-[110] p-2 rounded-md bg-[#6556CD] text-white shadow-lg focus:outline-none md:hidden"
           aria-label="Toggle menu"
         >
           <i className={`ri-${isOpen ? "close" : "menu"}-line text-xl`}></i>
@@ -64,13 +69,13 @@ const SideNav = () => {
       <div
         className={`sidebar-container ${
           isMobile
-            ? "fixed inset-y-0 left-0 z-40"
+            ? "fixed inset-y-0 left-0 z-[100] w-[75%] xs:w-[60%] sm:w-[50%] md:w-[40%]"
             : "w-full md:w-[20%] lg:w-[18%] xl:w-[15%]"
         } h-full border-r border-zinc-400 py-8 px-4 overflow-x-hidden overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-500 scrollbar-track-transparent hover:scrollbar-thumb-zinc-600 transition-all duration-300 bg-[#1F1E24] ${
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         }`}
       >
-        <h1 className="flex items-center px-3 select-none">
+        <h1 className="flex items-center px-3 select-none mt-4 md:mt-0">
           <i className="ri-tv-fill text-[#6556CD] text-center text-4xl"></i>
           <span className="text-3xl text-center font-bold ml-2 tracking-wide">
             KV.
@@ -149,7 +154,7 @@ const SideNav = () => {
       {/* Overlay for mobile */}
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="fixed inset-0 bg-black bg-opacity-40 z-[90] backdrop-blur-[2px]"
           onClick={() => setIsOpen(false)}
         ></div>
       )}

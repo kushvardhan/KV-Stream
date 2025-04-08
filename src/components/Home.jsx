@@ -61,7 +61,7 @@ const Home = () => {
   return (
     <div className="w-full h-full flex flex-col md:flex-row">
       <SideNav />
-      <div className="w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0">
+      <div className="w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300">
         <TopNav />
 
         {loading ? (
@@ -80,7 +80,127 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <HorizontalCard trending={trending} />
+          <>
+            <HorizontalCard trending={trending} />
+
+            <div className="mt-4 p-4">
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">
+                Popular Categories
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[
+                  {
+                    name: "Action",
+                    icon: "ri-sword-fill",
+                    color: "bg-red-500",
+                  },
+                  {
+                    name: "Comedy",
+                    icon: "ri-emotion-laugh-fill",
+                    color: "bg-yellow-500",
+                  },
+                  {
+                    name: "Drama",
+                    icon: "ri-emotion-sad-fill",
+                    color: "bg-blue-500",
+                  },
+                  {
+                    name: "Sci-Fi",
+                    icon: "ri-rocket-fill",
+                    color: "bg-purple-500",
+                  },
+                  {
+                    name: "Horror",
+                    icon: "ri-ghost-fill",
+                    color: "bg-gray-700",
+                  },
+                  {
+                    name: "Romance",
+                    icon: "ri-heart-fill",
+                    color: "bg-pink-500",
+                  },
+                  {
+                    name: "Documentary",
+                    icon: "ri-film-fill",
+                    color: "bg-green-500",
+                  },
+                  {
+                    name: "Animation",
+                    icon: "ri-mickey-fill",
+                    color: "bg-indigo-500",
+                  },
+                  {
+                    name: "Thriller",
+                    icon: "ri-knife-blood-fill",
+                    color: "bg-red-700",
+                  },
+                  {
+                    name: "Family",
+                    icon: "ri-parent-fill",
+                    color: "bg-teal-500",
+                  },
+                ].map((category, index) => (
+                  <div
+                    key={index}
+                    className={`${category.color} rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transform transition-transform hover:scale-105 h-24 sm:h-32`}
+                  >
+                    <i
+                      className={`${category.icon} text-2xl sm:text-3xl text-white mb-2`}
+                    ></i>
+                    <span className="text-sm sm:text-base font-medium text-white text-center">
+                      {category.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">
+                Latest Updates
+              </h2>
+              <div className="bg-zinc-800 rounded-lg p-4 shadow-lg">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      New Features Added
+                    </h3>
+                    <p className="text-zinc-400 text-sm">
+                      Explore our latest improvements
+                    </p>
+                  </div>
+                  <button className="mt-2 sm:mt-0 px-4 py-2 bg-[#6556CD] hover:bg-[#5747C7] text-white rounded-md text-sm font-medium transition-colors">
+                    Learn More
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-2">
+                  {[
+                    {
+                      title: "Improved Search",
+                      desc: "Find your favorite movies faster",
+                    },
+                    {
+                      title: "Personalized Recommendations",
+                      desc: "Discover new content based on your taste",
+                    },
+                    {
+                      title: "Watch Parties",
+                      desc: "Watch movies together with friends",
+                    },
+                  ].map((feature, index) => (
+                    <div key={index} className="bg-zinc-700 p-3 rounded-md">
+                      <h4 className="font-medium text-white">
+                        {feature.title}
+                      </h4>
+                      <p className="text-zinc-400 text-xs mt-1">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>

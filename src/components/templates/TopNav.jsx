@@ -41,7 +41,7 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="w-full h-[10vh] px-2 sm:px-4 py-2 sm:py-3 flex items-center justify-center z-50 fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
+    <div className="w-full h-[10vh] px-8 sm:px-12 py-2 sm:py-3 flex items-center justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
       <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl mt-3"></i>
       <input
         value={searchBar}
@@ -62,7 +62,7 @@ const TopNav = () => {
       {searches && (
         <div
           ref={searchContainerRef}
-          className={`absolute max-w-[90%] sm:max-w-[80%] md:max-w-[60%] w-auto min-w-[80vw] sm:min-w-[60vw] md:min-w-[50vw] max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[100%] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[9999] shadow-lg ${
+          className={`absolute max-w-[90%] sm:max-w-[80%] md:max-w-[60%] w-auto min-w-[80vw] sm:min-w-[60vw] md:min-w-[50vw] max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[100%] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[105] shadow-lg ${
             searchBar
               ? "opacity-100 scale-100 translate-y-0"
               : "opacity-0 scale-95 translate-y-2 pointer-events-none"

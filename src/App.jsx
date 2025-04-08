@@ -15,7 +15,7 @@ import TVShows from "./components/TVShows";
 
 function App() {
   return (
-    <div className="bg-[#1F1E24] text-white w-screen h-screen overflow-x-hidden">
+    <div className="bg-[#1F1E24] text-white w-screen h-screen overflow-x-hidden relative">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/trending" element={<Trending />} />
