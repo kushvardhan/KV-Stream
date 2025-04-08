@@ -14,8 +14,8 @@ export const asyncloadpeople = (id) => async (dispatch) => {
       externalid: externalid.data,
       combinedCredits: combinedCredits.data,
       tvCredits: tvCredits.data,
-      movieCredits: tvCredits.data,
-    }(ultimateData);
+      movieCredits: movieCredits.data,
+    };
     dispatch(loadPeople(ultimateData));
   } catch (error) {
     console.error(error);
