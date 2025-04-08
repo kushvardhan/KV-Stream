@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../utils/axios";
-import { useParams, useNavigate } from "react-router-dom";
-import SideNav from "./templates/SideNav";
-import TopNav from "./templates/TopNav";
 import Cards from "./templates/Cards";
 import DropDown from "./templates/DropDown";
 import Shimmer from "./templates/Shimmer";
+import SideNav from "./templates/SideNav";
+import TopNav from "./templates/TopNav";
 
 const CategoryContent = () => {
   const { category } = useParams();
@@ -20,7 +20,9 @@ const CategoryContent = () => {
 
   // Set document title based on category
   useEffect(() => {
-    document.title = `KV | ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+    document.title = `KV | ${
+      category.charAt(0).toUpperCase() + category.slice(1)
+    }`;
   }, [category]);
 
   // Function to handle sidebar state changes
@@ -33,9 +35,9 @@ const CategoryContent = () => {
     setLoading(true);
     try {
       let endpoint = "";
-      
+
       // Map category to appropriate TMDB endpoint
-      switch(category.toLowerCase()) {
+      switch (category.toLowerCase()) {
         case "action":
           endpoint = `/discover/${mediaType}?with_genres=28&sort_by=${sortBy}&page=${page}`;
           break;
@@ -132,7 +134,7 @@ const CategoryContent = () => {
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
-          sidebarOpen ? "filter brightness-[0.7]" : ""
+          sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >
         <TopNav />
