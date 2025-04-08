@@ -70,7 +70,7 @@ const SideNav = ({ onToggle }) => {
           }}
           className={`hamburger-button fixed top-4 ${
             isOpen ? "right-4" : "left-4"
-          } z-[110] p-2 rounded-md bg-[#6556CD] text-white shadow-lg focus:outline-none md:hidden transition-all duration-300`}
+          } z-[110] p-2 rounded-md bg-[#1F1E24] text-white shadow-md focus:outline-none md:hidden transition-all duration-300`}
           aria-label="Toggle menu"
         >
           <i className={`ri-${isOpen ? "close" : "menu"}-line text-xl`}></i>
