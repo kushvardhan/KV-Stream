@@ -201,7 +201,7 @@ const SideNav = ({ onToggle }) => {
       {/* Overlay for mobile */}
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-[90] backdrop-blur-[2px]"
+          className="fixed inset-0 bg-black bg-opacity-30 z-[90] backdrop-blur-[1px]"
           onClick={() => {
             setIsOpen(false);
             if (onToggle) onToggle(false);
