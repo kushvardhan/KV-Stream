@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "../../utils/axios";
 import Header from "./templates/Header";
 import HorizontalCard from "./templates/HorizontalCard";
@@ -70,7 +71,7 @@ const Home = () => {
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
-          sidebarOpen ? "filter brightness-[0.7]" : ""
+          sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >
         <TopNav />

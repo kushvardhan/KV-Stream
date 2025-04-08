@@ -41,7 +41,7 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="w-full h-[10vh] px-16 sm:px-20 py-2 sm:py-3 flex items-center justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
+    <div className="w-full h-[10vh] px-12 sm:px-16 py-2 sm:py-3 flex items-center justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
       <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl mt-3"></i>
       <input
         value={searchBar}
