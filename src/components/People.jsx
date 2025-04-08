@@ -82,7 +82,7 @@ const People = () => {
         <h1 className="font-bold text-2xl flex items-center gap-3 pb-2">
           <i
             onClick={() => navigate(-1)}
-            className="hover:text-red-500 hover:shadow-[0_0_10px_#d9534f] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line"
+            className="hover:text-red-500 hover:shadow-[0_0_10px_#d9534f] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line bg-[#2c2c2c] p-2 rounded-md mr-2"
           ></i>
           People
         </h1>

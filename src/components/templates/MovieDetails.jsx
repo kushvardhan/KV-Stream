@@ -45,7 +45,7 @@ const MovieDetails = () => {
 
   return (
     <div
-      className="w-screen min-h-screen relative p-6 flex flex-col items-center"
+      className="w-screen min-h-screen relative p-3 sm:p-4 md:p-6 flex flex-col items-center overflow-x-hidden"
       style={{
         background: `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(${
           info.details.backdrop_path
@@ -58,14 +58,14 @@ const MovieDetails = () => {
       }}
     >
       <motion.nav
-        className="w-full flex justify-between items-center p-4 bg-black/30 rounded-lg"
+        className="w-full flex justify-between items-center p-2 sm:p-3 md:p-4 bg-black/30 rounded-lg"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <button
           onClick={() => navigate(-1)}
-          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400"
+          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400 bg-[#2c2c2c] p-2 rounded-md"
         ></button>
 
         <div className="flex items-center gap-4">
@@ -99,14 +99,14 @@ const MovieDetails = () => {
       </motion.nav>
 
       <motion.div
-        className="flex flex-wrap md:flex-nowrap p-4 justify-start items-start gap-6 mt-8 w-full"
+        className="flex flex-col sm:flex-row flex-wrap md:flex-nowrap p-2 sm:p-4 justify-start items-center sm:items-start gap-4 sm:gap-6 mt-4 sm:mt-8 w-full"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
       >
         {info.details.poster_path || info.details.backdrop_path ? (
           <motion.img
-            className="h-[50vh] max-w-[250px] rounded-lg shadow-lg"
+            className="h-[40vh] sm:h-[45vh] md:h-[50vh] max-w-full sm:max-w-[200px] md:max-w-[250px] rounded-lg shadow-lg object-cover"
             src={`https://image.tmdb.org/t/p/original/${
               info.details.poster_path || info.details.backdrop_path
             }`}
@@ -116,7 +116,7 @@ const MovieDetails = () => {
           />
         ) : null}
         <motion.div
-          className="flex-1 text-white space-y-6 p-6 bg-black/30 rounded-lg shadow-lg relative overflow-hidden"
+          className="flex-1 text-white space-y-4 sm:space-y-6 p-3 sm:p-4 md:p-6 bg-black/30 rounded-lg shadow-lg relative overflow-hidden w-full sm:w-auto"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
@@ -201,9 +201,9 @@ const MovieDetails = () => {
               boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
             }}
             whileTap={{ scale: 0.97 }}
-            className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
-                       font-medium text-base tracking-wide transition-all duration-200 
-                       backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10 
+            className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white
+                       font-medium text-base tracking-wide transition-all duration-200
+                       backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10
                        hover:bg-opacity-40 cursor-pointer"
             onClick={() => navigate(`/movies/details/${id}/trailer`)}
           >

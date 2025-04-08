@@ -78,7 +78,7 @@ const TvDetails = () => {
       >
         <button
           onClick={() => navigate(-1)}
-          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400"
+          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400 bg-[#2c2c2c] p-2 rounded-md"
         ></button>
 
         <div className="flex items-center gap-4">
@@ -235,9 +235,9 @@ const TvDetails = () => {
                 boxShadow: "0px 4px 8px rgba(255, 255, 255, 0.2)",
               }}
               whileTap={{ scale: 0.97 }}
-              className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white 
-                         font-medium text-base tracking-wide transition-all duration-200 
-                         backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10 
+              className="relative px-5 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white
+                         font-medium text-base tracking-wide transition-all duration-200
+                         backdrop-blur-sm bg-opacity-20 shadow-md border border-white/10
                          hover:bg-opacity-40 cursor-pointer"
               onClick={() => navigate(`${pathname}/trailer`)}
             >

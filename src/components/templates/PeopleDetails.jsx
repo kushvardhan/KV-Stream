@@ -162,7 +162,7 @@ const PeopleDetails = () => {
       >
         <button
           onClick={() => navigate(-1)}
-          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400"
+          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400 bg-[#2c2c2c] p-2 rounded-md"
         ></button>
       </motion.nav>
 
