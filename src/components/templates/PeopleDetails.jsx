@@ -316,14 +316,14 @@ const PeopleDetails = () => {
 
         <div className="w-full md:w-[65%] min-h-screen bg-zinc-900 py-3 sm:py-4 md:py-6 space-y-3 sm:space-y-4 md:space-y-6 px-3 sm:px-4 md:px-6 rounded-lg shadow-lg">
           {info.details.name && (
-            <h1 className="text-6xl font-black text-zinc-300">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-zinc-300">
               {info.details.name}
             </h1>
           )}
 
           {bioText && (
             <motion.p
-              className="text-md select-none text-zinc-400 leading-relaxed"
+              className="text-xs sm:text-sm md:text-md select-none text-zinc-400 leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -332,7 +332,7 @@ const PeopleDetails = () => {
               {showFullBio ? bioText : truncatedBio}
               <button
                 onClick={() => setShowFullBio(!showFullBio)}
-                className="ml-2 text-blue-300 text-sm hover:underline transition-all"
+                className="ml-2 text-blue-300 text-xs sm:text-sm hover:underline transition-all"
               >
                 {showFullBio ? "Show Less" : "Show More"}
               </button>
