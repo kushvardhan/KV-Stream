@@ -84,25 +84,41 @@ const TopNav = () => {
   }, []);
 
   return (
-    <div className="w-full h-[10vh] px-12 sm:px-16 py-2 sm:py-3 flex items-center justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
-      <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl mt-3"></i>
-      <input
-        ref={searchInputRef}
-        value={searchBar}
-        onChange={(e) => setSearchBar(e.target.value)}
-        onKeyDown={handleKeyDown}
-        type="text"
-        className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px] mt-3 ml-2 sm:ml-5 mr-1 p-1 sm:p-2 px-3 sm:px-5 outline-none transition-all duration-300 text-sm sm:text-base ${
-          searchBar ? "rounded-r-md rounded-l-full" : "rounded-full"
-        }`}
-        placeholder="Search..."
-      />
-      <i
-        onClick={() => setSearchBar("")}
-        className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 mt-3 cursor-pointer transition-all duration-300 ${
-          searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
-        }`}
-      ></i>
+    <div className="w-full h-[10vh] px-4 sm:px-16 py-2 sm:py-3 flex items-center justify-between md:justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
+      <div className="flex items-center">
+        {/* Hamburger menu for mobile - only shown on small screens */}
+        <button
+          onClick={() =>
+            window.dispatchEvent(new CustomEvent("toggle-sidebar"))
+          }
+          className="p-2 rounded-md bg-[#1F1E24] text-white md:hidden flex items-center justify-center mr-2"
+        >
+          <i className="ri-menu-line text-xl"></i>
+        </button>
+        <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl"></i>
+      </div>
+      <div className="flex items-center flex-1 justify-center">
+        <input
+          ref={searchInputRef}
+          value={searchBar}
+          onChange={(e) => setSearchBar(e.target.value)}
+          onKeyDown={handleKeyDown}
+          type="text"
+          className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px] ml-2 sm:ml-5 mr-1 p-1 sm:p-2 px-3 sm:px-5 outline-none transition-all duration-300 text-sm sm:text-base ${
+            searchBar ? "rounded-r-md rounded-l-full" : "rounded-full"
+          }`}
+          placeholder="Search..."
+        />
+        <i
+          onClick={() => setSearchBar("")}
+          className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 cursor-pointer transition-all duration-300 ${
+            searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          }`}
+        ></i>
+      </div>
+
+      {/* Placeholder div for balance */}
+      <div className="w-10 md:hidden"></div>
 
       {searches && (
         <div

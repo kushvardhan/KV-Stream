@@ -53,31 +53,34 @@ const SideNav = ({ onToggle }) => {
       onToggle(isOpen);
     }
 
+    // Listen for toggle-sidebar event from TopNav
+    const handleToggleSidebar = () => {
+      const newState = !isOpen;
+      setIsOpen(newState);
+      if (onToggle) onToggle(newState);
+    };
+
+    window.addEventListener("toggle-sidebar", handleToggleSidebar);
+
     return () => {
       document.body.style.overflow = "auto";
+      window.removeEventListener("toggle-sidebar", handleToggleSidebar);
     };
   }, [isOpen, isMobile, onToggle]);
 
   return (
     <>
-      {/* Mobile hamburger menu */}
-      {isMobile && (
+      {/* Close button for mobile sidebar */}
+      {isMobile && isOpen && (
         <button
           onClick={() => {
-            const newState = !isOpen;
-            setIsOpen(newState);
-            if (onToggle) onToggle(newState);
+            setIsOpen(false);
+            if (onToggle) onToggle(false);
           }}
-          className={`hamburger-button fixed top-[calc(3vh-4px)] ${
-            isOpen ? "right-6" : "left-6"
-          } z-[110] p-2 rounded-md bg-[#1F1E24] text-white shadow-md focus:outline-none md:hidden transition-all duration-300 flex items-center justify-center`}
-          aria-label="Toggle menu"
+          className="absolute top-4 right-4 z-[110] p-2 rounded-md bg-[#1F1E24] text-white shadow-md focus:outline-none md:hidden transition-all duration-300 flex items-center justify-center"
+          aria-label="Close menu"
         >
-          {isOpen ? (
-            <i className="ri-close-line text-xl"></i>
-          ) : (
-            <i className="ri-menu-line text-xl"></i>
-          )}
+          <i className="ri-close-line text-xl"></i>
         </button>
       )}
 
