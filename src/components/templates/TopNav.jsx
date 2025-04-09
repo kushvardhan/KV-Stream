@@ -128,7 +128,11 @@ const TopNav = () => {
               <Link
                 key={i}
                 to={linkPath}
-                className="flex items-center w-full py-3 sm:py-4 px-3 sm:px-5 bg-zinc-700 text-zinc-300 font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white"
+                className={`flex items-center w-full py-3 sm:py-4 px-3 sm:px-5 ${
+                  selectedIndex === i
+                    ? "bg-zinc-500 text-white"
+                    : "bg-zinc-700 text-zinc-300"
+                } font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white`}
               >
                 <img
                   className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-cover rounded shadow-md transition-transform duration-300 ease-in-out hover:scale-110"

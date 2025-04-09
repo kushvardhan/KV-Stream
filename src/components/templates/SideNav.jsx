@@ -74,7 +74,7 @@ const SideNav = ({ onToggle }) => {
           aria-label="Toggle menu"
         >
           {isOpen ? (
-            <i className="ri-arrow-left-line text-xl"></i>
+            <i className="ri-close-line text-xl"></i>
           ) : (
             <i className="ri-menu-line text-xl"></i>
           )}
