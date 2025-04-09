@@ -144,11 +144,11 @@ const CategoryContent = () => {
             <div className="flex flex-col space-y-2">
               <button
                 onClick={() => navigate(-1)}
-                className="flex items-center text-zinc-400 hover:text-white transition-colors w-fit bg-[#2c2c2c] p-2 rounded-md mb-2"
+                className="flex items-center text-zinc-400 hover:text-white transition-colors w-fit bg-[#2c2c2c] p-2 rounded-md mb-2 fixed top-16 left-4 z-[100]"
               >
                 <i className="ri-arrow-left-line mr-1 text-lg"></i> Back
               </button>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0 mt-10 sm:mt-0">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h1>
             </div>

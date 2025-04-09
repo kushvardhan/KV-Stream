@@ -79,10 +79,10 @@ const People = () => {
   return (
     <div className="py-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
       <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
-        <h1 className="font-bold text-2xl flex items-center gap-3 pb-2">
+        <h1 className="font-bold text-2xl flex items-center gap-3 pb-2 mt-10 md:mt-0">
           <i
             onClick={() => navigate(-1)}
-            className="hover:text-red-500 hover:shadow-[0_0_10px_#d9534f] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line bg-[#2c2c2c] p-2 rounded-md mr-2"
+            className="hover:text-red-500 hover:shadow-[0_0_10px_#d9534f] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line bg-[#2c2c2c] p-2 rounded-md mr-2 fixed top-16 left-4 z-[100] md:static md:top-auto md:left-auto md:z-auto"
           ></i>
           People
         </h1>
