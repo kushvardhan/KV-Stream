@@ -352,12 +352,33 @@ const PeopleDetails = () => {
           )}
 
           <div className="w-full flex justify-between items-center mt-6">
-            <h1 className="mt-5 text-xl text-zinc-400 font-semibold">Acting</h1>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setActiveTab("movie")}
+                className={`px-4 py-2 rounded-md ${
+                  activeTab === "movie"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-zinc-700 text-zinc-300"
+                }`}
+              >
+                Movies
+              </button>
+              <button
+                onClick={() => setActiveTab("tv")}
+                className={`px-4 py-2 rounded-md ${
+                  activeTab === "tv"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-zinc-700 text-zinc-300"
+                }`}
+              >
+                TV Shows
+              </button>
+            </div>
           </div>
 
           <div className="list-disc text-zinc-400 w-full h-[60vh] mt-5 overflow-x-hidden p-5 overflow-y-auto shadow-xl shadow-[rgba(255,255,255,.3)] border-2 border-zinc-700 ">
-            {info?.[category + "Credits"]?.cast?.length > 0 ? (
-              info[category + "Credits"].cast.map((c, i) => (
+            {info?.[activeTab + "Credits"]?.cast?.length > 0 ? (
+              info[activeTab + "Credits"].cast.map((c, i) => (
                 <li
                   key={i}
                   title="non-clickable"
