@@ -99,7 +99,7 @@ const Home = () => {
               <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">
                 Popular Categories
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
                 {[
                   {
                     name: "Action",
@@ -155,12 +155,12 @@ const Home = () => {
                   <Link
                     key={index}
                     to={`/category/${category.name.toLowerCase()}`}
-                    className={`${category.color} rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transform transition-transform hover:scale-105 h-24 sm:h-32`}
+                    className={`${category.color} rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-lg h-24 sm:h-32 w-full`}
                   >
                     <i
                       className={`${category.icon} text-2xl sm:text-3xl text-white mb-2`}
                     ></i>
-                    <span className="text-sm sm:text-base font-medium text-white text-center">
+                    <span className="text-xs sm:text-sm md:text-base font-medium text-white text-center whitespace-normal">
                       {category.name}
                     </span>
                   </Link>

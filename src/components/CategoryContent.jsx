@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../utils/axios";
 import Cards from "./templates/Cards";
 import DropDown from "./templates/DropDown";
-import Shimmer from "./templates/Shimmer";
 import SideNav from "./templates/SideNav";
 import TopNav from "./templates/TopNav";
 
@@ -167,7 +166,7 @@ const CategoryContent = () => {
           </div>
 
           {loading ? (
-            <Shimmer />
+            <CategoryShimmer />
           ) : (
             <>
               <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
