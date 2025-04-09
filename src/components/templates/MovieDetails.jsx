@@ -49,7 +49,7 @@ const MovieDetails = () => {
       style={{
         background: `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(${
           info.details.backdrop_path
-            ? `https://image.tmdb.org/t/p/original/${info.details.backdrop_path}`
+            ? `https://image.tmdb.org/t/p/w1280/${info.details.backdrop_path}`
             : "https://images.unsplash.com/photo-1554791756-6d6cb6b45d5d?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         })`,
         backgroundPosition: "center",
@@ -107,15 +107,20 @@ const MovieDetails = () => {
         transition={{ duration: 0.6 }}
       >
         {info.details.poster_path || info.details.backdrop_path ? (
-          <motion.img
-            className="h-[40vh] sm:h-[45vh] md:h-[50vh] max-w-full sm:max-w-[200px] md:max-w-[250px] rounded-lg shadow-lg object-cover"
-            src={`https://image.tmdb.org/t/p/original/${
-              info.details.poster_path || info.details.backdrop_path
-            }`}
-            alt={info.details.title}
+          <motion.div
+            className="h-[40vh] sm:h-[45vh] md:h-[50vh] max-w-full sm:max-w-[200px] md:max-w-[250px] rounded-lg shadow-lg overflow-hidden"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-          />
+          >
+            <img
+              className="w-full h-full object-cover"
+              src={`https://image.tmdb.org/t/p/w500/${
+                info.details.poster_path || info.details.backdrop_path
+              }`}
+              alt={info.details.title}
+              loading="lazy"
+            />
+          </motion.div>
         ) : null}
         <motion.div
           className="flex-1 text-white space-y-4 sm:space-y-6 p-3 sm:p-4 md:p-6 bg-black/30 rounded-lg shadow-lg relative overflow-hidden w-full sm:w-auto"
