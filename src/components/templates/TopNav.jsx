@@ -6,7 +6,9 @@ import noImage from "/noImage.jpeg";
 const TopNav = () => {
   const [searchBar, setSearchBar] = useState("");
   const [searches, setSearches] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const searchContainerRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   const getSearches = async () => {
     try {
@@ -23,7 +25,48 @@ const TopNav = () => {
 
   useEffect(() => {
     getSearches();
+    setSelectedIndex(-1);
   }, [searchBar]);
+
+  const getPath = (item) => {
+    const type = item.media_type;
+    if (type === "movie") {
+      return `/movies/details/${item.id}`;
+    } else if (type === "tv") {
+      return `/tv-shows/details/${item.id}`;
+    } else if (type === "person") {
+      return `/peoples/details/${item.id}`;
+    }
+    return "#";
+  };
+
+  const handleKeyDown = (e) => {
+    if (!searches) return;
+
+    // Arrow down
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) =>
+        prev < searches.length - 1 ? prev + 1 : prev
+      );
+    }
+
+    // Arrow up
+    else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+    }
+
+    // Enter key
+    else if (e.key === "Enter" && selectedIndex >= 0) {
+      e.preventDefault();
+      const selected = searches[selectedIndex];
+      if (selected) {
+        const path = getPath(selected);
+        window.location.href = path;
+      }
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -44,8 +87,10 @@ const TopNav = () => {
     <div className="w-full h-[10vh] px-12 sm:px-16 py-2 sm:py-3 flex items-center justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent">
       <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl mt-3"></i>
       <input
+        ref={searchInputRef}
         value={searchBar}
         onChange={(e) => setSearchBar(e.target.value)}
+        onKeyDown={handleKeyDown}
         type="text"
         className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px] mt-3 ml-2 sm:ml-5 mr-1 p-1 sm:p-2 px-3 sm:px-5 outline-none transition-all duration-300 text-sm sm:text-base ${
           searchBar ? "rounded-r-md rounded-l-full" : "rounded-full"
