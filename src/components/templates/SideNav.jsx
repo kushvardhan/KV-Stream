@@ -68,9 +68,9 @@ const SideNav = ({ onToggle }) => {
             setIsOpen(newState);
             if (onToggle) onToggle(newState);
           }}
-          className={`hamburger-button fixed top-4 ${
-            isOpen ? "right-4" : "left-4"
-          } z-[110] p-2 rounded-md bg-[#1F1E24] text-white shadow-md focus:outline-none md:hidden transition-all duration-300`}
+          className={`hamburger-button fixed top-[calc(3vh-4px)] ${
+            isOpen ? "right-6" : "left-6"
+          } z-[110] p-2 rounded-md bg-[#1F1E24] text-white shadow-md focus:outline-none md:hidden transition-all duration-300 flex items-center justify-center`}
           aria-label="Toggle menu"
         >
           {isOpen ? (
