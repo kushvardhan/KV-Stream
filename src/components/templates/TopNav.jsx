@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../../../utils/axios";
-import noImage from "/noImage.jpeg";
+import noImageSvg from "../../assets/no-image-placeholder.svg";
 
 const TopNav = () => {
   const [searchBar, setSearchBar] = useState("");
@@ -19,7 +19,7 @@ const TopNav = () => {
       const { data } = await instance.get(`/search/multi?query=${searchBar}`);
       setSearches(data.results);
     } catch (err) {
-      err;
+      console.error(err);
     }
   };
 
@@ -28,51 +28,54 @@ const TopNav = () => {
     setSelectedIndex(-1);
   }, [searchBar]);
 
-  const getPath = (item) => {
-    const type = item.media_type;
-    if (type === "movie") {
-      return `/movies/details/${item.id}`;
-    } else if (type === "tv") {
-      return `/tv-shows/details/${item.id}`;
-    } else if (type === "person") {
-      return `/peoples/details/${item.id}`;
-    }
-    return "#";
-  };
-
   const handleKeyDown = (e) => {
-    if (!searches) return;
-
-    // Arrow down
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setSelectedIndex((prev) =>
-        prev < searches.length - 1 ? prev + 1 : prev
-      );
-    }
-
-    // Arrow up
-    else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
-    }
-
-    // Enter key
-    else if (e.key === "Enter" && selectedIndex >= 0) {
-      e.preventDefault();
-      const selected = searches[selectedIndex];
-      if (selected) {
-        const path = getPath(selected);
-        window.location.href = path;
+    if (searches) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedIndex((prevIndex) =>
+          prevIndex < searches.length - 1 ? prevIndex + 1 : prevIndex
+        );
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+      } else if (e.key === "Enter" && selectedIndex >= 0) {
+        e.preventDefault();
+        const selectedItem = searches[selectedIndex];
+        if (selectedItem) {
+          const mediaType = selectedItem.media_type;
+          if (mediaType === "movie") {
+            window.location.href = `/movies/details/${selectedItem.id}`;
+          } else if (mediaType === "tv") {
+            window.location.href = `/tv-shows/details/${selectedItem.id}`;
+          } else if (mediaType === "person") {
+            window.location.href = `/peoples/details/${selectedItem.id}`;
+          }
+        }
       }
     }
   };
 
   useEffect(() => {
+    if (selectedIndex >= 0 && searches && searches.length > 0) {
+      const selectedElement = document.getElementById(
+        `search-item-${selectedIndex}`
+      );
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+    }
+  }, [selectedIndex, searches]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         searchContainerRef.current &&
-        !searchContainerRef.current.contains(event.target)
+        !searchContainerRef.current.contains(event.target) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
       ) {
         setSearches(null);
       }
@@ -96,95 +99,100 @@ const TopNav = () => {
           <i className="ri-menu-line text-xl"></i>
         </button>
       </div>
-      <div className="flex items-center flex-1 justify-center relative">
-        <div className="relative flex items-center w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px]">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400">
-            <i className="ri-search-line text-lg sm:text-xl"></i>
+      
+      <div className="flex items-center flex-1 justify-center">
+        <div className="relative w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px]">
+          {/* Search input with icon */}
+          <div className="flex items-center w-full">
+            <div className="flex items-center justify-center mr-2 text-zinc-400">
+              <i className="ri-search-line text-lg sm:text-xl"></i>
+            </div>
+            <div className="relative flex-1">
+              <input
+                ref={searchInputRef}
+                value={searchBar}
+                onChange={(e) => setSearchBar(e.target.value)}
+                onKeyDown={handleKeyDown}
+                type="text"
+                className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-full p-1 sm:p-2 px-3 outline-none transition-all duration-300 text-sm sm:text-base ${
+                  searchBar && searches && searches.length > 0 ? "rounded-t-md rounded-b-none" : "rounded-md"
+                }`}
+                placeholder="Search..."
+              />
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                <i
+                  onClick={() => setSearchBar("")}
+                  className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 cursor-pointer transition-all duration-300 ${
+                    searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                  }`}
+                ></i>
+              </div>
+            </div>
           </div>
-          <input
-            ref={searchInputRef}
-            value={searchBar}
-            onChange={(e) => setSearchBar(e.target.value)}
-            onKeyDown={handleKeyDown}
-            type="text"
-            className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-full p-1 sm:p-2 pl-9 pr-8 outline-none transition-all duration-300 text-sm sm:text-base ${
-              searchBar ? "rounded-md" : "rounded-full"
-            }`}
-            placeholder="Search..."
-          />
-          <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
-            <i
-              onClick={() => setSearchBar("")}
-              className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 cursor-pointer transition-all duration-300 ${
-                searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              }`}
-            ></i>
-          </div>
+          
+          {/* Search results dropdown - positioned directly below the search input */}
+          {searches && searches.length > 0 && (
+            <div
+              ref={searchContainerRef}
+              className="absolute w-full max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-b-lg overflow-y-auto overflow-x-hidden bg-zinc-600 z-[999] shadow-lg border-t border-zinc-700"
+            >
+              {searches.map((s, i) => {
+                const type = s.media_type;
+                let linkPath = "#";
+                if (type === "movie") {
+                  linkPath = `/movies/details/${s.id}`;
+                } else if (type === "tv") {
+                  linkPath = `/tv-shows/details/${s.id}`;
+                } else if (type === "person") {
+                  linkPath = `/peoples/details/${s.id}`;
+                }
+
+                return (
+                  <Link
+                    id={`search-item-${i}`}
+                    key={i}
+                    to={linkPath}
+                    className={`flex items-center w-full py-3 sm:py-4 px-3 sm:px-5 ${
+                      selectedIndex === i
+                        ? "bg-zinc-500 text-white"
+                        : "bg-zinc-700 text-zinc-300"
+                    } font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white`}
+                  >
+                    <img
+                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-cover rounded shadow-md transition-transform duration-300 ease-in-out hover:scale-110"
+                      src={
+                        s.poster_path ||
+                        s.profile_path ||
+                        s.backdrop_path ||
+                        s.still_path ||
+                        s.file_path ||
+                        s.logo_path
+                          ? `https://image.tmdb.org/t/p/w500${
+                              s.poster_path ||
+                              s.profile_path ||
+                              s.backdrop_path ||
+                              s.still_path ||
+                              s.file_path ||
+                              s.logo_path
+                            }`
+                          : noImageSvg
+                      }
+                      alt={s.title || s.original_title || s.name || s.original_name}
+                      loading="lazy"
+                    />
+                    <h3 className="ml-2 sm:ml-3 text-xs sm:text-sm md:text-base truncate">
+                      {s.title || s.original_title || s.name || s.original_name}
+                    </h3>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Placeholder div for balance */}
       <div className="w-10 md:hidden"></div>
-
-      {searches && (
-        <div
-          ref={searchContainerRef}
-          className={`fixed max-w-[90%] sm:max-w-[80%] md:max-w-[60%] w-auto min-w-[80vw] sm:min-w-[60vw] md:min-w-[50vw] max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-lg overflow-y-auto overflow-x-hidden bg-zinc-600 top-[10vh] left-1/2 transform -translate-x-1/2 transition-all duration-300 z-[999] shadow-lg ${
-            searchBar
-              ? "opacity-100 scale-100 translate-y-0"
-              : "opacity-0 scale-95 translate-y-2 pointer-events-none"
-          }`}
-        >
-          {searches.map((s, i) => {
-            const type = s.media_type;
-            let linkPath = "#";
-            if (type === "movie") {
-              linkPath = `/movies/details/${s.id}`;
-            } else if (type === "tv") {
-              linkPath = `/tv-shows/details/${s.id}`;
-            } else if (type === "person") {
-              linkPath = `/peoples/details/${s.id}`;
-            }
-
-            return (
-              <Link
-                key={i}
-                to={linkPath}
-                className={`flex items-center w-full py-3 sm:py-4 px-3 sm:px-5 ${
-                  selectedIndex === i
-                    ? "bg-zinc-500 text-white"
-                    : "bg-zinc-700 text-zinc-300"
-                } font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white`}
-              >
-                <img
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-cover rounded shadow-md transition-transform duration-300 ease-in-out hover:scale-110"
-                  src={
-                    s.poster_path ||
-                    s.profile_path ||
-                    s.backdrop_path ||
-                    s.still_path ||
-                    s.file_path ||
-                    s.logo_path
-                      ? `https://image.tmdb.org/t/p/w500${
-                          s.poster_path ||
-                          s.profile_path ||
-                          s.backdrop_path ||
-                          s.still_path ||
-                          s.file_path ||
-                          s.logo_path
-                        }`
-                      : noImage
-                  }
-                  alt={s.title || s.original_title || s.name || s.original_name}
-                />
-                <h3 className="ml-2 sm:ml-3 text-xs sm:text-sm md:text-base truncate">
-                  {s.title || s.original_title || s.name || s.original_name}
-                </h3>
-              </Link>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 };

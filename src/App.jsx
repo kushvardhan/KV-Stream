@@ -22,6 +22,20 @@ const Trending = lazy(() => import("./components/Trending"));
 const TVShows = lazy(() => import("./components/TVShows"));
 
 function App() {
+  // Add a global event listener for the sidebar toggle
+  React.useEffect(() => {
+    const handleToggleSidebar = () => {
+      console.log("App: toggle-sidebar event received");
+      // This is just to ensure the event is being received at the App level
+    };
+
+    window.addEventListener("toggle-sidebar", handleToggleSidebar);
+
+    return () => {
+      window.removeEventListener("toggle-sidebar", handleToggleSidebar);
+    };
+  }, []);
+
   return (
     <div className="bg-[#1F1E24] text-white w-screen h-screen overflow-x-hidden relative">
       <Suspense fallback={<Shimmer />}>

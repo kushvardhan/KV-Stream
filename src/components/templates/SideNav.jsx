@@ -52,21 +52,35 @@ const SideNav = ({ onToggle }) => {
     if (onToggle) {
       onToggle(isOpen);
     }
+  }, [isOpen, isMobile, onToggle]);
 
-    // Listen for toggle-sidebar event from TopNav
-    const handleToggleSidebar = () => {
-      const newState = !isOpen;
-      setIsOpen(newState);
-      if (onToggle) onToggle(newState);
-    };
+  // Listen for toggle-sidebar event from TopNav
+  useEffect(() => {
+    // Define the event handler
+    function handleToggleSidebar() {
+      console.log("Toggle sidebar event received", { currentState: isOpen });
+      // Force toggle the sidebar state
+      setIsOpen((prevState) => {
+        const newState = !prevState;
+        console.log("Setting sidebar state to", newState);
+        // Notify parent component about sidebar state change
+        if (onToggle) {
+          onToggle(newState);
+        }
+        return newState;
+      });
+    }
 
+    // Add event listener for toggle-sidebar event
+    console.log("Adding toggle-sidebar event listener");
     window.addEventListener("toggle-sidebar", handleToggleSidebar);
 
+    // Cleanup function
     return () => {
-      document.body.style.overflow = "auto";
+      console.log("Removing toggle-sidebar event listener");
       window.removeEventListener("toggle-sidebar", handleToggleSidebar);
     };
-  }, [isOpen, isMobile, onToggle]);
+  }, []); // Empty dependency array to ensure it only runs once
 
   return (
     <>

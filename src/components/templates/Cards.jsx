@@ -31,7 +31,13 @@ const Cards = ({ data, category, hideDetails }) => {
           loading="lazy"
         />
       ) : (
-        <NoImagePlaceholder type={mediaType} />
+        <div className="w-full h-full bg-[#1F1E24] flex items-center justify-center">
+          <img
+            src="/noImage.jpeg"
+            alt="No image available"
+            className="w-full h-full object-contain p-4"
+          />
+        </div>
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t select-none from-black via-black/40 to-transparent p-2 sm:p-3 flex flex-col justify-end opacity-100 group-hover:opacity-100 transition-opacity duration-300">

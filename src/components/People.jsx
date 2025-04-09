@@ -50,27 +50,73 @@ const People = () => {
     }
   }, [page]);
 
+  // Separate effect for scroll-to-top button
+  useEffect(() => {
+    const handleScrollForButton = () => {
+      // Show/hide scroll to top button - show after scrolling down 100px
+      const shouldShow = window.scrollY > 100;
+      console.log(
+        "People - Scroll position for button:",
+        window.scrollY,
+        "Should show:",
+        shouldShow
+      );
+      setShowTopButton(shouldShow);
+    };
+
+    // Add scroll event listener for the button
+    window.addEventListener("scroll", handleScrollForButton);
+
+    // Initial check
+    handleScrollForButton();
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollForButton);
+    };
+  }, []);
+
+  // Effect for infinite scrolling
   useEffect(() => {
     let timeout;
     const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 500
-      ) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          setPage((prevPage) => prevPage + 1);
-        }, 500);
+      // Infinite scroll functionality
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+
+      if (scrollPosition >= scrollThreshold) {
+        if (!loading) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            console.log("Loading more people...", {
+              scrollPosition,
+              scrollThreshold,
+            });
+            setPage((prevPage) => prevPage + 1);
+          }, 200);
+        }
       }
-      setShowTopButton(window.scrollY > 300);
     };
 
+    // Add scroll event listener
+    console.log("Adding scroll event listener for people");
     window.addEventListener("scroll", handleScroll);
+
+    // Initial check in case the page is not tall enough
+    setTimeout(() => {
+      handleScroll();
+    }, 500);
+
     return () => {
       clearTimeout(timeout);
       window.removeEventListener("scroll", handleScroll);
+      console.log("Removed scroll event listener for people");
     };
-  }, []);
+  }, [loading]);
+
+  // Debug log for page changes
+  useEffect(() => {
+    console.log(`People page changed to ${page}`);
+  }, [page]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -145,9 +191,16 @@ const People = () => {
       {showTopButton && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-red-400/50 text-white p-4 rounded-full shadow-lg hover:bg-red-600/50 transition"
+          className="fixed bottom-8 right-8 bg-gradient-to-r from-red-400 to-pink-600 text-white p-4 rounded-full shadow-xl hover:from-red-500 hover:to-pink-700 transition-all duration-300 z-50 group hover:scale-110"
+          aria-label="Scroll to top"
         >
-          <i className="ri-arrow-up-s-line text-xl"></i>
+          <div className="relative flex items-center justify-center">
+            <span className="absolute inset-0 rounded-full bg-white/20 animate-ping-slow opacity-75"></span>
+            <i className="ri-arrow-up-line text-xl group-hover:animate-bounce"></i>
+            <span className="absolute -top-12 right-0 bg-black/80 text-white text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg transform group-hover:-translate-y-1">
+              Back to top
+            </span>
+          </div>
         </button>
       )}
     </div>
