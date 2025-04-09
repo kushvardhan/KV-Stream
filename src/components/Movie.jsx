@@ -62,14 +62,23 @@ const Movie = () => {
   // Separate effect for scroll-to-top button
   useEffect(() => {
     const handleScrollForButton = () => {
-      // Show/hide scroll to top button - show after scrolling down 100px
-      const shouldShow = window.scrollY > 100;
-      console.log(
-        "Scroll position for button:",
-        window.scrollY,
-        "Should show:",
-        shouldShow
-      );
+      // Show/hide scroll to top button - show after scrolling down 3+ screen pages
+      const windowHeight = window.innerHeight;
+      const scrollThreshold = windowHeight * 3; // 3 screen heights
+      const shouldShow = window.scrollY > scrollThreshold;
+
+      // Only log in development
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          "Scroll position for button:",
+          window.scrollY,
+          "Threshold:",
+          scrollThreshold,
+          "Should show:",
+          shouldShow
+        );
+      }
+
       setShowTopButton(shouldShow);
     };
 

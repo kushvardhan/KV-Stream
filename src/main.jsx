@@ -7,6 +7,14 @@ import ScrollToTop from "./components/templates/ScrollToTop";
 import "./index.css";
 import store from "./store/store.jsx";
 
+// Disable console.log in production
+if (process.env.NODE_ENV === "production") {
+  console.log = () => {};
+  console.error = () => {};
+  console.debug = () => {};
+  console.warn = () => {};
+}
+
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <ErrorBoundary>

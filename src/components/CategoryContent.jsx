@@ -135,14 +135,23 @@ const CategoryContent = () => {
   // Separate effect for scroll-to-top button
   useEffect(() => {
     const handleScrollForButton = () => {
-      // Show/hide scroll to top button - show after scrolling down 100px
-      const shouldShow = window.scrollY > 100;
-      console.log(
-        "Category - Scroll position for button:",
-        window.scrollY,
-        "Should show:",
-        shouldShow
-      );
+      // Show/hide scroll to top button - show after scrolling down 3+ screen pages
+      const windowHeight = window.innerHeight;
+      const scrollThreshold = windowHeight * 3; // 3 screen heights
+      const shouldShow = window.scrollY > scrollThreshold;
+
+      // Only log in development
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          "Category - Scroll position for button:",
+          window.scrollY,
+          "Threshold:",
+          scrollThreshold,
+          "Should show:",
+          shouldShow
+        );
+      }
+
       setShowTopButton(shouldShow);
     };
 
@@ -219,15 +228,15 @@ const CategoryContent = () => {
 
         <div className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-row items-center space-x-4">
               <button
                 onClick={() => navigate(-1)}
-                className="fixed top-20 left-4 sm:left-8 z-50 text-zinc-400 hover:text-white w-10 h-10 flex items-center justify-center bg-[#2c2c2c]/80 backdrop-blur-sm rounded-full shadow-md hover:bg-[#2c2c2c] hover:scale-110 transition-all duration-300"
+                className="relative text-zinc-400 hover:text-white w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full shadow-md hover:bg-zinc-700 hover:scale-110 transition-all duration-300"
                 aria-label="Go back"
               >
                 <i className="ri-arrow-left-line text-xl"></i>
               </button>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h1>
             </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../../../utils/axios";
-import noImageSvg from "../../assets/no-image-placeholder.svg";
 
 const TopNav = () => {
   const [searchBar, setSearchBar] = useState("");
@@ -91,15 +90,25 @@ const TopNav = () => {
       <div className="flex items-center">
         {/* Hamburger menu for mobile - only shown on small screens */}
         <button
-          onClick={() =>
-            window.dispatchEvent(new CustomEvent("toggle-sidebar"))
-          }
-          className="p-2 rounded-md bg-[#1F1E24] text-white md:hidden flex items-center justify-center mr-2"
+          onClick={() => {
+            console.log("Hamburger button clicked");
+            // Create and dispatch a custom event to toggle the sidebar
+            try {
+              const event = new CustomEvent("toggle-sidebar");
+              console.log("Dispatching toggle-sidebar event", event);
+              window.dispatchEvent(event);
+              console.log("Event dispatched successfully");
+            } catch (error) {
+              console.error("Error dispatching toggle-sidebar event:", error);
+            }
+          }}
+          className="p-2 rounded-md bg-[#1F1E24] text-white md:hidden flex items-center justify-center mr-2 hover:bg-zinc-700 transition-colors hover:scale-110 active:scale-95"
+          aria-label="Toggle sidebar menu"
         >
           <i className="ri-menu-line text-xl"></i>
         </button>
       </div>
-      
+
       <div className="flex items-center flex-1 justify-center">
         <div className="relative w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px]">
           {/* Search input with icon */}
@@ -115,7 +124,9 @@ const TopNav = () => {
                 onKeyDown={handleKeyDown}
                 type="text"
                 className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-full p-1 sm:p-2 px-3 outline-none transition-all duration-300 text-sm sm:text-base ${
-                  searchBar && searches && searches.length > 0 ? "rounded-t-md rounded-b-none" : "rounded-md"
+                  searchBar && searches && searches.length > 0
+                    ? "rounded-t-full rounded-b-none"
+                    : "rounded-full"
                 }`}
                 placeholder="Search..."
               />
@@ -129,12 +140,12 @@ const TopNav = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Search results dropdown - positioned directly below the search input */}
           {searches && searches.length > 0 && (
             <div
               ref={searchContainerRef}
-              className="absolute w-full max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-b-lg overflow-y-auto overflow-x-hidden bg-zinc-600 z-[999] shadow-lg border-t border-zinc-700"
+              className="absolute w-full max-h-[40vh] sm:max-h-[50vh] md:max-h-[55vh] rounded-b-full overflow-y-auto overflow-x-hidden bg-zinc-600 z-[999] shadow-lg border-t border-zinc-700"
             >
               {searches.map((s, i) => {
                 const type = s.media_type;
@@ -156,7 +167,11 @@ const TopNav = () => {
                       selectedIndex === i
                         ? "bg-zinc-500 text-white"
                         : "bg-zinc-700 text-zinc-300"
-                    } font-semibold border-b-[1px] border-zinc-500 duration-300 transform transition-all hover:bg-zinc-500 hover:text-white`}
+                    } ${
+                      i === searches.length - 1
+                        ? "rounded-b-full border-b-0"
+                        : "border-b-[1px] border-zinc-500"
+                    } font-semibold duration-300 transform transition-all hover:bg-zinc-500 hover:text-white`}
                   >
                     <img
                       className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-cover rounded shadow-md transition-transform duration-300 ease-in-out hover:scale-110"
@@ -175,9 +190,11 @@ const TopNav = () => {
                               s.file_path ||
                               s.logo_path
                             }`
-                          : noImageSvg
+                          : "/noImage.jpeg"
                       }
-                      alt={s.title || s.original_title || s.name || s.original_name}
+                      alt={
+                        s.title || s.original_title || s.name || s.original_name
+                      }
                       loading="lazy"
                     />
                     <h3 className="ml-2 sm:ml-3 text-xs sm:text-sm md:text-base truncate">
