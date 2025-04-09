@@ -18,7 +18,7 @@ const Cards = ({ data, category, hideDetails }) => {
   return (
     <Link
       to={getPath()}
-      className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full sm:w-[180px] md:w-[200px] lg:w-[220px] xl:w-[240px] h-[300px] sm:h-[320px] md:h-[350px] lg:h-[370px] group"
+      className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full h-[300px] sm:h-[320px] md:h-[350px] lg:h-[370px] group"
     >
       <img
         src={
@@ -29,7 +29,7 @@ const Cards = ({ data, category, hideDetails }) => {
             : noImage
         }
         alt={data.title || data.name || "Trending Item"}
-        className="w-full h-full object-cover brightness-90 group-hover:brightness-120 transition-all duration-300"
+        className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-500"
       />
 
       <div className="absolute inset-0 bg-gradient-to-t select-none from-black via-black/40 to-transparent p-2 sm:p-3 flex flex-col justify-end opacity-100 group-hover:opacity-100 transition-opacity duration-300">
