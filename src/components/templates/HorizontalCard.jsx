@@ -86,6 +86,7 @@ const HorizontalCard = ({ trending }) => {
                     item.original_name
                   }
                   className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
+                  loading="lazy"
                 />
                 <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-2 sm:p-3 md:p-4">
                   <h2 className="text-xs sm:text-sm md:text-base font-semibold text-white truncate">

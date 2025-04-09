@@ -95,26 +95,32 @@ const TopNav = () => {
         >
           <i className="ri-menu-line text-xl"></i>
         </button>
-        <i className="ri-search-line text-zinc-300 text-xl sm:text-2xl"></i>
       </div>
-      <div className="flex items-center flex-1 justify-center">
-        <input
-          ref={searchInputRef}
-          value={searchBar}
-          onChange={(e) => setSearchBar(e.target.value)}
-          onKeyDown={handleKeyDown}
-          type="text"
-          className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px] ml-2 sm:ml-5 mr-1 p-1 sm:p-2 px-3 sm:px-5 outline-none transition-all duration-300 text-sm sm:text-base ${
-            searchBar ? "rounded-r-md rounded-l-full" : "rounded-full"
-          }`}
-          placeholder="Search..."
-        />
-        <i
-          onClick={() => setSearchBar("")}
-          className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 cursor-pointer transition-all duration-300 ${
-            searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}
-        ></i>
+      <div className="flex items-center flex-1 justify-center relative">
+        <div className="relative flex items-center w-[70%] sm:w-[60%] md:w-[50%] max-w-[500px]">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400">
+            <i className="ri-search-line text-lg sm:text-xl"></i>
+          </div>
+          <input
+            ref={searchInputRef}
+            value={searchBar}
+            onChange={(e) => setSearchBar(e.target.value)}
+            onKeyDown={handleKeyDown}
+            type="text"
+            className={`border-[1px] border-zinc-600 bg-[#1F1E24] w-full p-1 sm:p-2 pl-9 pr-8 outline-none transition-all duration-300 text-sm sm:text-base ${
+              searchBar ? "rounded-md" : "rounded-full"
+            }`}
+            placeholder="Search..."
+          />
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+            <i
+              onClick={() => setSearchBar("")}
+              className={`ri-close-line text-lg sm:text-xl px-1 py-1 rounded-full hover:bg-zinc-700 text-zinc-200 cursor-pointer transition-all duration-300 ${
+                searchBar ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
+            ></i>
+          </div>
+        </div>
       </div>
 
       {/* Placeholder div for balance */}

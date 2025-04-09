@@ -120,6 +120,7 @@ const PeopleDetails = () => {
                       item.original_name
                     }
                     className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-300"
+                    loading="lazy"
                   />
                   <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4">
                     <h2 className="text-sm md:text-base font-semibold text-white truncate">
@@ -176,7 +177,7 @@ const PeopleDetails = () => {
               className="w-full max-w-[200px] sm:max-w-xs md:max-w-sm rounded-lg shadow-lg select-none object-cover"
               src={
                 info.details.profile_path || info.details.poster_path
-                  ? `https://image.tmdb.org/t/p/original/${
+                  ? `https://image.tmdb.org/t/p/w500/${
                       info.details.profile_path || info.details.poster_path
                     }`
                   : noImage
@@ -184,6 +185,7 @@ const PeopleDetails = () => {
               alt={info.details.name}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
+              loading="lazy"
             />
             <hr className="mt-7 mb-5 border-none h-[2px] bg-zinc-500 w-full" />
 
