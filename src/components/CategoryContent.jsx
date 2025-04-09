@@ -130,7 +130,7 @@ const CategoryContent = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row">
+    <div className="w-full h-full flex flex-col md:flex-row pt-[12vh] md:pt-0">
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
@@ -144,11 +144,11 @@ const CategoryContent = () => {
             <div className="flex flex-col space-y-2">
               <button
                 onClick={() => navigate(-1)}
-                className="text-zinc-400 hover:text-white transition-colors w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full fixed top-20 left-6 z-[100] shadow-md"
+                className="text-zinc-400 hover:text-white transition-colors w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full shadow-md"
               >
                 <i className="ri-arrow-left-line text-xl"></i>
               </button>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0 mt-10 sm:mt-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-0">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h1>
             </div>

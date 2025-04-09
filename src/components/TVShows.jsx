@@ -83,12 +83,12 @@ const TVShows = () => {
   };
 
   return (
-    <div className="py-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
+    <div className="pt-[12vh] pb-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
       <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
-        <h1 className="font-bold text-zinc-200 text-2xl flex items-center gap-3 pb-2 mt-10 md:mt-0">
+        <h1 className="font-bold text-zinc-200 text-2xl flex items-center gap-3 pb-2">
           <button
             onClick={() => navigate(-1)}
-            className="text-zinc-400 hover:text-blue-300 hover:shadow-[0_0_10px_#1E90FF] transition-all duration-300 w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full fixed top-20 left-6 z-[100] shadow-md"
+            className="text-zinc-400 hover:text-blue-300 hover:shadow-[0_0_10px_#1E90FF] transition-all duration-300 w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full shadow-md"
           >
             <i className="ri-arrow-left-line text-xl"></i>
           </button>
