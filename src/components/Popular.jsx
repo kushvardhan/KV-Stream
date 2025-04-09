@@ -86,10 +86,12 @@ const Popular = () => {
     <div className="py-4 w-screen min-h-screen bg-[#25262B] flex flex-col overflow-x-hidden">
       <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
         <h1 className="font-bold text-zinc-400 text-2xl flex items-center gap-3 pb-2 mt-10 md:mt-0">
-          <i
+          <button
             onClick={() => navigate(-1)}
-            className="hover:text-orange-500 hover:shadow-[0_0_10px_#FF7F50] transition-all duration-300 text-2xl cursor-pointer ri-arrow-left-line bg-[#2c2c2c] p-2 rounded-md mr-2 fixed top-16 left-4 z-[100] md:static md:top-auto md:left-auto md:z-auto"
-          ></i>
+            className="text-zinc-400 hover:text-orange-500 hover:shadow-[0_0_10px_#FF7F50] transition-all duration-300 w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full fixed top-20 left-6 z-[100] shadow-md"
+          >
+            <i className="ri-arrow-left-line text-xl"></i>
+          </button>
           Popular{" "}
           <small className="text-sm select-none text-zinc-600">
             ({category})

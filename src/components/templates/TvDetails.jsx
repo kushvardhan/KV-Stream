@@ -78,8 +78,10 @@ const TvDetails = () => {
       >
         <button
           onClick={() => navigate(-1)}
-          className="ri-arrow-left-line text-3xl cursor-pointer transition-all hover:text-indigo-400 bg-[#2c2c2c] p-2 rounded-md"
-        ></button>
+          className="text-zinc-400 hover:text-indigo-400 transition-all duration-300 w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full shadow-md"
+        >
+          <i className="ri-arrow-left-line text-xl"></i>
+        </button>
 
         <div className="flex items-center gap-4">
           {info.externalid?.wikidata_id && (
