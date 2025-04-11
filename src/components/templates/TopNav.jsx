@@ -86,7 +86,7 @@ const TopNav = () => {
   };
 
   return (
-    <div className="w-full h-[10vh] px-4 sm:px-16 py-3 sm:py-4 flex items-center justify-between md:justify-center z-[95] fixed md:static top-0 left-0 bg-[#1F1E24] md:bg-transparent shadow-md md:shadow-none">
+    <div className="w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[95] fixed top-0 left-0 bg-[#1F1E24]/90 backdrop-blur-sm hover:bg-[#1F1E24] transition-colors duration-300 shadow-md">
       <div className="flex items-center w-full">
         {/* Hamburger menu for mobile - only shown on small screens and on home page */}
         {isHomePage && (
@@ -126,7 +126,7 @@ const TopNav = () => {
         {/* Search container */}
         <div
           ref={searchContainerRef}
-          className="relative w-full md:w-[85%] lg:w-[90%] max-w-5xl mx-auto"
+          className="relative w-full md:w-[55%] lg:w-[50%] max-w-3xl mx-auto"
         >
           <div className="relative group">
             <input
@@ -135,8 +135,8 @@ const TopNav = () => {
               onKeyDown={handleKeyDown}
               onChange={(e) => setSearchBar(e.target.value)}
               type="text"
-              placeholder="Search Movies, TV Shows, People..."
-              className="w-full py-3 pl-12 pr-4 text-white bg-[#2c2c2c] border border-zinc-700 rounded-full focus:outline-none focus:ring-2 focus:ring-[#6556CD] shadow-lg hover:shadow-[#6556CD]/30 hover:border-[#6556CD]/50 transition-all duration-300 text-base"
+              placeholder="Search for Movies, TV Shows or People..."
+              className="w-full py-3 pl-12 pr-4 text-white bg-[#2c2c2c]/80 rounded-full focus:outline-none focus:ring-0 shadow-lg hover:shadow-[#6556CD]/30 hover:bg-[#2c2c2c] transition-all duration-300 text-base"
             />
             <i className="ri-search-line absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400 group-hover:text-[#6556CD] text-xl transition-colors duration-300"></i>
             {searchBar && (
@@ -155,7 +155,7 @@ const TopNav = () => {
 
           {/* Search results */}
           {searches && searches.length > 0 && (
-            <div className="absolute mt-2 w-full bg-[#2c2c2c] rounded-md shadow-lg z-50 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c]">
+            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-50 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30">
               <div className="p-2">
                 <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
                   Search Results
@@ -244,7 +244,7 @@ const TopNav = () => {
 
           {/* No results */}
           {searches && searches.length === 0 && (
-            <div className="absolute mt-2 w-full bg-[#2c2c2c] rounded-md shadow-lg z-50">
+            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-50 border border-zinc-700/30">
               <div className="p-4 text-center">
                 <p className="text-zinc-400">No results found</p>
               </div>

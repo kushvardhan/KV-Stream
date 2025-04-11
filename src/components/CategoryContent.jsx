@@ -276,7 +276,7 @@ const CategoryContent = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row pt-[12vh] md:pt-0">
+    <div className="w-full h-full flex flex-col md:flex-row pt-[14vh] md:pt-0">
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
