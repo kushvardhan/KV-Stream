@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../utils/axios";
+import ScrollToTopButton from "./ScrollToTopButton";
 import Cards from "./templates/Cards";
 import CategoryShimmer from "./templates/CategoryShimmer";
 import DropDown from "./templates/DropDown";
@@ -10,13 +11,13 @@ import TopNav from "./templates/TopNav";
 const CategoryContent = () => {
   const { category } = useParams();
   const navigate = useNavigate();
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("popularity.desc");
-  const [mediaType, setMediaType] = useState("movie"); // Default to movie
+  const [mediaType, setMediaType] = useState("movie");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Set document title based on category
   useEffect(() => {
@@ -41,32 +42,56 @@ const CategoryContent = () => {
         case "action":
           endpoint = `/discover/${mediaType}?with_genres=28&sort_by=${sortBy}&page=${page}`;
           break;
-        case "comedy":
-          endpoint = `/discover/${mediaType}?with_genres=35&sort_by=${sortBy}&page=${page}`;
-          break;
-        case "drama":
-          endpoint = `/discover/${mediaType}?with_genres=18&sort_by=${sortBy}&page=${page}`;
-          break;
-        case "sci-fi":
-          endpoint = `/discover/${mediaType}?with_genres=878&sort_by=${sortBy}&page=${page}`;
-          break;
-        case "horror":
-          endpoint = `/discover/${mediaType}?with_genres=27&sort_by=${sortBy}&page=${page}`;
-          break;
-        case "romance":
-          endpoint = `/discover/${mediaType}?with_genres=10749&sort_by=${sortBy}&page=${page}`;
-          break;
-        case "documentary":
-          endpoint = `/discover/${mediaType}?with_genres=99&sort_by=${sortBy}&page=${page}`;
+        case "adventure":
+          endpoint = `/discover/${mediaType}?with_genres=12&sort_by=${sortBy}&page=${page}`;
           break;
         case "animation":
           endpoint = `/discover/${mediaType}?with_genres=16&sort_by=${sortBy}&page=${page}`;
           break;
-        case "thriller":
-          endpoint = `/discover/${mediaType}?with_genres=53&sort_by=${sortBy}&page=${page}`;
+        case "comedy":
+          endpoint = `/discover/${mediaType}?with_genres=35&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "crime":
+          endpoint = `/discover/${mediaType}?with_genres=80&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "documentary":
+          endpoint = `/discover/${mediaType}?with_genres=99&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "drama":
+          endpoint = `/discover/${mediaType}?with_genres=18&sort_by=${sortBy}&page=${page}`;
           break;
         case "family":
           endpoint = `/discover/${mediaType}?with_genres=10751&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "fantasy":
+          endpoint = `/discover/${mediaType}?with_genres=14&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "history":
+          endpoint = `/discover/${mediaType}?with_genres=36&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "horror":
+          endpoint = `/discover/${mediaType}?with_genres=27&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "music":
+          endpoint = `/discover/${mediaType}?with_genres=10402&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "mystery":
+          endpoint = `/discover/${mediaType}?with_genres=9648&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "romance":
+          endpoint = `/discover/${mediaType}?with_genres=10749&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "sci-fi":
+          endpoint = `/discover/${mediaType}?with_genres=878&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "thriller":
+          endpoint = `/discover/${mediaType}?with_genres=53&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "war":
+          endpoint = `/discover/${mediaType}?with_genres=10752&sort_by=${sortBy}&page=${page}`;
+          break;
+        case "western":
+          endpoint = `/discover/${mediaType}?with_genres=37&sort_by=${sortBy}&page=${page}`;
           break;
         default:
           navigate("/notfound");
@@ -74,7 +99,24 @@ const CategoryContent = () => {
       }
 
       const { data } = await axios.get(endpoint);
-      setContent(data.results);
+
+      // Only update content if we have results or if this is a new category/sort/media type
+      if (data.results && data.results.length > 0) {
+        // If page is 1, replace content, otherwise append
+        if (page === 1) {
+          setContent(data.results);
+        } else {
+          setContent((prevContent) => {
+            // Add new results without duplicates
+            const existingIds = new Set(prevContent.map((item) => item.id));
+            const uniqueNewResults = data.results.filter(
+              (item) => !existingIds.has(item.id)
+            );
+            return [...prevContent, ...uniqueNewResults];
+          });
+        }
+      }
+
       setTotalPages(data.total_pages > 500 ? 500 : data.total_pages);
     } catch (err) {
       console.error(err);
@@ -135,10 +177,16 @@ const CategoryContent = () => {
   // Separate effect for scroll-to-top button
   useEffect(() => {
     const handleScrollForButton = () => {
-      // Show/hide scroll to top button - show after scrolling down 3+ screen pages
+      // Show/hide scroll to top button - show after scrolling down 1+ screen page
       const windowHeight = window.innerHeight;
-      const scrollThreshold = windowHeight * 3; // 3 screen heights
+      const scrollThreshold = windowHeight * 1; // Just 1 screen height for better visibility
       const shouldShow = window.scrollY > scrollThreshold;
+
+      // Force show the button if we have more than 1 page of content
+      if (content.length > 20 || page > 1) {
+        setShowTopButton(true);
+        return;
+      }
 
       // Only log in development
       if (process.env.NODE_ENV !== "production") {
@@ -164,57 +212,68 @@ const CategoryContent = () => {
     return () => {
       window.removeEventListener("scroll", handleScrollForButton);
     };
-  }, []);
+  }, [content.length, page]);
 
   // Effect for infinite scrolling
   useEffect(() => {
     let timeout;
+    let isLoadingMore = false;
+
     const handleScroll = () => {
+      // Don't do anything if already loading or at the last page
+      if (isLoadingMore || loading || page >= totalPages) return;
+
       // Infinite scroll functionality
       const scrollPosition = window.innerHeight + window.scrollY;
       const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
 
       if (scrollPosition >= scrollThreshold) {
         if (!loading && page < totalPages) {
+          isLoadingMore = true;
           clearTimeout(timeout);
+
           timeout = setTimeout(() => {
-            console.log("Loading more category content...", {
-              scrollPosition,
-              scrollThreshold,
-              category,
-              page,
-              totalPages,
-            });
+            if (process.env.NODE_ENV !== "production") {
+              console.log("Loading more category content...", {
+                scrollPosition,
+                scrollThreshold,
+                category,
+                page,
+                totalPages,
+              });
+            }
+
             setPage((prevPage) => prevPage + 1);
-          }, 200);
+            isLoadingMore = false;
+          }, 500); // Increased debounce time to prevent multiple triggers
         }
       }
     };
 
     // Add scroll event listener
-    console.log("Adding scroll event listener for category content");
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Adding scroll event listener for category content");
+    }
     window.addEventListener("scroll", handleScroll);
 
     // Initial check in case the page is not tall enough
     setTimeout(() => {
-      handleScroll();
-    }, 500);
+      if (content.length < 10 && !loading && page < totalPages) {
+        handleScroll();
+      }
+    }, 1000);
 
     return () => {
       clearTimeout(timeout);
       window.removeEventListener("scroll", handleScroll);
-      console.log("Removed scroll event listener for category content");
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Removed scroll event listener for category content");
+      }
     };
-  }, [loading, page, totalPages, category]);
+  }, [loading, page, totalPages, category, content.length]);
 
-  // Debug log for page changes
-  useEffect(() => {
-    console.log(`Category ${category} page changed to ${page}`);
-  }, [page, category]);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // This function is no longer needed as we're using the ScrollToTopButton component
+  // which has its own scrollToTop function
 
   return (
     <div className="w-full h-full flex flex-col md:flex-row pt-[12vh] md:pt-0">
@@ -254,19 +313,38 @@ const CategoryContent = () => {
             </div>
           </div>
 
-          {loading ? (
+          {loading && content.length === 0 ? (
             <CategoryShimmer />
           ) : (
             <>
-              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
-                {content?.map((item, index) => (
-                  <Cards key={index} data={item} category={mediaType} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+                {content.map((item) => (
+                  <Cards
+                    key={item.id}
+                    data={item}
+                    title={mediaType}
+                    category={category}
+                  />
                 ))}
               </div>
 
-              {/* Pagination */}
+              {loading && (
+                <div className="text-center py-8 text-[#6556CD]">
+                  <i className="ri-loader-4-line animate-spin text-2xl"></i>
+                  <p className="mt-2">Loading more content...</p>
+                </div>
+              )}
+
+              {!loading && content.length === 0 && (
+                <div className="text-center py-8 text-zinc-400">
+                  <i className="ri-emotion-sad-line text-4xl"></i>
+                  <p className="mt-2">No content found for this category</p>
+                </div>
+              )}
+
+              {/* Pagination controls - only show if we have more than 1 page */}
               {totalPages > 1 && (
-                <div className="flex justify-center items-center mt-8 gap-4">
+                <div className="flex justify-center items-center gap-4 mt-8">
                   <button
                     onClick={handlePrevPage}
                     disabled={page === 1}
@@ -295,22 +373,8 @@ const CategoryContent = () => {
                 </div>
               )}
 
-              {/* Scroll to top button */}
-              {showTopButton && (
-                <button
-                  onClick={scrollToTop}
-                  className="fixed bottom-8 right-8 bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 rounded-full shadow-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 z-50 group hover:scale-110"
-                  aria-label="Scroll to top"
-                >
-                  <div className="relative flex items-center justify-center">
-                    <span className="absolute inset-0 rounded-full bg-white/20 animate-ping-slow opacity-75"></span>
-                    <i className="ri-arrow-up-line text-xl group-hover:animate-bounce"></i>
-                    <span className="absolute -top-12 right-0 bg-black/80 text-white text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg transform group-hover:-translate-y-1">
-                      Back to top
-                    </span>
-                  </div>
-                </button>
-              )}
+              {/* Use the new ScrollToTopButton component */}
+              <ScrollToTopButton show={showTopButton} color="primary" />
             </>
           )}
         </div>

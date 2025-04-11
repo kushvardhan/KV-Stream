@@ -1,17 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Cards = ({ data, category, hideDetails }) => {
-  const mediaType = data.media_type || category;
+const Cards = ({ data, category, title }) => {
+  // Determine the media type with proper fallbacks
+  const mediaType = data.media_type || title || category || "movie";
 
   const shortOverview = data.overview
     ? data.overview.split(" ").slice(0, 18).join(" ") + "..."
     : "No description available.";
 
   const getPath = () => {
-    if (mediaType === "movie") return `/movies/details/${data.id}`;
-    if (mediaType === "tv") return `/tv-shows/details/${data.id}`;
-    return `/people/details/${data.id}`;
+    // Handle different media type formats
+    if (mediaType === "movie" || mediaType === "movies") {
+      return `/movies/details/${data.id}`;
+    } else if (mediaType === "tv" || mediaType === "tv-shows") {
+      return `/tv-shows/details/${data.id}`;
+    } else if (mediaType === "person" || mediaType === "people") {
+      return `/people/details/${data.id}`;
+    } else {
+      // Default fallback
+      return `/movies/details/${data.id}`;
+    }
   };
 
   return (
@@ -31,12 +40,23 @@ const Cards = ({ data, category, hideDetails }) => {
           loading="lazy"
         />
       ) : (
-        <div className="w-full h-full bg-[#1F1E24] flex items-center justify-center">
-          <img
-            src="/noImage.jpeg"
-            alt="No image available"
-            className="w-full h-full object-contain p-4"
-          />
+        <div className="w-full h-full bg-gradient-to-br from-[#1F1E24] to-[#2c2c2c] flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center text-white p-4">
+            <i
+              className={`${
+                mediaType === "movie" || mediaType === "movies"
+                  ? "ri-movie-2-fill text-red-400"
+                  : mediaType === "tv" || mediaType === "tv-shows"
+                  ? "ri-tv-2-fill text-blue-400"
+                  : mediaType === "person" || mediaType === "people"
+                  ? "ri-user-fill text-green-400"
+                  : "ri-film-fill text-purple-400"
+              } text-5xl mb-4 animate-ping-slow`}
+            ></i>
+            <p className="text-sm text-center text-gray-300">
+              No Image Available
+            </p>
+          </div>
         </div>
       )}
 
@@ -48,22 +68,28 @@ const Cards = ({ data, category, hideDetails }) => {
           {shortOverview}
         </p>
 
-        {!hideDetails && (
-          <div className="flex items-center select-none space-x-1 mt-1">
-            <i
-              className={`${
-                mediaType === "movie"
-                  ? "ri-movie-2-fill text-red-400"
-                  : mediaType === "tv"
-                  ? "ri-tv-fill text-blue-400"
-                  : "ri-user-fill text-green-400"
-              } text-xs sm:text-sm`}
-            ></i>
-            <p className="text-xs text-gray-400 uppercase font-bold tracking-wide">
-              {mediaType}
-            </p>
-          </div>
-        )}
+        <div className="flex items-center select-none space-x-1 mt-1">
+          <i
+            className={`${
+              mediaType === "movie" || mediaType === "movies"
+                ? "ri-movie-2-fill text-red-400"
+                : mediaType === "tv" || mediaType === "tv-shows"
+                ? "ri-tv-2-fill text-blue-400"
+                : mediaType === "person" || mediaType === "people"
+                ? "ri-user-fill text-green-400"
+                : "ri-film-fill text-purple-400"
+            } text-xs sm:text-sm`}
+          ></i>
+          <p className="text-xs text-gray-400 uppercase font-bold tracking-wide">
+            {mediaType === "movies"
+              ? "movie"
+              : mediaType === "tv-shows"
+              ? "tv"
+              : mediaType === "people"
+              ? "person"
+              : mediaType}
+          </p>
+        </div>
       </div>
     </Link>
   );

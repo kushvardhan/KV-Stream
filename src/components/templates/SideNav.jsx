@@ -81,12 +81,16 @@ const SideNav = ({ onToggle }) => {
     }
 
     // Add event listener for toggle-sidebar event
-    console.log("Adding toggle-sidebar event listener");
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Adding toggle-sidebar event listener");
+    }
     window.addEventListener("toggle-sidebar", handleToggleSidebar);
 
     // Cleanup function
     return () => {
-      console.log("Removing toggle-sidebar event listener");
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Removing toggle-sidebar event listener");
+      }
       window.removeEventListener("toggle-sidebar", handleToggleSidebar);
     };
   }, []); // Empty dependency array to ensure it only runs once

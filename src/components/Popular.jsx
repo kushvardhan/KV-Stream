@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
+import ScrollToTopButton from "./ScrollToTopButton";
 import Cards from "./templates/Cards";
 import DropDown from "./templates/DropDown";
 import Shimmer from "./templates/Shimmer";
@@ -26,12 +27,21 @@ const Popular = () => {
         const { data } = await axios.get(`/${category}/popular?page=${page}`);
         const results = data.results || [];
 
-        setPopular((prev) => {
-          const newData = reset ? results : [...prev, ...results];
-          return Array.from(
-            new Map(newData.map((item) => [item.id, item])).values()
-          );
-        });
+        // Only update if we're resetting or adding new popular items
+        if (reset || results.length > 0) {
+          setPopular((prev) => {
+            // If resetting, just use the new results
+            if (reset) return results;
+
+            // Otherwise, add new results to existing ones without duplicates
+            const existingIds = new Set(prev.map((item) => item.id));
+            const uniqueNewResults = results.filter(
+              (item) => !existingIds.has(item.id)
+            );
+
+            return [...prev, ...uniqueNewResults];
+          });
+        }
 
         if (results.length === 0) setHasMore(false);
       } catch (err) {
@@ -40,7 +50,7 @@ const Popular = () => {
         setLoading(false);
       }
     },
-    [page, category]
+    [page, category, loading, hasMore]
   );
 
   useEffect(() => {
@@ -56,31 +66,103 @@ const Popular = () => {
     }
   }, [page, getPopular]);
 
+  // Separate effect for scroll-to-top button
   useEffect(() => {
-    let timeout;
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 500
-      ) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          setPage((prevPage) => prevPage + 1);
-        }, 500);
+    const handleScrollForButton = () => {
+      // Show/hide scroll to top button - show after scrolling down 1+ screen page
+      const windowHeight = window.innerHeight;
+      const scrollThreshold = windowHeight * 1; // Just 1 screen height for better visibility
+      const shouldShow = window.scrollY > scrollThreshold;
+
+      // Force show the button if we have more than 1 page of content
+      if (popular.length > 20) {
+        setShowTopButton(true);
+        return;
       }
-      setShowTopButton(window.scrollY > 300);
+
+      // Only log in development
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          "Popular - Scroll position for button:",
+          window.scrollY,
+          "Threshold:",
+          scrollThreshold,
+          "Should show:",
+          shouldShow
+        );
+      }
+
+      setShowTopButton(shouldShow);
     };
 
+    // Add scroll event listener for the button
+    window.addEventListener("scroll", handleScrollForButton);
+
+    // Initial check
+    handleScrollForButton();
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollForButton);
+    };
+  }, [popular.length]);
+
+  // Effect for infinite scrolling
+  useEffect(() => {
+    let timeout;
+    let isLoadingMore = false;
+
+    const handleScroll = () => {
+      // Don't do anything if already loading or no more content
+      if (isLoadingMore || loading || !hasMore) return;
+
+      // Infinite scroll functionality
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+
+      if (scrollPosition >= scrollThreshold) {
+        isLoadingMore = true;
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+          if (process.env.NODE_ENV !== "production") {
+            console.log("Loading more popular content...", {
+              scrollPosition,
+              scrollThreshold,
+              category,
+              page,
+            });
+          }
+
+          setPage((prevPage) => prevPage + 1);
+          isLoadingMore = false;
+        }, 500); // Increased debounce time to prevent multiple triggers
+      }
+    };
+
+    // Add scroll event listener
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Adding scroll event listener");
+    }
     window.addEventListener("scroll", handleScroll);
+
+    // Initial check in case the page is not tall enough
+    setTimeout(() => {
+      if (popular.length < 10 && !loading && hasMore) {
+        handleScroll();
+      }
+    }, 1000);
+
     return () => {
       clearTimeout(timeout);
       window.removeEventListener("scroll", handleScroll);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Removed scroll event listener");
+      }
     };
-  }, []);
+  }, [loading, hasMore, category, page, popular.length]);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // This function is no longer needed as we're using the ScrollToTopButton component
+  // which has its own scrollToTop function
 
   return (
     <div className="pt-[12vh] pb-4 w-screen min-h-screen bg-[#25262B] flex flex-col overflow-x-hidden">
@@ -120,7 +202,7 @@ const Popular = () => {
               key={item.id}
               data={item}
               category={category}
-              hideDetails={true}
+              title={category}
             />
           ))
         )}
@@ -133,14 +215,8 @@ const Popular = () => {
         </div>
       )}
 
-      {showTopButton && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-orange-500/50 text-white p-4 rounded-full shadow-lg hover:bg-orange-600 transition"
-        >
-          <i className="ri-arrow-up-s-line text-xl"></i>
-        </button>
-      )}
+      {/* Use the new ScrollToTopButton component */}
+      <ScrollToTopButton show={showTopButton} color="orange" />
     </div>
   );
 };

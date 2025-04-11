@@ -61,12 +61,29 @@ const HorizontalCard = ({ trending }) => {
         className="flex overflow-hidden overflow-x-scroll space-x-2 sm:space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth"
       >
         {trending?.map((item, index) => {
-          const isMovie = item.media_type === "movie";
-          const detailsPath = isMovie
-            ? `/movies/details/${item.id}`
-            : `/tv-shows/details/${item.id}`;
-          const iconType = isMovie ? "ri-movie-2-fill" : "ri-tv-fill";
-          const iconColor = isMovie ? "text-red-400" : "text-blue-400";
+          const mediaType = item.media_type || "";
+          let detailsPath;
+          let iconType;
+          let iconColor;
+
+          if (mediaType === "movie") {
+            detailsPath = `/movies/details/${item.id}`;
+            iconType = "ri-movie-2-fill";
+            iconColor = "text-red-400";
+          } else if (mediaType === "tv") {
+            detailsPath = `/tv-shows/details/${item.id}`;
+            iconType = "ri-tv-2-fill";
+            iconColor = "text-blue-400";
+          } else if (mediaType === "person") {
+            detailsPath = `/people/details/${item.id}`;
+            iconType = "ri-user-fill";
+            iconColor = "text-green-400";
+          } else {
+            // Default fallback
+            detailsPath = `/movies/details/${item.id}`;
+            iconType = "ri-film-fill";
+            iconColor = "text-purple-400";
+          }
 
           return (
             <Link key={index} to={detailsPath} className="group">

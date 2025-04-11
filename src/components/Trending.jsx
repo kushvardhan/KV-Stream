@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
+import ScrollToTopButton from "./ScrollToTopButton";
 import Cards from "./templates/Cards";
 import DropDown from "./templates/DropDown";
 import Shimmer from "./templates/Shimmer";
@@ -31,9 +32,21 @@ const Trending = () => {
         if (data.results.length === 0 || page > data.total_pages) {
           setHasMore(false);
         } else {
-          setTrending((prev) =>
-            reset ? data.results : [...prev, ...data.results]
-          );
+          // Only update if we're resetting or adding new trending items
+          if (reset || data.results.length > 0) {
+            setTrending((prev) => {
+              // If resetting, just use the new results
+              if (reset) return data.results;
+
+              // Otherwise, add new results to existing ones without duplicates
+              const existingIds = new Set(prev.map((item) => item.id));
+              const uniqueNewResults = data.results.filter(
+                (item) => !existingIds.has(item.id)
+              );
+
+              return [...prev, ...uniqueNewResults];
+            });
+          }
         }
       } catch (err) {
         setHasMore(false);
@@ -51,27 +64,107 @@ const Trending = () => {
     getTrending(true);
   }, [category, duration]);
 
+  // Separate effect for scroll-to-top button
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 500
-      ) {
-        setPage((prevPage) => prevPage + 1);
+    const handleScrollForButton = () => {
+      // Show/hide scroll to top button - show after scrolling down 1+ screen page
+      const windowHeight = window.innerHeight;
+      const scrollThreshold = windowHeight * 1; // Just 1 screen height for better visibility
+      const shouldShow = window.scrollY > scrollThreshold;
+
+      // Force show the button if we have more than 1 page of content
+      if (trending.length > 20) {
+        setShowTopButton(true);
+        return;
       }
-      setShowTopButton(window.scrollY > 300);
+
+      // Only log in development
+      if (process.env.NODE_ENV !== "production") {
+        console.log(
+          "Trending - Scroll position for button:",
+          window.scrollY,
+          "Threshold:",
+          scrollThreshold,
+          "Should show:",
+          shouldShow
+        );
+      }
+
+      setShowTopButton(shouldShow);
     };
+
+    // Add scroll event listener for the button
+    window.addEventListener("scroll", handleScrollForButton);
+
+    // Initial check
+    handleScrollForButton();
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollForButton);
+    };
+  }, [trending.length]);
+
+  // Effect for infinite scrolling
+  useEffect(() => {
+    let timeout;
+    let isLoadingMore = false;
+
+    const handleScroll = () => {
+      // Don't do anything if already loading or no more content
+      if (isLoadingMore || loading || !hasMore) return;
+
+      // Infinite scroll functionality
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+
+      if (scrollPosition >= scrollThreshold) {
+        isLoadingMore = true;
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+          if (process.env.NODE_ENV !== "production") {
+            console.log("Loading more trending content...", {
+              scrollPosition,
+              scrollThreshold,
+              category,
+              page,
+            });
+          }
+
+          setPage((prevPage) => prevPage + 1);
+          isLoadingMore = false;
+        }, 500); // Increased debounce time to prevent multiple triggers
+      }
+    };
+
+    // Add scroll event listener
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Adding scroll event listener");
+    }
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    // Initial check in case the page is not tall enough
+    setTimeout(() => {
+      if (trending.length < 10 && !loading && hasMore) {
+        handleScroll();
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("scroll", handleScroll);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Removed scroll event listener");
+      }
+    };
+  }, [loading, hasMore, category, page, trending.length]);
 
   useEffect(() => {
     if (page > 1) getTrending();
-  }, [page]);
+  }, [page, getTrending]);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // This function is no longer needed as we're using the ScrollToTopButton component
+  // which has its own scrollToTop function
 
   return (
     <div className="pt-[12vh] pb-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
@@ -107,17 +200,13 @@ const Trending = () => {
         />
       </div>
 
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-900 scrollbar-track-[#1F1E24]">
+      <div className="flex flex-wrap justify-center gap-6 px-4 sm:px-6">
         {trending.length === 0 && loading ? (
           <Shimmer />
         ) : (
-          <div className="flex flex-wrap justify-center gap-6 px-4 sm:px-6">
-            {[...new Map(trending.map((item) => [item.id, item])).values()].map(
-              (item) => (
-                <Cards key={item.id} data={item} title={category} />
-              )
-            )}
-          </div>
+          trending.map((item) => (
+            <Cards key={item.id} data={item} title={category} />
+          ))
         )}
       </div>
 
@@ -128,14 +217,8 @@ const Trending = () => {
         </div>
       )}
 
-      {showTopButton && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-zinc-400/50 text-white p-4 rounded-full shadow-lg hover:bg-[#6556CD]/60 transition"
-        >
-          <i className="ri-arrow-up-s-line text-xl"></i>
-        </button>
-      )}
+      {/* Use the new ScrollToTopButton component */}
+      <ScrollToTopButton show={showTopButton} color="primary" />
     </div>
   );
 };
