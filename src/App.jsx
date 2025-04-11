@@ -45,24 +45,20 @@ function App() {
           <Route path="/popular" element={<Popular />} />
           <Route path="/movies" element={<Movie />} />
           <Route path="/category/:category" element={<CategoryContent />} />
-
           <Route path="/movies/details/:id" element={<MovieDetails />}>
             <Route path="trailer" element={<Trailer />} />
           </Route>
-
           <Route path="/tv-shows" element={<TVShows />} />
           <Route path="/tv-shows/details/:id" element={<TvDetails />}>
             <Route path="trailer" element={<Trailer />} />
           </Route>
-
           <Route path="/peoples" element={<People />} />
           <Route path="/peoples/details/:id" element={<PeopleDetails />} />
-
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/features" element={<Features />} />
-
-          <Route path="/notfound" element={<NotFound />}></Route>
+          <Route path="/notfound" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </div>

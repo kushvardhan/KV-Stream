@@ -75,7 +75,7 @@ const HorizontalCard = ({ trending }) => {
             iconType = "ri-tv-2-fill";
             iconColor = "text-blue-400";
           } else if (mediaType === "person") {
-            detailsPath = `/people/details/${item.id}`;
+            detailsPath = `/peoples/details/${item.id}`;
             iconType = "ri-user-fill";
             iconColor = "text-green-400";
           } else {
@@ -90,9 +90,11 @@ const HorizontalCard = ({ trending }) => {
               <div className="relative w-[140px] min-w-[140px] sm:w-[160px] sm:min-w-[160px] md:w-[180px] md:min-w-[180px] h-[250px] sm:h-[280px] md:h-[320px] rounded-lg overflow-hidden bg-zinc-800 shadow-lg transition-transform duration-300 group-hover:scale-105">
                 <img
                   src={
-                    item.poster_path || item.backdrop_path
+                    item.poster_path || item.backdrop_path || item.profile_path
                       ? `https://image.tmdb.org/t/p/w500${
-                          item.poster_path || item.backdrop_path
+                          item.poster_path ||
+                          item.profile_path ||
+                          item.backdrop_path
                         }`
                       : noImage
                   }

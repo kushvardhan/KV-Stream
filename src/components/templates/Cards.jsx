@@ -16,7 +16,7 @@ const Cards = ({ data, category, title }) => {
     } else if (mediaType === "tv" || mediaType === "tv-shows") {
       return `/tv-shows/details/${data.id}`;
     } else if (mediaType === "person" || mediaType === "people") {
-      return `/people/details/${data.id}`;
+      return `/peoples/details/${data.id}`;
     } else {
       // Default fallback
       return `/movies/details/${data.id}`;
@@ -28,11 +28,13 @@ const Cards = ({ data, category, title }) => {
       to={getPath()}
       className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full h-[300px] sm:h-[320px] md:h-[350px] lg:h-[370px] group max-w-[300px] mx-auto"
     >
-      {data.poster_path || data.backdrop_path ? (
+      {data.poster_path || data.backdrop_path || data.profile_path ? (
         <img
           src={
             data.poster_path
               ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
+              : data.profile_path
+              ? `https://image.tmdb.org/t/p/w500${data.profile_path}`
               : `https://image.tmdb.org/t/p/w500${data.backdrop_path}`
           }
           alt={data.title || data.name || "Trending Item"}
