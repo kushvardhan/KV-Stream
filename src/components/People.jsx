@@ -21,26 +21,36 @@ const People = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.get(`/person/popular?page=${selectedPage}`);
+      // Limit to 15 items per page to reduce localStorage usage
+      const { data } = await axios.get(
+        `/person/popular?page=${selectedPage}&limit=15`
+      );
       const results = data.results || [];
+
+      // Take only the first 15 items to ensure we don't overload localStorage
+      const limitedResults = results.slice(0, 15);
+
       // Only update if we're resetting or adding new people
-      if (reset || results.length > 0) {
+      if (reset || limitedResults.length > 0) {
         setPeople((prev) => {
-          // If resetting, just use the new results
-          if (reset) return results;
+          // If resetting, just use the limited results
+          if (reset) return limitedResults;
 
           // Otherwise, add new results to existing ones without duplicates
           const existingIds = new Set(prev.map((item) => item.id));
-          const uniqueNewResults = results.filter(
+          const uniqueNewResults = limitedResults.filter(
             (item) => !existingIds.has(item.id)
           );
 
-          return [...prev, ...uniqueNewResults];
+          // Keep only the most recent items (limit total to 45 items - 3 pages)
+          const combinedResults = [...prev, ...uniqueNewResults];
+          return combinedResults.slice(-45);
         });
       }
 
-      if (results.length === 0) setHasMore(false);
+      if (limitedResults.length === 0) setHasMore(false);
     } catch (err) {
+      console.error("Error fetching people:", err);
       setHasMore(false);
     } finally {
       setLoading(false);
