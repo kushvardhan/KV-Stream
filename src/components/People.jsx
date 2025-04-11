@@ -105,34 +105,42 @@ const People = () => {
     let timeout;
     let isLoadingMore = false;
 
-    // Use requestAnimationFrame for better performance
+    // Optimized scroll handler with throttling
     const handleScroll = () => {
-      // Use requestAnimationFrame to optimize scroll performance
+      if (isLoadingMore) return;
+
+      isLoadingMore = true;
+
+      // Use requestAnimationFrame for smoother performance
       window.requestAnimationFrame(() => {
         // Don't do anything if already loading or no more content
-        if (isLoadingMore || loading || !hasMore) return;
+        if (loading || !hasMore) {
+          isLoadingMore = false;
+          return;
+        }
 
-        // Infinite scroll functionality
+        // Infinite scroll functionality - load when 80% down the page
         const scrollPosition = window.innerHeight + window.scrollY;
-        const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+        const pageHeight = document.body.offsetHeight;
+        const scrollPercentage = (scrollPosition / pageHeight) * 100;
 
-        if (scrollPosition >= scrollThreshold) {
-          isLoadingMore = true;
+        // Load more content when user has scrolled 80% down the page
+        if (scrollPercentage > 80) {
           clearTimeout(timeout);
 
           timeout = setTimeout(() => {
             if (process.env.NODE_ENV !== "production") {
               console.log("Loading more people...", {
-                scrollPosition,
-                scrollThreshold,
+                scrollPercentage,
                 currentPage: page,
               });
             }
 
             setPage((prevPage) => prevPage + 1);
-            isLoadingMore = false;
-          }, 300); // Reduced debounce time for faster response
+          }, 100); // Very short timeout for responsive loading
         }
+
+        isLoadingMore = false;
       });
     };
 
@@ -162,7 +170,7 @@ const People = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="pt-[14vh] pb-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
+    <div className="pt-4 pb-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden">
       <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
         <h1 className="font-bold text-zinc-300 text-2xl flex items-center gap-3">
           <button
