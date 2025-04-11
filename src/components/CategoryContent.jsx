@@ -219,47 +219,10 @@ const CategoryContent = () => {
     let timeout;
     let isLoadingMore = false;
 
-    // Optimized scroll handler with throttling
+    // Disable infinite scroll for category pages - we'll use pagination buttons instead
     const handleScroll = () => {
-      if (isLoadingMore) return;
-
-      isLoadingMore = true;
-
-      // Use requestAnimationFrame for smoother performance
-      window.requestAnimationFrame(() => {
-        // Don't do anything if already loading or at the last page
-        if (loading || page >= totalPages) {
-          isLoadingMore = false;
-          return;
-        }
-
-        // Infinite scroll functionality - load when 80% down the page
-        const scrollPosition = window.innerHeight + window.scrollY;
-        const pageHeight = document.body.offsetHeight;
-        const scrollPercentage = (scrollPosition / pageHeight) * 100;
-
-        // Load more content when user has scrolled 80% down the page
-        if (scrollPercentage > 80) {
-          if (!loading && page < totalPages) {
-            clearTimeout(timeout);
-
-            timeout = setTimeout(() => {
-              if (process.env.NODE_ENV !== "production") {
-                console.log("Loading more category content...", {
-                  scrollPercentage,
-                  category,
-                  page,
-                  totalPages,
-                });
-              }
-
-              setPage((prevPage) => prevPage + 1);
-            }, 100); // Very short timeout for responsive loading
-          }
-        }
-
-        isLoadingMore = false;
-      });
+      // No-op - we're using pagination buttons instead of infinite scroll
+      return;
     };
 
     // Add scroll event listener
@@ -268,12 +231,7 @@ const CategoryContent = () => {
     }
     window.addEventListener("scroll", handleScroll);
 
-    // Initial check in case the page is not tall enough
-    setTimeout(() => {
-      if (content.length < 10 && !loading && page < totalPages) {
-        handleScroll();
-      }
-    }, 1000);
+    // No auto-loading for category pages - we'll use pagination buttons instead
 
     return () => {
       clearTimeout(timeout);
@@ -282,7 +240,7 @@ const CategoryContent = () => {
         console.log("Removed scroll event listener for category content");
       }
     };
-  }, [loading, page, totalPages, category, content.length]);
+  }, [loading, page, totalPages, category, mediaType, content.length]);
 
   // This function is no longer needed as we're using the ScrollToTopButton component
   // which has its own scrollToTop function
@@ -329,7 +287,7 @@ const CategoryContent = () => {
             <CategoryShimmer />
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 px-4 sm:px-6">
                 {content.map((item) => (
                   <Cards
                     key={item.id}

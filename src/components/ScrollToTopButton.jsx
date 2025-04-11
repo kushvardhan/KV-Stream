@@ -47,12 +47,12 @@ const ScrollToTopButton = ({ show, color = "primary" }) => {
         // Force focus away from the button to prevent keyboard issues
         document.activeElement.blur();
       }}
-      className={`fixed bottom-8 right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110`}
+      className={`fixed bottom-8 right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110 will-change-transform`}
+      style={{ transform: "translateZ(0)" }}
       aria-label="Scroll to top"
     >
       <div className="relative flex items-center justify-center">
-        <span className="absolute inset-0 rounded-full bg-white/20 animate-ping-slow opacity-75"></span>
-        <i className="ri-arrow-up-line text-xl group-hover:animate-bounce"></i>
+        <i className="ri-arrow-up-line text-xl"></i>
         <span className="absolute -top-12 right-0 bg-black/80 text-white text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg transform group-hover:-translate-y-1">
           Back to top
         </span>

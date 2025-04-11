@@ -5,7 +5,12 @@ const Cards = ({ data, category, title }) => {
   // Determine the media type with proper fallbacks
   const mediaType = data.media_type || title || category || "movie";
 
-  const shortOverview = data.overview
+  // Don't show description for people
+  const isPerson = mediaType === "person" || mediaType === "people";
+
+  const shortOverview = isPerson
+    ? "" // Empty string for people
+    : data.overview
     ? data.overview.split(" ").slice(0, 18).join(" ") + "..."
     : "No description available.";
 
@@ -26,7 +31,7 @@ const Cards = ({ data, category, title }) => {
   return (
     <Link
       to={getPath()}
-      className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full h-[300px] sm:h-[320px] md:h-[350px] lg:h-[370px] group max-w-[300px] mx-auto"
+      className="relative rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[350px] group max-w-[280px] mx-auto"
     >
       {data.poster_path || data.backdrop_path || data.profile_path ? (
         <img
@@ -66,9 +71,11 @@ const Cards = ({ data, category, title }) => {
         <h2 className="text-xs sm:text-sm font-bold text-white truncate">
           {data.title || data.name}
         </h2>
-        <p className="text-xs text-gray-300 leading-tight mt-1 line-clamp-3 sm:line-clamp-4">
-          {shortOverview}
-        </p>
+        {!isPerson && (
+          <p className="text-xs text-gray-300 leading-tight mt-1 line-clamp-3 sm:line-clamp-4">
+            {shortOverview}
+          </p>
+        )}
 
         <div className="flex items-center select-none space-x-1 mt-1">
           <i

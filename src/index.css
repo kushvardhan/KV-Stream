@@ -40,9 +40,41 @@
   backface-visibility: hidden;
 }
 
+html,
 body {
   overflow-x: hidden;
   overscroll-behavior: none;
+  scroll-behavior: smooth;
+}
+
+/* Make scrollbar visible on all pages except home */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6556cd;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Hide scrollbar on home page */
+.home-page {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.home-page::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+  display: none;
 }
 
 /* Optimize scrolling performance */
@@ -52,6 +84,23 @@ body {
   -webkit-transform: translateZ(0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent layout shifts during scroll */
+.fixed-element {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Line clamp utilities */

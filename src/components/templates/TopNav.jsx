@@ -13,6 +13,9 @@ const TopNav = () => {
   // Check if we're on the home page
   const isHomePage = location.pathname === "/";
 
+  // Check if we're on the popular page to use different background color
+  const isPopularPage = location.pathname.includes("/popular");
+
   const getSearches = async () => {
     try {
       if (searchBar.trim() === "") {
@@ -86,7 +89,11 @@ const TopNav = () => {
   };
 
   return (
-    <div className="w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[95] bg-[#1F1E24] transition-all duration-300 border-b border-zinc-800">
+    <div
+      className={`w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[95] ${
+        isPopularPage ? "bg-[#25262B]" : "bg-[#1F1E24]"
+      } transition-all duration-300 border-b border-zinc-800`}
+    >
       <div className="flex items-center w-full">
         {/* Hamburger menu for mobile - only shown on small screens and on home page */}
         {isHomePage && (
@@ -126,7 +133,7 @@ const TopNav = () => {
         {/* Search container */}
         <div
           ref={searchContainerRef}
-          className="relative w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto"
+          className="relative w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto drop-shadow-md"
         >
           <div className="relative group hover:scale-[1.01] transition-transform duration-300">
             <input
@@ -136,9 +143,22 @@ const TopNav = () => {
               onChange={(e) => setSearchBar(e.target.value)}
               type="text"
               placeholder="Search for Movies, TV Shows or People..."
-              className="w-full py-3 pl-12 pr-4 text-white bg-[#3a3a3a] rounded-full focus:outline-none focus:ring-0 focus:border-0 border-0 outline-none shadow-none hover:bg-[#444444] transition-all duration-300 text-base font-medium"
+              style={{ userSelect: "none" }}
+              className={`w-full ${isHomePage ? "py-3.5" : "py-3"} ${
+                isHomePage ? "pl-14" : "pl-12"
+              } pr-4 text-white ${
+                isHomePage ? "bg-black" : "bg-[#121212]"
+              } border border-zinc-800 rounded-full focus:outline-none focus:ring-0 focus:border-zinc-700 outline-none shadow-none hover:bg-[#1a1a1a] hover:border-zinc-700 focus:bg-black transition-all duration-300 ${
+                isHomePage ? "text-lg" : "text-base"
+              } font-medium select-none`}
             />
-            <i className="ri-search-line absolute left-4 top-1/2 transform -translate-y-1/2 text-[#6556CD] text-2xl transition-colors duration-300"></i>
+            <i
+              className={`ri-search-line absolute ${
+                isHomePage ? "left-5" : "left-4"
+              } top-1/2 transform -translate-y-1/2 text-[#6556CD] ${
+                isHomePage ? "text-3xl" : "text-2xl"
+              } transition-colors duration-300 drop-shadow-[0_0_2px_rgba(101,86,205,0.5)]`}
+            ></i>
             {searchBar && (
               <button
                 onClick={() => {
@@ -155,7 +175,7 @@ const TopNav = () => {
 
           {/* Search results */}
           {searches && searches.length > 0 && (
-            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-50 max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30">
+            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30">
               <div className="p-2">
                 <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
                   Search Results
@@ -244,7 +264,7 @@ const TopNav = () => {
 
           {/* No results */}
           {searches && searches.length === 0 && (
-            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-50 border border-zinc-700/30">
+            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30">
               <div className="p-4 text-center">
                 <p className="text-zinc-400">No results found</p>
               </div>

@@ -111,44 +111,40 @@ const Popular = () => {
     let timeout;
     let isLoadingMore = false;
 
-    // Optimized scroll handler with throttling
+    // Improved scroll handler for better infinite scrolling
     const handleScroll = () => {
-      if (isLoadingMore) return;
+      // Don't do anything if already loading or no more content
+      if (loading || !hasMore || isLoadingMore) return;
 
-      isLoadingMore = true;
+      // Get scroll position - simpler calculation
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const clientHeight =
+        window.innerHeight || document.documentElement.clientHeight;
 
-      // Use requestAnimationFrame for smoother performance
-      window.requestAnimationFrame(() => {
-        // Don't do anything if already loading or no more content
-        if (loading || !hasMore) {
-          isLoadingMore = false;
-          return;
-        }
+      // Calculate distance from bottom in pixels
+      const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+      console.log(`Popular - Distance from bottom: ${distanceFromBottom}px`);
 
-        // Infinite scroll functionality - load when 80% down the page
-        const scrollPosition = window.innerHeight + window.scrollY;
-        const pageHeight = document.body.offsetHeight;
-        const scrollPercentage = (scrollPosition / pageHeight) * 100;
+      // Load more when within 300px of the bottom
+      if (distanceFromBottom < 300) {
+        isLoadingMore = true;
 
-        // Load more content when user has scrolled 80% down the page
-        if (scrollPercentage > 80) {
-          clearTimeout(timeout);
+        // Use a short timeout to prevent multiple calls
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          console.log("Loading more popular content...", {
+            category,
+            page: page + 1,
+          });
+          setPage((prevPage) => prevPage + 1);
 
-          timeout = setTimeout(() => {
-            if (process.env.NODE_ENV !== "production") {
-              console.log("Loading more popular content...", {
-                scrollPercentage,
-                category,
-                currentPage: page,
-              });
-            }
-
-            setPage((prevPage) => prevPage + 1);
-          }, 100); // Very short timeout for responsive loading
-        }
-
-        isLoadingMore = false;
-      });
+          // Reset the flag after a longer delay to prevent multiple triggers
+          setTimeout(() => {
+            isLoadingMore = false;
+          }, 1000);
+        }, 100);
+      }
     };
 
     // Add scroll event listener
@@ -157,12 +153,23 @@ const Popular = () => {
     }
     window.addEventListener("scroll", handleScroll);
 
-    // Initial check in case the page is not tall enough
+    // Check if we need to load more content initially
     setTimeout(() => {
-      if (popular.length < 10 && !loading && hasMore) {
-        handleScroll();
+      const windowHeight = window.innerHeight;
+      const documentHeight = Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      );
+
+      // If content doesn't fill the page, load more
+      if (documentHeight <= windowHeight * 1.2 && !loading && hasMore) {
+        console.log("Popular - Content does not fill page, loading more...");
+        setPage((prevPage) => prevPage + 1);
       }
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timeout);
@@ -205,7 +212,7 @@ const Popular = () => {
         />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-6 px-4 sm:px-6">
+      <div className="flex flex-wrap justify-center gap-4 md:gap-6 px-6 sm:px-8">
         {popular.length === 0 && loading ? (
           <Shimmer />
         ) : (

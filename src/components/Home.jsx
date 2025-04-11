@@ -9,6 +9,14 @@ import TopNav from "./templates/TopNav";
 const Home = () => {
   document.title = "KV | Homepage";
 
+  // Add home-page class to body
+  useEffect(() => {
+    document.body.classList.add("home-page");
+    return () => {
+      document.body.classList.remove("home-page");
+    };
+  }, []);
+
   const [wallpaper, setWallpaper] = useState(null);
   const [trending, setTrending] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -61,7 +69,6 @@ const Home = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Function to handle sidebar state changes
   const handleSidebarToggle = (isOpen) => {
     setSidebarOpen(isOpen);
   };
@@ -70,7 +77,7 @@ const Home = () => {
     <div className="w-full h-full flex flex-col md:flex-row">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 home-page ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >
