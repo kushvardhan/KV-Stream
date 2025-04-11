@@ -57,7 +57,11 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #6556cd;
   border-radius: 10px;
-  min-height: 50px; /* Set minimum height for the scrollbar thumb */
+  min-height: 6vh; /* Set minimum height for the scrollbar thumb */
+  height: max(
+    6vh,
+    60px
+  ); /* Ensure a good minimum height across different viewport sizes */
 }
 
 ::-webkit-scrollbar-track {
@@ -69,6 +73,17 @@ body {
 .home-page {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6556cd rgba(0, 0, 0, 0.1);
+}
+
+/* Additional scrollbar thumb styles for better cross-browser support */
+html {
+  --scrollbar-thumb-min-height: 6vh;
 }
 
 .home-page::-webkit-scrollbar {

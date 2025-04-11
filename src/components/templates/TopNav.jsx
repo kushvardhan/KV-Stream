@@ -48,12 +48,18 @@ const TopNav = () => {
         !searchContainerRef.current.contains(event.target)
       ) {
         setSearches(null);
+        setSearchBar(""); // Also clear the search bar
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // Add higher priority to this event listener
+    document.addEventListener("mousedown", handleClickOutside, {
+      capture: true,
+    });
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, {
+        capture: true,
+      });
     };
   }, []);
 
@@ -173,9 +179,25 @@ const TopNav = () => {
             )}
           </div>
 
+          {/* Search results backdrop */}
+          {searches && (
+            <div
+              className="fixed inset-0 bg-black/50 z-[9998]"
+              onClick={() => setSearches(null)}
+            ></div>
+          )}
+
           {/* Search results */}
           {searches && searches.length > 0 && (
-            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30">
+            <div
+              className="fixed mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30"
+              style={{
+                top: searchContainerRef.current
+                  ? searchContainerRef.current.getBoundingClientRect().bottom +
+                    10
+                  : "60px",
+              }}
+            >
               <div className="p-2">
                 <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
                   Search Results
@@ -264,7 +286,15 @@ const TopNav = () => {
 
           {/* No results */}
           {searches && searches.length === 0 && (
-            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30">
+            <div
+              className="fixed mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30"
+              style={{
+                top: searchContainerRef.current
+                  ? searchContainerRef.current.getBoundingClientRect().bottom +
+                    10
+                  : "60px",
+              }}
+            >
               <div className="p-4 text-center">
                 <p className="text-zinc-400">No results found</p>
               </div>
