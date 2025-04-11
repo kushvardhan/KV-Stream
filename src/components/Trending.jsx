@@ -24,31 +24,38 @@ const Trending = () => {
       if (!hasMore || loading) return;
       setLoading(true);
       try {
+        // Limit to 15 items per page to reduce localStorage usage
         const { data } = await axios.get(
           `/trending/${
             category === "movies" ? "movie" : category
-          }/${duration}?page=${page}`
+          }/${duration}?page=${page}&limit=15`
         );
-        if (data.results.length === 0 || page > data.total_pages) {
+
+        // Take only the first 15 items to ensure we don't overload localStorage
+        const limitedResults = data.results ? data.results.slice(0, 15) : [];
+
+        if (limitedResults.length === 0 || page > data.total_pages) {
           setHasMore(false);
         } else {
           // Only update if we're resetting or adding new trending items
-          if (reset || data.results.length > 0) {
+          if (reset || limitedResults.length > 0) {
             setTrending((prev) => {
-              // If resetting, just use the new results
-              if (reset) return data.results;
+              // If resetting, just use the limited results
+              if (reset) return limitedResults;
 
               // Otherwise, add new results to existing ones without duplicates
               const existingIds = new Set(prev.map((item) => item.id));
-              const uniqueNewResults = data.results.filter(
+              const uniqueNewResults = limitedResults.filter(
                 (item) => !existingIds.has(item.id)
               );
 
+              // Preserve all existing items and add new ones, without any reordering
               return [...prev, ...uniqueNewResults];
             });
           }
         }
       } catch (err) {
+        console.error("Error fetching trending content:", err);
         setHasMore(false);
       } finally {
         setLoading(false);

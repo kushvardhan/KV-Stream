@@ -57,6 +57,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #6556cd;
   border-radius: 10px;
+  min-height: 50px; /* Set minimum height for the scrollbar thumb */
 }
 
 ::-webkit-scrollbar-track {

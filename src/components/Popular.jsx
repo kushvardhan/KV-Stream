@@ -24,27 +24,35 @@ const Popular = () => {
       setLoading(true);
 
       try {
-        const { data } = await axios.get(`/${category}/popular?page=${page}`);
+        // Limit to 15 items per page to reduce localStorage usage
+        const { data } = await axios.get(
+          `/${category}/popular?page=${page}&limit=15`
+        );
         const results = data.results || [];
 
+        // Take only the first 15 items to ensure we don't overload localStorage
+        const limitedResults = results.slice(0, 15);
+
         // Only update if we're resetting or adding new popular items
-        if (reset || results.length > 0) {
+        if (reset || limitedResults.length > 0) {
           setPopular((prev) => {
-            // If resetting, just use the new results
-            if (reset) return results;
+            // If resetting, just use the limited results
+            if (reset) return limitedResults;
 
             // Otherwise, add new results to existing ones without duplicates
             const existingIds = new Set(prev.map((item) => item.id));
-            const uniqueNewResults = results.filter(
+            const uniqueNewResults = limitedResults.filter(
               (item) => !existingIds.has(item.id)
             );
 
+            // Preserve all existing items and add new ones, without any reordering
             return [...prev, ...uniqueNewResults];
           });
         }
 
-        if (results.length === 0) setHasMore(false);
+        if (limitedResults.length === 0) setHasMore(false);
       } catch (err) {
+        console.error("Error fetching popular content:", err);
         setHasMore(false);
       } finally {
         setLoading(false);

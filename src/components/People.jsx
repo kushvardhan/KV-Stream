@@ -42,9 +42,8 @@ const People = () => {
             (item) => !existingIds.has(item.id)
           );
 
-          // Keep only the most recent items (limit total to 45 items - 3 pages)
-          const combinedResults = [...prev, ...uniqueNewResults];
-          return combinedResults.slice(-45);
+          // Preserve all existing items and add new ones, without any reordering
+          return [...prev, ...uniqueNewResults];
         });
       }
 
