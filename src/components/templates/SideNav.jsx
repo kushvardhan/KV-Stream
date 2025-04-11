@@ -58,11 +58,20 @@ const SideNav = ({ onToggle }) => {
   useEffect(() => {
     // Define the event handler
     function handleToggleSidebar() {
-      console.log("Toggle sidebar event received", { currentState: isOpen });
+      // Only log in development
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Toggle sidebar event received", { currentState: isOpen });
+      }
+
       // Force toggle the sidebar state
       setIsOpen((prevState) => {
         const newState = !prevState;
-        console.log("Setting sidebar state to", newState);
+
+        // Only log in development
+        if (process.env.NODE_ENV !== "production") {
+          console.log("Setting sidebar state to", newState);
+        }
+
         // Notify parent component about sidebar state change
         if (onToggle) {
           onToggle(newState);
