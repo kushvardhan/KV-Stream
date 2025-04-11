@@ -68,6 +68,24 @@ const TopNav = () => {
     };
   }, []);
 
+  // Create a ref for the search results container
+  const searchResultsRef = useRef(null);
+
+  // Effect to scroll selected item into view
+  useEffect(() => {
+    if (selectedIndex >= 0 && searchResultsRef.current) {
+      const selectedElement = searchResultsRef.current.querySelector(
+        `li:nth-child(${selectedIndex + 1})`
+      );
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          block: "nearest",
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [selectedIndex]);
+
   const handleKeyDown = (e) => {
     if (!searches) return;
 
@@ -161,14 +179,15 @@ const TopNav = () => {
                 isHomePage ? "bg-black" : "bg-[#121212]"
               } border border-zinc-800 rounded-full focus:outline-none focus:ring-0 focus:border-zinc-700 outline-none shadow-none hover:bg-[#1a1a1a] hover:border-zinc-700 focus:bg-black transition-all duration-300 ${
                 isHomePage ? "text-lg" : "text-base"
-              } font-medium select-none z-[9997] relative`}
+              } font-medium select-none relative`}
+              style={{ position: "relative", zIndex: 9999 }}
             />
             <i
               className={`ri-search-line absolute ${
                 isHomePage ? "left-5" : "left-4"
               } top-1/2 transform -translate-y-1/2 text-[#6556CD] ${
                 isHomePage ? "text-3xl" : "text-2xl"
-              } transition-colors duration-300 drop-shadow-[0_0_2px_rgba(101,86,205,0.5)]`}
+              } transition-colors duration-300 drop-shadow-[0_0_2px_rgba(101,86,205,0.5)] z-[9999]`}
             ></i>
             {searchBar && (
               <button
@@ -177,17 +196,23 @@ const TopNav = () => {
                   setSearches(null);
                   searchInputRef.current?.focus();
                 }}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-white"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-white z-[9999]"
               >
                 <i className="ri-close-line"></i>
               </button>
             )}
           </div>
 
-          {/* Search results backdrop */}
+          {/* Search results backdrop - positioned below the search bar */}
           {searches && (
             <div
-              className="fixed inset-0 bg-black/50 z-[9998] backdrop-blur-sm"
+              className="fixed inset-0 bg-black/50 z-[9990] backdrop-blur-sm"
+              style={{
+                top: searchContainerRef.current
+                  ? searchContainerRef.current.getBoundingClientRect().bottom +
+                    "px"
+                  : "60px",
+              }}
               onClick={() => {
                 setSearches(null);
                 setSearchBar("");
@@ -202,7 +227,7 @@ const TopNav = () => {
                 <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
                   Search Results
                 </h3>
-                <ul>
+                <ul ref={searchResultsRef}>
                   {searches.map((search, index) => {
                     // Skip items without title or name
                     if (!search.title && !search.name) return null;
@@ -212,7 +237,7 @@ const TopNav = () => {
                         key={search.id}
                         className={`${
                           selectedIndex === index
-                            ? "bg-[#6556CD]/20 text-white"
+                            ? "bg-[#6556CD]/20 text-white border-l-4 border-[#6556CD] pl-1"
                             : "text-zinc-300 hover:bg-[#3c3c3c]"
                         } rounded-md transition-colors duration-200`}
                       >
@@ -286,7 +311,7 @@ const TopNav = () => {
 
           {/* No results */}
           {searches && searches.length === 0 && (
-            <div className="absolute top-full mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30 search-results">
+            <div className="absolute top-full mt-2 w-[125%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30 search-results">
               <div className="p-4 text-center">
                 <p className="text-zinc-400">No results found</p>
               </div>
