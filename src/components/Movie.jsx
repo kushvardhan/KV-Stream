@@ -114,31 +114,35 @@ const Movie = () => {
     let timeout;
     let isLoadingMore = false;
 
+    // Use requestAnimationFrame for better performance
     const handleScroll = () => {
-      // Don't do anything if already loading or no more content
-      if (isLoadingMore || loading || !hasMore) return;
+      // Use requestAnimationFrame to optimize scroll performance
+      window.requestAnimationFrame(() => {
+        // Don't do anything if already loading or no more content
+        if (isLoadingMore || loading || !hasMore) return;
 
-      // Infinite scroll functionality
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+        // Infinite scroll functionality
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
 
-      if (scrollPosition >= scrollThreshold) {
-        isLoadingMore = true;
-        clearTimeout(timeout);
+        if (scrollPosition >= scrollThreshold) {
+          isLoadingMore = true;
+          clearTimeout(timeout);
 
-        timeout = setTimeout(() => {
-          if (process.env.NODE_ENV !== "production") {
-            console.log("Loading more movies...", {
-              scrollPosition,
-              scrollThreshold,
-              currentPage: page,
-            });
-          }
+          timeout = setTimeout(() => {
+            if (process.env.NODE_ENV !== "production") {
+              console.log("Loading more movies...", {
+                scrollPosition,
+                scrollThreshold,
+                currentPage: page,
+              });
+            }
 
-          setPage((prevPage) => prevPage + 1);
-          isLoadingMore = false;
-        }, 500); // Increased debounce time to prevent multiple triggers
-      }
+            setPage((prevPage) => prevPage + 1);
+            isLoadingMore = false;
+          }, 300); // Reduced debounce time for faster response
+        }
+      });
     };
 
     // Add scroll event listener

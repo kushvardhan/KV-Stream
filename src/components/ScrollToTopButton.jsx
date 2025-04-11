@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * A reusable scroll-to-top button component
@@ -22,10 +22,19 @@ const ScrollToTopButton = ({ show, color = "primary" }) => {
 
   // Function to scroll to top
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    // Force immediate scroll to top without animation first
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    // Then try smooth scroll for better visual effect if supported
+    try {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } catch (error) {
+      console.error("Smooth scroll not supported", error);
+    }
   };
 
   if (!show) return null;
@@ -33,7 +42,7 @@ const ScrollToTopButton = ({ show, color = "primary" }) => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-50 group hover:scale-110`}
+      className={`fixed bottom-8 right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110`}
       aria-label="Scroll to top"
     >
       <div className="relative flex items-center justify-center">

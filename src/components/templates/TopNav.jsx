@@ -86,7 +86,7 @@ const TopNav = () => {
   };
 
   return (
-    <div className="w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[95] fixed top-0 left-0 bg-[#1F1E24]/90 backdrop-blur-sm hover:bg-[#1F1E24] transition-colors duration-300 shadow-md">
+    <div className="w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[95] bg-[#1F1E24] transition-all duration-300 shadow-md">
       <div className="flex items-center w-full">
         {/* Hamburger menu for mobile - only shown on small screens and on home page */}
         {isHomePage && (
@@ -126,7 +126,7 @@ const TopNav = () => {
         {/* Search container */}
         <div
           ref={searchContainerRef}
-          className="relative w-full md:w-[55%] lg:w-[50%] max-w-3xl mx-auto"
+          className="relative w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto"
         >
           <div className="relative group">
             <input
@@ -136,7 +136,7 @@ const TopNav = () => {
               onChange={(e) => setSearchBar(e.target.value)}
               type="text"
               placeholder="Search for Movies, TV Shows or People..."
-              className="w-full py-3 pl-12 pr-4 text-white bg-[#2c2c2c]/80 rounded-full focus:outline-none focus:ring-0 shadow-lg hover:shadow-[#6556CD]/30 hover:bg-[#2c2c2c] transition-all duration-300 text-base"
+              className="w-full py-3 pl-12 pr-4 text-white bg-[#2c2c2c]/80 rounded-full focus:outline-none focus:ring-0 focus:border-0 border-0 outline-none shadow-lg hover:shadow-[#6556CD]/30 hover:bg-[#2c2c2c] transition-all duration-300 text-base"
             />
             <i className="ri-search-line absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400 group-hover:text-[#6556CD] text-xl transition-colors duration-300"></i>
             {searchBar && (
@@ -155,7 +155,7 @@ const TopNav = () => {
 
           {/* Search results */}
           {searches && searches.length > 0 && (
-            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-50 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30">
+            <div className="absolute mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-50 max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30">
               <div className="p-2">
                 <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
                   Search Results

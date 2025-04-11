@@ -70,7 +70,7 @@ const Home = () => {
     <div className="w-full h-full flex flex-col md:flex-row">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >

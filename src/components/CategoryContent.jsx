@@ -219,35 +219,39 @@ const CategoryContent = () => {
     let timeout;
     let isLoadingMore = false;
 
+    // Use requestAnimationFrame for better performance
     const handleScroll = () => {
-      // Don't do anything if already loading or at the last page
-      if (isLoadingMore || loading || page >= totalPages) return;
+      // Use requestAnimationFrame to optimize scroll performance
+      window.requestAnimationFrame(() => {
+        // Don't do anything if already loading or at the last page
+        if (isLoadingMore || loading || page >= totalPages) return;
 
-      // Infinite scroll functionality
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+        // Infinite scroll functionality
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
 
-      if (scrollPosition >= scrollThreshold) {
-        if (!loading && page < totalPages) {
-          isLoadingMore = true;
-          clearTimeout(timeout);
+        if (scrollPosition >= scrollThreshold) {
+          if (!loading && page < totalPages) {
+            isLoadingMore = true;
+            clearTimeout(timeout);
 
-          timeout = setTimeout(() => {
-            if (process.env.NODE_ENV !== "production") {
-              console.log("Loading more category content...", {
-                scrollPosition,
-                scrollThreshold,
-                category,
-                page,
-                totalPages,
-              });
-            }
+            timeout = setTimeout(() => {
+              if (process.env.NODE_ENV !== "production") {
+                console.log("Loading more category content...", {
+                  scrollPosition,
+                  scrollThreshold,
+                  category,
+                  page,
+                  totalPages,
+                });
+              }
 
-            setPage((prevPage) => prevPage + 1);
-            isLoadingMore = false;
-          }, 500); // Increased debounce time to prevent multiple triggers
+              setPage((prevPage) => prevPage + 1);
+              isLoadingMore = false;
+            }, 300); // Reduced debounce time for faster response
+          }
         }
-      }
+      });
     };
 
     // Add scroll event listener
@@ -279,7 +283,7 @@ const CategoryContent = () => {
     <div className="w-full h-full flex flex-col md:flex-row pt-[14vh] md:pt-0">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto pt-14 md:pt-0 transition-all duration-300 ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >
