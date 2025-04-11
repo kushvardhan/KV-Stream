@@ -22,10 +22,15 @@ const TopNav = () => {
         setSearches(null);
         return;
       }
-      const { data } = await instance.get(`/search/multi?query=${searchBar}`);
-      setSearches(data.results);
+      console.log("Searching for:", searchBar);
+      const { data } = await instance.get(
+        `/search/multi?query=${encodeURIComponent(searchBar)}`
+      );
+      console.log("Search results:", data.results);
+      setSearches(data.results || []); // Ensure we always have an array
     } catch (err) {
-      console.error(err);
+      console.error("Search error:", err);
+      setSearches([]); // Set empty array on error
     }
   };
 
@@ -96,7 +101,7 @@ const TopNav = () => {
 
   return (
     <div
-      className={`w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[95] ${
+      className={`w-full h-[12vh] px-4 sm:px-16 py-4 sm:py-6 flex items-center justify-between md:justify-center z-[9995] ${
         isPopularPage ? "bg-[#25262B]" : "bg-[#1F1E24]"
       } transition-all duration-300 border-b border-zinc-800`}
     >
@@ -139,9 +144,9 @@ const TopNav = () => {
         {/* Search container */}
         <div
           ref={searchContainerRef}
-          className="relative w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto drop-shadow-md"
+          className="relative w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto drop-shadow-md z-[9996]"
         >
-          <div className="relative group hover:scale-[1.01] transition-transform duration-300">
+          <div className="relative group hover:scale-[1.01] transition-transform duration-300 z-[9997]">
             <input
               ref={searchInputRef}
               value={searchBar}
@@ -156,7 +161,7 @@ const TopNav = () => {
                 isHomePage ? "bg-black" : "bg-[#121212]"
               } border border-zinc-800 rounded-full focus:outline-none focus:ring-0 focus:border-zinc-700 outline-none shadow-none hover:bg-[#1a1a1a] hover:border-zinc-700 focus:bg-black transition-all duration-300 ${
                 isHomePage ? "text-lg" : "text-base"
-              } font-medium select-none`}
+              } font-medium select-none z-[9997] relative`}
             />
             <i
               className={`ri-search-line absolute ${
@@ -182,22 +187,17 @@ const TopNav = () => {
           {/* Search results backdrop */}
           {searches && (
             <div
-              className="fixed inset-0 bg-black/50 z-[9998]"
-              onClick={() => setSearches(null)}
+              className="fixed inset-0 bg-black/50 z-[9998] backdrop-blur-sm"
+              onClick={() => {
+                setSearches(null);
+                setSearchBar("");
+              }}
             ></div>
           )}
 
           {/* Search results */}
           {searches && searches.length > 0 && (
-            <div
-              className="fixed mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30"
-              style={{
-                top: searchContainerRef.current
-                  ? searchContainerRef.current.getBoundingClientRect().bottom +
-                    10
-                  : "60px",
-              }}
-            >
+            <div className="absolute top-full mt-2 w-[125%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30 search-results">
               <div className="p-2">
                 <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
                   Search Results
@@ -286,15 +286,7 @@ const TopNav = () => {
 
           {/* No results */}
           {searches && searches.length === 0 && (
-            <div
-              className="fixed mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30"
-              style={{
-                top: searchContainerRef.current
-                  ? searchContainerRef.current.getBoundingClientRect().bottom +
-                    10
-                  : "60px",
-              }}
-            >
+            <div className="absolute top-full mt-2 w-[115%] left-1/2 -translate-x-1/2 bg-[#2c2c2c] rounded-md shadow-lg z-[9999] border border-zinc-700/30 search-results">
               <div className="p-4 text-center">
                 <p className="text-zinc-400">No results found</p>
               </div>
