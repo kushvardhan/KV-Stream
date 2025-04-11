@@ -155,7 +155,7 @@ const PeopleDetails = () => {
   };
 
   return (
-    <div className="w-screen min-h-screen px-3 sm:px-4 md:px-[8%] py-3 sm:py-6 bg-[#1F1E24] text-white overflow-x-hidden">
+    <div className="w-screen min-h-screen px-3 sm:px-4 md:px-[8%] py-3 sm:py-6 bg-[#1F1E24] text-white overflow-x-hidden details-page">
       <motion.nav
         className="w-full flex justify-between items-center p-2 sm:p-3 md:p-4 bg-black/30 rounded-lg"
         initial={{ opacity: 0, y: -20 }}

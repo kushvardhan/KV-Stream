@@ -1,12 +1,22 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Add class to body to disable scrolling
+    document.body.style.overflow = "hidden";
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
   return (
     <motion.div
-      className="w-full min-h-screen bg-gradient-to-b from-[#1F1E24] to-[#2c2c2c] flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-8 overflow-y-auto"
+      className="w-full min-h-screen bg-gradient-to-b from-[#1F1E24] to-[#2c2c2c] flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-8 overflow-y-auto about-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: "easeInOut" }}

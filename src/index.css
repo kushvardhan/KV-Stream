@@ -69,10 +69,67 @@ body {
   border-radius: 10px;
 }
 
-/* Hide scrollbar on home page */
-.home-page {
+/* Hide scrollbar on specific pages */
+.home-page,
+.about-page,
+.contact-page,
+.details-page {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  overflow: hidden !important; /* Hide overflow completely */
+}
+
+/* Custom toast notification styling */
+.custom-toast {
+  position: fixed;
+  top: 10%;
+  right: 20px;
+  z-index: 9999;
+  animation: toast-in-right 0.7s, toast-out-right 0.7s 2.3s forwards;
+  max-width: 90vw;
+}
+
+.custom-toast .alert {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-left: 4px solid #22c55e;
+  padding: 12px 16px;
+}
+
+@media (max-width: 640px) {
+  .custom-toast {
+    right: 10px;
+    top: 5%;
+  }
+
+  .custom-toast .alert {
+    padding: 10px 12px;
+  }
+
+  .custom-toast {
+    animation: toast-in-right 0.7s, toast-out-right 0.7s 3.3s forwards;
+  }
+}
+
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }
 
 /* Firefox scrollbar styles */
@@ -93,7 +150,10 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.home-page::-webkit-scrollbar {
+.home-page::-webkit-scrollbar,
+.about-page::-webkit-scrollbar,
+.contact-page::-webkit-scrollbar,
+.details-page::-webkit-scrollbar {
   width: 0;
   height: 0;
   background: transparent;
