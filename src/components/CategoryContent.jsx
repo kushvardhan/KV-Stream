@@ -219,27 +219,34 @@ const CategoryContent = () => {
     let timeout;
     let isLoadingMore = false;
 
-    // Use requestAnimationFrame for better performance
+    // Optimized scroll handler with throttling
     const handleScroll = () => {
-      // Use requestAnimationFrame to optimize scroll performance
+      if (isLoadingMore) return;
+
+      isLoadingMore = true;
+
+      // Use requestAnimationFrame for smoother performance
       window.requestAnimationFrame(() => {
         // Don't do anything if already loading or at the last page
-        if (isLoadingMore || loading || page >= totalPages) return;
+        if (loading || page >= totalPages) {
+          isLoadingMore = false;
+          return;
+        }
 
-        // Infinite scroll functionality
+        // Infinite scroll functionality - load when 80% down the page
         const scrollPosition = window.innerHeight + window.scrollY;
-        const scrollThreshold = document.body.offsetHeight - 300; // More aggressive threshold
+        const pageHeight = document.body.offsetHeight;
+        const scrollPercentage = (scrollPosition / pageHeight) * 100;
 
-        if (scrollPosition >= scrollThreshold) {
+        // Load more content when user has scrolled 80% down the page
+        if (scrollPercentage > 80) {
           if (!loading && page < totalPages) {
-            isLoadingMore = true;
             clearTimeout(timeout);
 
             timeout = setTimeout(() => {
               if (process.env.NODE_ENV !== "production") {
                 console.log("Loading more category content...", {
-                  scrollPosition,
-                  scrollThreshold,
+                  scrollPercentage,
                   category,
                   page,
                   totalPages,
@@ -247,10 +254,11 @@ const CategoryContent = () => {
               }
 
               setPage((prevPage) => prevPage + 1);
-              isLoadingMore = false;
-            }, 300); // Reduced debounce time for faster response
+            }, 100); // Very short timeout for responsive loading
           }
         }
+
+        isLoadingMore = false;
       });
     };
 
@@ -280,7 +288,7 @@ const CategoryContent = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row pt-4 md:pt-0">
+    <div className="w-full h-full flex flex-col md:flex-row pt-4 md:pt-0 scroll-container">
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 ${

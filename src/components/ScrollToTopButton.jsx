@@ -22,26 +22,31 @@ const ScrollToTopButton = ({ show, color = "primary" }) => {
 
   // Function to scroll to top
   const scrollToTop = () => {
-    // Force immediate scroll to top without animation first
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    // Use a more direct approach to ensure it works
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
 
-    // Then try smooth scroll for better visual effect if supported
-    try {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    } catch (error) {
-      console.error("Smooth scroll not supported", error);
-    }
+    // Fallback for older browsers
+    setTimeout(() => {
+      // If smooth scroll doesn't work, force it
+      if (window.pageYOffset > 0) {
+        window.scrollTo(0, 0);
+      }
+    }, 100);
   };
 
   if (!show) return null;
 
   return (
     <button
-      onClick={scrollToTop}
+      onClick={() => {
+        scrollToTop();
+        // Force focus away from the button to prevent keyboard issues
+        document.activeElement.blur();
+      }}
       className={`fixed bottom-8 right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110`}
       aria-label="Scroll to top"
     >

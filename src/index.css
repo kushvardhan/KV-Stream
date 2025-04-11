@@ -34,6 +34,26 @@
   animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+/* Performance optimizations */
+* {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+/* Optimize scrolling performance */
+.scroll-container {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Line clamp utilities */
 .line-clamp-3 {
   display: -webkit-box;
