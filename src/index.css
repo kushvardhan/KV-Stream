@@ -43,8 +43,13 @@
 html,
 body {
   overflow-x: hidden;
+  overflow-y: auto;
   overscroll-behavior: none;
   scroll-behavior: smooth;
+  height: auto;
+  min-height: 100%;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Make scrollbar visible on all pages except home */
@@ -69,13 +74,15 @@ body {
   border-radius: 10px;
 }
 
-/* Hide scrollbar on specific pages */
+/* Hide scrollbar on specific pages but allow scrolling */
 .home-page {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   /* Allow scrolling but hide scrollbar */
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  touch-action: pan-y; /* Enable touch scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .about-page,
@@ -196,6 +203,20 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+  html,
+  body,
+  #root,
+  .home-page {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
   }
 }
 

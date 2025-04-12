@@ -9,14 +9,21 @@ import TopNav from "./templates/TopNav";
 const Home = () => {
   document.title = "KV | Homepage";
 
-  // Add home-page class to body
+  // Add home-page class to body and ensure scrolling works
   useEffect(() => {
     document.body.classList.add("home-page");
-    // Ensure body can scroll
+    // Explicitly set overflow to auto to ensure scrolling works
     document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
+    document.documentElement.style.overflow = "auto";
+    document.documentElement.style.height = "auto";
+
     return () => {
       document.body.classList.remove("home-page");
       document.body.style.overflow = "";
+      document.body.style.height = "";
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.height = "";
     };
   }, []);
 
@@ -71,16 +78,31 @@ const Home = () => {
   }, []);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showTopButton, setShowTopButton] = useState(false);
+
+  // Add scroll event listener to show/hide scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button after scrolling down 1 screen height
+      const windowHeight = window.innerHeight;
+      const scrollThreshold = windowHeight * 1;
+      const shouldShow = window.scrollY > scrollThreshold;
+      setShowTopButton(shouldShow);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleSidebarToggle = (isOpen) => {
     setSidebarOpen(isOpen);
   };
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row">
+    <div className="w-full min-h-screen flex flex-col md:flex-row">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-y-auto transition-all duration-300 home-page ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] min-h-screen overflow-x-hidden overflow-y-auto transition-all duration-300 home-page ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >
@@ -231,6 +253,17 @@ const Home = () => {
               </div>
             </div>
           </>
+        )}
+
+        {/* Scroll to top button */}
+        {showTopButton && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-8 right-8 bg-gradient-to-r from-[#6556CD] to-indigo-600 hover:from-[#7667de] hover:to-indigo-700 text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] hover:scale-110"
+            aria-label="Scroll to top"
+          >
+            <i className="ri-arrow-up-line text-xl"></i>
+          </button>
         )}
       </div>
     </div>
