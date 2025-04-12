@@ -184,7 +184,7 @@ const People = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="pt-4 pb-4 w-screen min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden scroll-container">
+    <div className="pt-4 pb-4 w-full min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden scroll-container">
       <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
         <h1 className="font-bold text-zinc-300 text-2xl flex items-center gap-3">
           <button

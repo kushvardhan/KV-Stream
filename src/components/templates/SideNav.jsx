@@ -113,7 +113,7 @@ const SideNav = ({ onToggle }) => {
 
       {/* Sidebar - different styles for mobile vs desktop */}
       <div
-        className={`sidebar-container ${
+        className={`sidebar-container max-w-[100vw] ${
           isMobile
             ? "fixed inset-y-0 left-0 z-[100] w-[75%] xs:w-[60%] sm:w-[50%] md:w-[40%]"
             : "w-full md:w-[20%] lg:w-[18%] xl:w-[15%]"

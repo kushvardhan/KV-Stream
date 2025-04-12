@@ -45,7 +45,7 @@ const MovieDetails = () => {
 
   return (
     <div
-      className="w-screen min-h-screen relative p-3 sm:p-4 md:p-6 flex flex-col items-center overflow-x-hidden details-page"
+      className="w-full min-h-screen relative p-3 sm:p-4 md:p-6 flex flex-col items-center overflow-x-hidden details-page"
       style={{
         background: `linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.5), rgba(0,0,0,.8)), url(${
           info.details.backdrop_path

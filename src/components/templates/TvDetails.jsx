@@ -31,7 +31,7 @@ const TvDetails = () => {
 
   if (!info) {
     return (
-      <div className="w-screen h-screen flex justify-center items-center bg-gray-900">
+      <div className="w-full h-screen flex justify-center items-center bg-gray-900">
         <Shimmer />
       </div>
     );

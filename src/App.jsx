@@ -37,7 +37,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-[#1F1E24] text-white w-screen min-h-screen overflow-x-hidden overflow-y-auto relative">
+    <div className="bg-[#1F1E24] text-white w-full min-h-screen overflow-x-hidden overflow-y-auto relative">
       <Suspense fallback={<Shimmer />}>
         <Routes>
           <Route path="/" element={<Home />} />

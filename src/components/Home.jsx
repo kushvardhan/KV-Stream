@@ -99,7 +99,7 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col md:flex-row">
+    <div className="w-full min-h-screen flex flex-col md:flex-row overflow-x-hidden">
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] min-h-screen overflow-x-hidden overflow-y-auto transition-all duration-300 home-page ${
