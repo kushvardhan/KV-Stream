@@ -8,8 +8,12 @@ const HorizontalScroll = ({ children, title }) => {
   const checkScroll = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setShowLeftButton(scrollLeft > 0);
-      setShowRightButton(scrollLeft < scrollWidth - clientWidth);
+      // Only show buttons if there's enough content to scroll
+      const canScroll = scrollWidth > clientWidth;
+      setShowLeftButton(canScroll && scrollLeft > 0);
+      setShowRightButton(
+        canScroll && scrollLeft < scrollWidth - clientWidth - 5
+      );
     }
   };
 
@@ -31,7 +35,8 @@ const HorizontalScroll = ({ children, title }) => {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = 200;
+      // Calculate scroll amount based on container width for better responsiveness
+      const scrollAmount = scrollRef.current.clientWidth * 0.5; // Scroll 50% of the visible width for smoother scrolling
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -51,7 +56,7 @@ const HorizontalScroll = ({ children, title }) => {
       {showLeftButton && (
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-zinc-700/50 hover:bg-zinc-600 text-white p-1 sm:p-2 rounded-full transition-all duration-300"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
         >
           <i className="ri-arrow-left-s-line text-xl sm:text-2xl"></i>
         </button>
@@ -59,7 +64,8 @@ const HorizontalScroll = ({ children, title }) => {
 
       <div
         ref={scrollRef}
-        className="flex overflow-hidden overflow-x-scroll space-x-2 sm:space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth px-1 sm:px-0"
+        className="flex overflow-x-auto space-x-2 sm:space-x-4 scroll-smooth py-2 horizontal-scroll"
+        style={{ scrollbarWidth: "thin", scrollbarColor: "#6556cd #2c2c2c" }}
       >
         {children}
       </div>
@@ -67,7 +73,7 @@ const HorizontalScroll = ({ children, title }) => {
       {showRightButton && (
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-zinc-700/50 hover:bg-zinc-600 text-white p-1 sm:p-2 rounded-full transition-all duration-300"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
         >
           <i className="ri-arrow-right-s-line text-xl sm:text-2xl"></i>
         </button>

@@ -201,7 +201,7 @@ const People = () => {
         <TopNav searchOnly={true} />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 md:gap-6 px-6 sm:px-8">
+      <div className="flex flex-wrap justify-center gap-4 md:gap-6 px-0">
         {people.length === 0 && loading ? (
           <Shimmer />
         ) : (

@@ -150,7 +150,7 @@ const TopNav = ({ searchOnly = false }) => {
         <div
           ref={searchContainerRef}
           className="w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto h-full flex items-center"
-          style={{ position: "relative", overflow: "visible", zIndex: 60 }}
+          style={{ position: "relative", overflow: "visible", zIndex: 9995 }}
         >
           <div className="w-full relative" style={{ position: "relative" }}>
             <input
@@ -167,14 +167,14 @@ const TopNav = ({ searchOnly = false }) => {
               } border border-zinc-800 rounded-full focus:outline-none focus:ring-0 focus:border-zinc-700 outline-none shadow-none hover:bg-[#1a1a1a] hover:border-zinc-700 focus:bg-black transition-all duration-300 ${
                 isHomePage ? "text-lg" : "text-base"
               } font-medium select-none`}
-              style={{ position: "relative", zIndex: 61 }}
+              style={{ position: "relative", zIndex: 9996 }}
             />
             <i
               className={`ri-search-line absolute ${
                 isHomePage ? "left-5" : "left-4"
               } top-1/2 transform -translate-y-1/2 text-[#6556CD] ${
                 isHomePage ? "text-3xl" : "text-2xl"
-              } transition-colors duration-300 drop-shadow-[0_0_2px_rgba(101,86,205,0.5)] z-[62]`}
+              } transition-colors duration-300 drop-shadow-[0_0_2px_rgba(101,86,205,0.5)] z-[9997]`}
             ></i>
             {searchBar && (
               <button
@@ -183,7 +183,7 @@ const TopNav = ({ searchOnly = false }) => {
                   setSearches(null);
                   searchInputRef.current?.focus();
                 }}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-white z-[62]"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-white z-[9997]"
               >
                 <i className="ri-close-line"></i>
               </button>
@@ -196,7 +196,7 @@ const TopNav = ({ searchOnly = false }) => {
       {searches && (
         <div
           className="fixed inset-0 bg-transparent"
-          style={{ zIndex: 50 }}
+          style={{ zIndex: 9990 }}
           onClick={() => {
             setSearches(null); // Only hide search results, don't clear the search bar
           }}
@@ -208,13 +208,20 @@ const TopNav = ({ searchOnly = false }) => {
         <div
           className="bg-[#2c2c2c] rounded-md shadow-lg max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30 search-results"
           style={{
-            position: "absolute",
-            top: "100%",
-            marginTop: "2px",
-            left: "50%",
+            position: "fixed",
+            top: searchContainerRef.current
+              ? searchContainerRef.current.getBoundingClientRect().bottom +
+                2 +
+                "px"
+              : "60px",
+            left: searchContainerRef.current
+              ? searchContainerRef.current.getBoundingClientRect().left +
+                searchContainerRef.current.getBoundingClientRect().width / 2 +
+                "px"
+              : "50%",
             transform: "translateX(-50%)",
             width: "70%" /* Exactly 10% wider than the search input */,
-            zIndex: 100,
+            zIndex: 9999,
           }}
         >
           <div className="p-2">
@@ -308,13 +315,20 @@ const TopNav = ({ searchOnly = false }) => {
         <div
           className="bg-[#2c2c2c] rounded-md shadow-lg border border-zinc-700/30 search-results"
           style={{
-            position: "absolute",
-            top: "100%",
-            marginTop: "2px",
-            left: "50%",
+            position: "fixed",
+            top: searchContainerRef.current
+              ? searchContainerRef.current.getBoundingClientRect().bottom +
+                2 +
+                "px"
+              : "60px",
+            left: searchContainerRef.current
+              ? searchContainerRef.current.getBoundingClientRect().left +
+                searchContainerRef.current.getBoundingClientRect().width / 2 +
+                "px"
+              : "50%",
             transform: "translateX(-50%)",
-            width: "110%" /* Exactly 10% wider than the search input */,
-            zIndex: 100,
+            width: "70%" /* Exactly 10% wider than the search input */,
+            zIndex: 9999,
           }}
         >
           <div className="p-4 text-center">

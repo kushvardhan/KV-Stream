@@ -250,3 +250,53 @@ html {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Horizontal scrolling styles */
+.horizontal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #6556cd #2c2c2c;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background-color: #6556cd;
+  border-radius: 10px;
+  min-height: 30px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background-color: #2c2c2c;
+  border-radius: 10px;
+}
+
+/* Hide scrollbar when not needed */
+.horizontal-scroll.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.horizontal-scroll.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure scrollbars are visible on mobile */
+@media (max-width: 768px) {
+  .horizontal-scroll {
+    -ms-overflow-style: auto !important;
+    scrollbar-width: thin !important;
+  }
+
+  .horizontal-scroll::-webkit-scrollbar {
+    height: 10px !important;
+    display: block !important;
+  }
+
+  .horizontal-scroll::-webkit-scrollbar-thumb {
+    background-color: #6556cd !important;
+    border-radius: 10px !important;
+    min-height: 30px !important;
+  }
+}

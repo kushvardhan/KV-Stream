@@ -5,6 +5,7 @@ import ScrollToTopButton from "./ScrollToTopButton";
 import Cards from "./templates/Cards";
 import DropDown from "./templates/DropDown";
 import Shimmer from "./templates/Shimmer";
+import TopNav from "./templates/TopNav";
 
 const Popular = () => {
   const navigate = useNavigate();
@@ -218,7 +219,7 @@ const Popular = () => {
         />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 md:gap-6 px-6 sm:px-8">
+      <div className="flex flex-wrap justify-center gap-4 md:gap-6 px-0">
         {popular.length === 0 && loading ? (
           <Shimmer />
         ) : (

@@ -5,6 +5,7 @@ import ScrollToTopButton from "./ScrollToTopButton";
 import Cards from "./templates/Cards";
 import DropDown from "./templates/DropDown";
 import Shimmer from "./templates/Shimmer";
+import TopNav from "./templates/TopNav";
 
 const Movie = () => {
   const navigate = useNavigate();

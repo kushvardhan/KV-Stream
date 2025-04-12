@@ -347,9 +347,35 @@ const MovieDetails = () => {
       <div className="my-8"></div>
 
       {info.credit?.cast?.filter((actor) => actor.profile_path).length > 0 && (
-        <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
+        <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg relative">
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎭 Cast</h2>
-          <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
+
+          {/* Left scroll button for cast - only shown when needed */}
+          {info.credit.cast.filter((actor) => actor.profile_path).length >
+            3 && (
+            <button
+              onClick={() => {
+                const container = document.querySelector(".cast-scroll");
+                if (container) {
+                  container.scrollBy({
+                    left: -container.clientWidth * 0.5,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
+            >
+              <i className="ri-arrow-left-s-line text-xl sm:text-2xl"></i>
+            </button>
+          )}
+
+          <div
+            className="flex overflow-x-auto space-x-4 scroll-smooth p-2 horizontal-scroll cast-scroll"
+            style={{
+              scrollbarWidth: "thin",
+              scrollbarColor: "#6556cd #2c2c2c",
+            }}
+          >
             {info.credit.cast
               .filter((actor) => actor.profile_path)
               .slice(0, 10)
@@ -375,14 +401,59 @@ const MovieDetails = () => {
                 </Link>
               ))}
           </div>
+
+          {/* Right scroll button for cast - only shown when needed */}
+          {info.credit.cast.filter((actor) => actor.profile_path).length >
+            3 && (
+            <button
+              onClick={() => {
+                const container = document.querySelector(".cast-scroll");
+                if (container) {
+                  container.scrollBy({
+                    left: container.clientWidth * 0.5,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
+            >
+              <i className="ri-arrow-right-s-line text-xl sm:text-2xl"></i>
+            </button>
+          )}
         </div>
       )}
 
       {info.credit?.crew?.filter((member) => member.profile_path).length >
         0 && (
-        <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg">
+        <div className="mt-8 w-[95%] p-4 bg-black/50 rounded-lg relative">
           <h2 className="text-lg font-semibold text-zinc-400 mb-1">🎬 Crew</h2>
-          <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-zinc-700 scrollbar-thumb-zinc-500 scroll-smooth p-2">
+
+          {/* Left scroll button for crew - only shown when needed */}
+          {info.credit.crew.filter((member) => member.profile_path).length >
+            3 && (
+            <button
+              onClick={() => {
+                const container = document.querySelector(".crew-scroll");
+                if (container) {
+                  container.scrollBy({
+                    left: -container.clientWidth * 0.5,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
+            >
+              <i className="ri-arrow-left-s-line text-xl sm:text-2xl"></i>
+            </button>
+          )}
+
+          <div
+            className="flex overflow-x-auto space-x-4 scroll-smooth p-2 horizontal-scroll crew-scroll"
+            style={{
+              scrollbarWidth: "thin",
+              scrollbarColor: "#6556cd #2c2c2c",
+            }}
+          >
             {info.credit.crew
               .filter((member) => member.profile_path)
               .slice(0, 10)
@@ -408,6 +479,25 @@ const MovieDetails = () => {
                 </Link>
               ))}
           </div>
+
+          {/* Right scroll button for crew - only shown when needed */}
+          {info.credit.crew.filter((member) => member.profile_path).length >
+            3 && (
+            <button
+              onClick={() => {
+                const container = document.querySelector(".crew-scroll");
+                if (container) {
+                  container.scrollBy({
+                    left: container.clientWidth * 0.5,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
+            >
+              <i className="ri-arrow-right-s-line text-xl sm:text-2xl"></i>
+            </button>
+          )}
         </div>
       )}
 

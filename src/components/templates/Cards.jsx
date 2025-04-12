@@ -69,14 +69,16 @@ const Cards = memo(
           </div>
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t select-none from-black via-black/40 to-transparent p-2 sm:p-3 flex flex-col justify-end opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute inset-0 bg-gradient-to-t select-none from-black via-black/40 to-transparent p-2 sm:p-3 flex flex-col justify-end opacity-100 group-hover:opacity-100 transition-opacity duration-300 overflow-hidden">
           <h2 className="text-xs sm:text-sm font-bold text-white truncate">
             {data.title || data.name}
           </h2>
           {!isPerson && (
-            <p className="text-xs text-gray-300 leading-tight mt-1 line-clamp-3 sm:line-clamp-4">
-              {shortOverview}
-            </p>
+            <div className="h-[60px] overflow-hidden">
+              <p className="text-xs text-gray-300 leading-tight mt-1 line-clamp-3 sm:line-clamp-4">
+                {shortOverview}
+              </p>
+            </div>
           )}
 
           <div className="flex items-center select-none space-x-1 mt-1">
