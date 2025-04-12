@@ -12,8 +12,11 @@ const Home = () => {
   // Add home-page class to body
   useEffect(() => {
     document.body.classList.add("home-page");
+    // Ensure body can scroll
+    document.body.style.overflow = "auto";
     return () => {
       document.body.classList.remove("home-page");
+      document.body.style.overflow = "";
     };
   }, []);
 
@@ -77,7 +80,7 @@ const Home = () => {
     <div className="w-full h-full flex flex-col md:flex-row">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 home-page ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-y-auto transition-all duration-300 home-page ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >

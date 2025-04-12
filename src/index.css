@@ -70,7 +70,14 @@ body {
 }
 
 /* Hide scrollbar on specific pages */
-.home-page,
+.home-page {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  /* Allow scrolling but hide scrollbar */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
 .about-page,
 .contact-page,
 .details-page {
@@ -150,7 +157,13 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.home-page::-webkit-scrollbar,
+.home-page::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+  display: none;
+}
+
 .about-page::-webkit-scrollbar,
 .contact-page::-webkit-scrollbar,
 .details-page::-webkit-scrollbar {
