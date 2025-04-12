@@ -198,7 +198,7 @@ const People = () => {
       </div>
 
       <div className="w-full mb-6 px-4 sm:px-6">
-        <TopNav />
+        <TopNav searchOnly={true} />
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 md:gap-6 px-6 sm:px-8">

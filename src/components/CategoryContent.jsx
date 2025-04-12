@@ -246,10 +246,10 @@ const CategoryContent = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row pt-4 md:pt-0 scroll-container">
+    <div className="w-full h-full flex flex-col md:block pt-4 md:pt-0 scroll-container">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 md:ml-[20%] lg:ml-[18%] xl:ml-[15%] ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >

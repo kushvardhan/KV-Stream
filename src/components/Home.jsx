@@ -99,10 +99,10 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+    <div className="w-full min-h-screen flex flex-col md:block overflow-x-hidden">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] min-h-screen overflow-x-hidden overflow-y-auto transition-all duration-300 home-page ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] min-h-screen overflow-x-hidden overflow-y-auto transition-all duration-300 home-page md:ml-[20%] lg:ml-[18%] xl:ml-[15%] ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >

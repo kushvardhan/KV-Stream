@@ -190,7 +190,7 @@ const TVShows = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="pt-4 pb-4 w-full min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden scroll-container">
+    <div className="pt-4 pb-4 w-full min-h-screen bg-[#1F1E24] flex flex-col overflow-x-hidden overflow-y-auto scroll-container">
       <div className="w-full flex items-center gap-3 mb-6 px-4 sm:px-6">
         <h1 className="font-bold text-zinc-300 text-2xl flex items-center gap-3">
           <button
@@ -207,7 +207,7 @@ const TVShows = () => {
       </div>
 
       <div className="w-full mb-6 px-4 sm:px-6">
-        <TopNav />
+        <TopNav searchOnly={true} />
       </div>
 
       <div className="w-full flex flex-wrap items-center mb-6 px-4 sm:px-6">

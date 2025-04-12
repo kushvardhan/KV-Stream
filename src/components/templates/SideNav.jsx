@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SideNav = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const location = useLocation();
+
+  // Check if we're on a route that should have fixed sidebar
+  const isFixedRoute =
+    location.pathname.includes("/category/") ||
+    location.pathname === "/features" ||
+    location.pathname === "/" ||
+    location.pathname === "/trending" ||
+    location.pathname === "/popular" ||
+    location.pathname === "/movies" ||
+    location.pathname === "/tv-shows" ||
+    location.pathname === "/peoples";
 
   // Check if we're on mobile and update state
   useEffect(() => {
@@ -116,8 +128,14 @@ const SideNav = ({ onToggle }) => {
         className={`sidebar-container max-w-[100vw] ${
           isMobile
             ? "fixed inset-y-0 left-0 z-[100] w-[75%] xs:w-[60%] sm:w-[50%] md:w-[40%]"
-            : "w-full md:w-[20%] lg:w-[18%] xl:w-[15%]"
-        } h-full border-r border-zinc-400 py-8 px-4 overflow-x-hidden overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-500 scrollbar-track-transparent hover:scrollbar-thumb-zinc-600 transition-all duration-300 bg-[#1F1E24] ${
+            : "w-full md:w-[20%] lg:w-[18%] xl:w-[15%] md:fixed md:inset-y-0 md:left-0 md:z-[100]"
+        } h-full border-r border-zinc-400 py-8 px-4 overflow-x-hidden ${
+          isMobile
+            ? "overflow-y-auto"
+            : isFixedRoute
+            ? "md:overflow-y-hidden"
+            : "overflow-y-auto"
+        } scrollbar-thin scrollbar-thumb-zinc-500 scrollbar-track-transparent hover:scrollbar-thumb-zinc-600 transition-all duration-300 bg-[#1F1E24] ${
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         }`}
       >
