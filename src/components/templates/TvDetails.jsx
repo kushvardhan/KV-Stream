@@ -624,21 +624,24 @@ const TvDetails = () => {
               ))}
           </div>
 
-          {/* Right scroll button for crew */}
-          <button
-            onClick={() => {
-              const container = document.querySelector(".tv-crew-scroll");
-              if (container) {
-                container.scrollBy({
-                  left: container.clientWidth * 0.5,
-                  behavior: "smooth",
-                });
-              }
-            }}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
-          >
-            <i className="ri-arrow-right-s-line text-xl sm:text-2xl"></i>
-          </button>
+          {/* Right scroll button for crew - only shown when needed */}
+          {info.credit.crew.filter((member) => member.profile_path).length >
+            3 && (
+            <button
+              onClick={() => {
+                const container = document.querySelector(".tv-crew-scroll");
+                if (container) {
+                  container.scrollBy({
+                    left: container.clientWidth * 0.5,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-[#6556CD]/80 hover:bg-[#6556CD] text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg"
+            >
+              <i className="ri-arrow-right-s-line text-xl sm:text-2xl"></i>
+            </button>
+          )}
         </div>
       )}
 
