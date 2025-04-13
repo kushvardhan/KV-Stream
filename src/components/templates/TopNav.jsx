@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation,Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import instance from "../../../utils/axios";
 
 const TopNav = ({ searchOnly = false }) => {
@@ -86,6 +86,29 @@ const TopNav = ({ searchOnly = false }) => {
     }
   }, [selectedIndex]);
 
+  // Update search results position when scrolling
+  useEffect(() => {
+    const updatePosition = () => {
+      if (searches && searches.length > 0 && searchContainerRef.current) {
+        // Force a re-render to update position
+        setSearches([...searches]);
+      }
+    };
+
+    window.addEventListener("scroll", updatePosition, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updatePosition);
+    };
+  }, [searches]);
+
+  // Function to handle search result click
+  const handleSearchResultClick = (detailPath) => {
+    console.log("Search result clicked:", detailPath);
+    setSearchBar("");
+    setSearches(null);
+    window.location.href = detailPath;
+  };
+
   // Handle keyboard navigation
   const handleKeyDown = (e) => {
     if (!searches) return;
@@ -114,7 +137,7 @@ const TopNav = ({ searchOnly = false }) => {
             : mediaType === "person"
             ? `/peoples/details/${id}`
             : `/movies/details/${id}`;
-        window.location.href = path;
+        handleSearchResultClick(path);
       }
     }
   };
@@ -221,7 +244,9 @@ const TopNav = ({ searchOnly = false }) => {
                 "px"
               : "50%",
             transform: "translateX(-50%)",
-            width: "70%" /* Exactly 10% wider than the search input */,
+            width: searchContainerRef.current
+              ? searchContainerRef.current.getBoundingClientRect().width + "px"
+              : "60%",
             zIndex: 9999,
           }}
         >
@@ -234,30 +259,30 @@ const TopNav = ({ searchOnly = false }) => {
                 // Skip items without title or name
                 if (!search.title && !search.name) return null;
 
+                // Determine the correct path
+                const detailPath =
+                  search.media_type === "movie"
+                    ? `/movies/details/${search.id}`
+                    : search.media_type === "tv"
+                    ? `/tv-shows/details/${search.id}`
+                    : search.media_type === "person"
+                    ? `/peoples/details/${search.id}`
+                    : `/movies/details/${search.id}`;
+
                 return (
                   <li
                     key={search.id}
-                    className={`${
+                    onClick={() => handleSearchResultClick(detailPath)}
+                    className={`cursor-pointer ${
                       selectedIndex === index
                         ? "bg-[#6556CD]/20 text-white border-l-4 border-[#6556CD] pl-1"
                         : "text-zinc-300 hover:bg-[#3c3c3c]"
-                    } rounded-md transition-colors duration-200`}
+                    } rounded-md transition-all duration-200 hover:shadow-md active:shadow-inner hover:bg-[#3c3c3c]/80 hover:scale-[1.01] active:scale-[0.99]`}
                   >
-                    <Link
-                      to={
-                        search.media_type === "movie"
-                          ? `/movies/details/${search.id}`
-                          : search.media_type === "tv"
-                          ? `/tv-shows/details/${search.id}`
-                          : search.media_type === "person"
-                          ? `/peoples/details/${search.id}`
-                          : `/movies/details/${search.id}`
-                      }
-                      className="flex items-center p-2 cursor-pointer hover:bg-[#3c3c3c] active:bg-[#4c4c4c] rounded-md transition-colors duration-200"
-                      onClick={(e) => {
-                        setSearchBar("");
-                        setSearches(null);
-                      }}
+                    <div
+                      className="flex items-center p-2 w-full group"
+                      onClick={() => handleSearchResultClick(detailPath)}
+                      style={{ cursor: "pointer" }}
                     >
                       <div className="w-10 h-10 rounded-md overflow-hidden bg-[#3c3c3c] flex-shrink-0">
                         {search.poster_path || search.profile_path ? (
@@ -299,10 +324,10 @@ const TopNav = ({ searchOnly = false }) => {
                             ` • ${search.first_air_date.split("-")[0]}`}
                         </p>
                       </div>
-                      <div className="ml-2 text-zinc-400">
+                      <div className="ml-2 text-[#6556CD] group-hover:translate-x-1 transition-transform duration-200">
                         <i className="ri-arrow-right-s-line"></i>
                       </div>
-                    </Link>
+                    </div>
                   </li>
                 );
               })}
@@ -328,7 +353,9 @@ const TopNav = ({ searchOnly = false }) => {
                 "px"
               : "50%",
             transform: "translateX(-50%)",
-            width: "70%" /* Exactly 10% wider than the search input */,
+            width: searchContainerRef.current
+              ? searchContainerRef.current.getBoundingClientRect().width + "px"
+              : "60%",
             zIndex: 9999,
           }}
         >
