@@ -384,7 +384,7 @@ const TopNav = ({ searchOnly = false }) => {
                             className="w-full h-full flex items-center justify-center bg-[#3c3c3c] text-zinc-500"
                             onClick={(e) => {
                               e.stopPropagation();
-                              window.location.href = detailPath;
+                              window.location.assign(window.location.origin + detailPath);
                             }}
                           >
                             <i
@@ -397,7 +397,7 @@ const TopNav = ({ searchOnly = false }) => {
                               }
                               onClick={(e) => {
                                 e.stopPropagation();
-                                window.location.href = detailPath;
+                                window.location.assign(window.location.origin + detailPath);
                               }}
                             ></i>
                           </div>
@@ -407,14 +407,14 @@ const TopNav = ({ searchOnly = false }) => {
                         className="ml-3 flex-1 min-w-0"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.location.href = detailPath;
+                          window.location.assign(window.location.origin + detailPath);
                         }}
                       >
                         <p
                           className="text-sm font-medium truncate"
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.href = detailPath;
+                            window.location.assign(window.location.origin + detailPath);
                           }}
                         >
                           {search.title || search.name}
@@ -423,7 +423,7 @@ const TopNav = ({ searchOnly = false }) => {
                           className="text-xs text-zinc-400 truncate"
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.href = detailPath;
+                            window.location.assign(window.location.origin + detailPath);
                           }}
                         >
                           {search.media_type === "movie"
@@ -441,14 +441,14 @@ const TopNav = ({ searchOnly = false }) => {
                         className="ml-2 text-[#6556CD] group-hover:translate-x-1 transition-transform duration-200"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.location.href = detailPath;
+                          window.location.assign(window.location.origin + detailPath);
                         }}
                       >
                         <i
                           className="ri-arrow-right-s-line"
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.href = detailPath;
+                            window.location.assign(window.location.origin + detailPath);
                           }}
                         ></i>
                       </div>
