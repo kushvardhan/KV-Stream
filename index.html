@@ -8,6 +8,17 @@
     />
     <link rel="shortcut icon" href="/tv-fill.svg" type="image/x-icon" />
     <title>KV | Movie APP</title>
+    <script>
+      // Handle redirects from 404.html
+      (function () {
+        var redirect = new URLSearchParams(window.location.search).get(
+          "redirect"
+        );
+        if (redirect) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
