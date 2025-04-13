@@ -9,9 +9,24 @@ const DropDown = ({ title, options, func }) => {
     const handleClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setIsOpen(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // Use capture phase to ensure this handler runs before others
+    document.addEventListener("mousedown", handleClickOutside, {
+      capture: true,
+    });
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside, {
+        capture: true,
+      });
   }, []);
+
+  // Close dropdown when scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isOpen) setIsOpen(false);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isOpen]);
 
   return (
     <div
@@ -26,7 +41,19 @@ const DropDown = ({ title, options, func }) => {
       </button>
 
       {isOpen && (
-        <ul className="absolute left-0 mt-2 w-28 sm:w-32 bg-[#2D2B37] rounded-md shadow-lg z-10 text-xs">
+        <ul
+          className="fixed mt-2 w-28 sm:w-32 bg-[#2D2B37] rounded-md shadow-lg z-[9999] text-xs animate-fadeIn"
+          style={{
+            left: ref.current
+              ? ref.current.getBoundingClientRect().left + "px"
+              : "0",
+            top: ref.current
+              ? ref.current.getBoundingClientRect().bottom + 5 + "px"
+              : "0",
+            animation: "fadeIn 0.2s ease-in-out",
+            transformOrigin: "top center",
+          }}
+        >
           {options.map((option, i) => (
             <li
               key={i}

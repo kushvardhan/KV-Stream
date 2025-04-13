@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation,Link } from "react-router-dom";
 import instance from "../../../utils/axios";
 
 const TopNav = ({ searchOnly = false }) => {
@@ -105,15 +105,16 @@ const TopNav = ({ searchOnly = false }) => {
         const mediaType = selected.media_type;
         const id = selected.id;
 
-        if (mediaType === "movie") {
-          window.location.href = `/movies/details/${id}`;
-        } else if (mediaType === "tv") {
-          window.location.href = `/tv-shows/details/${id}`;
-        } else if (mediaType === "person") {
-          window.location.href = `/peoples/details/${id}`;
-        } else {
-          window.location.href = `/movies/details/${id}`;
-        }
+        // Use the same navigation approach as the click handler
+        const path =
+          mediaType === "movie"
+            ? `/movies/details/${id}`
+            : mediaType === "tv"
+            ? `/tv-shows/details/${id}`
+            : mediaType === "person"
+            ? `/peoples/details/${id}`
+            : `/movies/details/${id}`;
+        window.location.href = path;
       }
     }
   };
@@ -252,8 +253,8 @@ const TopNav = ({ searchOnly = false }) => {
                           ? `/peoples/details/${search.id}`
                           : `/movies/details/${search.id}`
                       }
-                      className="flex items-center p-2"
-                      onClick={() => {
+                      className="flex items-center p-2 cursor-pointer hover:bg-[#3c3c3c] active:bg-[#4c4c4c] rounded-md transition-colors duration-200"
+                      onClick={(e) => {
                         setSearchBar("");
                         setSearches(null);
                       }}
