@@ -317,7 +317,7 @@ const CategoryContent = () => {
               )}
 
               {!loading && content.length === 0 && (
-                <div className="text-center py-8 text-zinc-400">
+                <div className="text-center py-8 text-zinc-400 min-h-[50vh] flex flex-col items-center justify-center">
                   <i className="ri-emotion-sad-line text-4xl"></i>
                   <p className="mt-2">No content found for this category</p>
                 </div>
