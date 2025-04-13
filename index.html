@@ -11,11 +11,13 @@
     <script>
       // Handle redirects from 404.html
       (function () {
-        var redirect = new URLSearchParams(window.location.search).get(
-          "redirect"
-        );
-        if (redirect) {
-          history.replaceState(null, null, redirect);
+        // Check if we have a redirect path stored in sessionStorage
+        var redirectPath = sessionStorage.getItem("redirect_path");
+        if (redirectPath) {
+          // Clear the redirect path from sessionStorage
+          sessionStorage.removeItem("redirect_path");
+          // Use history API to update the URL without causing a page refresh
+          history.replaceState(null, null, redirectPath);
         }
       })();
     </script>
