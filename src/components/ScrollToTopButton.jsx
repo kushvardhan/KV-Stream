@@ -45,25 +45,27 @@ const ScrollToTopButton = ({
   if (!show) return null;
 
   return (
-    <button
-      onClick={() => {
-        scrollToTop();
-        // Force focus away from the button to prevent keyboard issues
-        document.activeElement.blur();
-      }}
-      className={`fixed ${
-        hasPagination ? "bottom-32" : "bottom-8"
-      } right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[1000] group hover:scale-110 will-change-transform`}
-      style={{ transform: "translateZ(0)" }}
-      aria-label="Scroll to top"
-    >
-      <div className="relative flex items-center justify-center">
-        <i className="ri-arrow-up-line text-xl"></i>
-        <span className="absolute -top-12 right-0 bg-black/80 text-white text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg transform group-hover:-translate-y-1">
-          Back to top
-        </span>
-      </div>
-    </button>
+    <div className="fixed bottom-0 right-0 p-8 z-[1000] pointer-events-none">
+      <button
+        onClick={() => {
+          scrollToTop();
+          // Force focus away from the button to prevent keyboard issues
+          document.activeElement.blur();
+        }}
+        className={`${
+          hasPagination ? "mb-32" : "mb-0"
+        } bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 group hover:scale-110 will-change-transform pointer-events-auto`}
+        style={{ transform: "translateZ(0)" }}
+        aria-label="Scroll to top"
+      >
+        <div className="relative flex items-center justify-center">
+          <i className="ri-arrow-up-line text-xl"></i>
+          <span className="absolute -top-12 right-0 bg-black/80 text-white text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg transform group-hover:-translate-y-1">
+            Back to top
+          </span>
+        </div>
+      </button>
+    </div>
   );
 };
 

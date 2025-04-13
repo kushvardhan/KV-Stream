@@ -335,7 +335,7 @@ const CategoryContent = () => {
 
                 {/* Pagination controls - only show if we have more than 1 page */}
                 {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-4 mt-8 mb-16">
+                  <div className="flex justify-center items-center gap-4 mt-8 mb-24">
                     <button
                       onClick={handlePrevPage}
                       disabled={page === 1}
