@@ -3,6 +3,12 @@ import { loadtv } from "../reducers/tvSlice";
 
 export const asyncLoadtv = (id) => async (dispatch) => {
   try {
+    // Check if id is valid
+    if (!id) {
+      throw new Error("Invalid TV show ID");
+    }
+
+    // Make all API requests
     const detail = await axios.get(`/tv/${id}`);
     const externalid = await axios.get(`/tv/${id}/external_ids`);
     const recommendations = await axios.get(`/tv/${id}/recommendations`);
@@ -13,6 +19,11 @@ export const asyncLoadtv = (id) => async (dispatch) => {
     const translations = await axios.get(`/tv/${id}/translations`);
     const reviews = await axios.get(`/tv/${id}/reviews`);
     const images = await axios.get(`/tv/${id}/images`);
+
+    // Check if we got valid data
+    if (!detail.data) {
+      throw new Error("No TV show data found");
+    }
 
     let ultimateData = {
       details: detail.data,
@@ -29,9 +40,12 @@ export const asyncLoadtv = (id) => async (dispatch) => {
       reviews: reviews.data,
       images: images.data,
     };
-    "TV details: ", ultimateData;
+
+    console.log("TV details loaded successfully");
     dispatch(loadtv(ultimateData));
+    return ultimateData; // Return data for async/await in component
   } catch (error) {
-    console.error(error);
+    console.error("Error loading TV show data:", error);
+    throw error; // Re-throw to allow component to catch it
   }
 };

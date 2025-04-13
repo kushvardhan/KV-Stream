@@ -1,0 +1,11 @@
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "routes": [
+    { "src": "/movies/details/[^/]+", "dest": "/index.html" },
+    { "src": "/tv-shows/details/[^/]+", "dest": "/index.html" },
+    { "src": "/peoples/details/[^/]+", "dest": "/index.html" },
+    { "src": "/category/[^/]+", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "trailingSlash": false
+}

@@ -22,17 +22,54 @@ const TvDetails = () => {
   const { info } = useSelector((state) => state.tv);
   const [showAllLanguages, setShowAllLanguages] = useState(false);
 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    dispatch(asyncLoadtv(id));
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setError(false);
+        await dispatch(asyncLoadtv(id));
+      } catch (err) {
+        console.error("Error loading TV show:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+
     return () => {
       dispatch(removetv());
     };
   }, [dispatch, id]);
 
-  if (!info) {
+  if (loading) {
     return (
       <div className="w-full h-screen flex justify-center items-center bg-gray-900">
         <Shimmer />
+      </div>
+    );
+  }
+
+  if (error || !info) {
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-gray-900 p-4 text-center">
+        <i className="ri-error-warning-line text-6xl text-red-500 mb-4"></i>
+        <h1 className="text-2xl font-bold text-white mb-2">
+          TV Show Not Found
+        </h1>
+        <p className="text-gray-400 mb-6">
+          The TV show you're looking for doesn't exist or couldn't be loaded.
+        </p>
+        <button
+          onClick={() => navigate(-1)}
+          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+        >
+          Go Back
+        </button>
       </div>
     );
   }

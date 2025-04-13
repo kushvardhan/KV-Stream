@@ -319,7 +319,10 @@ const TopNav = ({ searchOnly = false }) => {
                         "List item clicked, navigating to:",
                         detailPath
                       );
-                      window.location.href = detailPath;
+                      // Use direct navigation to avoid client-side routing issues
+                      window.location.assign(
+                        window.location.origin + detailPath
+                      );
                     }}
                     className={`cursor-pointer touch-manipulation ${
                       selectedIndex === index
