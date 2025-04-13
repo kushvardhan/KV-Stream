@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../utils/axios";
-import ScrollToTopButton from "./ScrollToTopButton";
 import Cards from "./templates/Cards";
 import CategoryShimmer from "./templates/CategoryShimmer";
 import DropDown from "./templates/DropDown";
@@ -257,7 +256,7 @@ const CategoryContent = () => {
   // which has its own scrollToTop function
 
   return (
-    <div className="w-full h-full flex flex-col md:block pt-4 md:pt-0">
+    <div className="w-full h-full flex flex-col md:block pt-4 md:pt-0 category-page">
       <SideNav onToggle={handleSidebarToggle} />
       <div
         className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full min-h-screen overflow-x-hidden overflow-auto transition-all duration-300 md:ml-[20%] lg:ml-[18%] xl:ml-[15%] ${
@@ -365,13 +364,42 @@ const CategoryContent = () => {
                 )}
 
                 {/* Use the new ScrollToTopButton component */}
-                <ScrollToTopButton
-                  show={showTopButton}
-                  color="subtle"
-                  position="category-page"
-                  hasPagination={false}
-                  customClass="category-top-button"
-                />
+                <div
+                  style={{
+                    position: "fixed",
+                    bottom: "auto",
+                    top: "80vh",
+                    right: "4rem",
+                    zIndex: 1000,
+                    width: "48px",
+                    height: "48px",
+                    display: showTopButton ? "block" : "none",
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "50%",
+                      background:
+                        "linear-gradient(to right, rgba(101, 86, 205, 0.9), rgba(79, 70, 229, 0.9))",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease, opacity 0.3s ease",
+                    }}
+                    aria-label="Scroll to top"
+                  >
+                    <i className="ri-arrow-up-line text-xl"></i>
+                  </button>
+                </div>
               </>
             )}
           </div>

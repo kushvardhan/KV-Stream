@@ -126,6 +126,18 @@ const SideNav = ({ onToggle }) => {
         } scrollbar-thin scrollbar-thumb-zinc-500 scrollbar-track-transparent hover:scrollbar-thumb-zinc-600 transition-all duration-300 bg-[#1F1E24] ${
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         }`}
+        style={{
+          position: "fixed",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          height: "100vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+          zIndex: 100,
+          transform:
+            isMobile && !isOpen ? "translateX(-100%)" : "translateZ(0)",
+        }}
       >
         <Link
           to="/"

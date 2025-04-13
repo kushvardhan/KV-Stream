@@ -24,7 +24,7 @@ const ScrollToTopButton = ({
       case "indigo":
         return "from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700";
       case "subtle":
-        return "from-gray-600/60 to-gray-700/60 hover:from-gray-600/90 hover:to-gray-700/90";
+        return "from-indigo-500/90 to-purple-600/90 hover:from-indigo-500 hover:to-purple-600";
       case "primary":
       default:
         return "from-[#6556CD]/70 to-indigo-600/70 hover:from-[#6556CD] hover:to-indigo-600";
@@ -77,6 +77,7 @@ const ScrollToTopButton = ({
   return (
     <div
       className={`fixed ${getPositionClasses()} z-[1000] pointer-events-none ${customClass}`}
+      style={{ width: "48px", height: "48px", overflow: "visible" }}
     >
       <button
         onClick={() => {
@@ -84,15 +85,15 @@ const ScrollToTopButton = ({
           // Force focus away from the button to prevent keyboard issues
           document.activeElement.blur();
         }}
-        className={`bg-gradient-to-r ${getGradient()} text-white p-3 rounded-full shadow-xl transition-all duration-300 group hover:scale-110 will-change-transform pointer-events-auto ${
-          position === "category-page" ? "scale-110 shadow-2xl" : ""
+        className={`w-12 h-12 flex items-center justify-center bg-gradient-to-r ${getGradient()} text-white rounded-full shadow-xl transition-all duration-300 group hover:scale-110 will-change-transform pointer-events-auto ${
+          position === "category-page" ? "scale-100 shadow-lg" : ""
         }`}
         style={{ transform: "translateZ(0)" }}
         aria-label="Scroll to top"
       >
-        <div className="relative flex items-center justify-center">
-          <i className="ri-arrow-up-line text-lg"></i>
-          <span className="absolute -top-12 right-0 bg-black/80 text-white text-xs py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg transform group-hover:-translate-y-1">
+        <div className="relative flex items-center justify-center w-full h-full">
+          <i className="ri-arrow-up-line text-xl"></i>
+          <span className="absolute -top-10 right-0 bg-black/60 text-white text-xs py-1 px-2 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-md transform group-hover:-translate-y-1">
             Back to top
           </span>
         </div>
