@@ -365,6 +365,7 @@ const CategoryContent = () => {
 
                 {/* Use the new ScrollToTopButton component */}
                 <div
+                  className="scroll-top-button"
                   style={{
                     position: "fixed",
                     bottom: "auto",
@@ -380,6 +381,7 @@ const CategoryContent = () => {
                     onClick={() => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
+                    className="hover:scale-110 transition-transform duration-300"
                     style={{
                       width: "48px",
                       height: "48px",
