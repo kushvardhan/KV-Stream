@@ -52,8 +52,8 @@ const ScrollToTopButton = ({
         document.activeElement.blur();
       }}
       className={`fixed ${
-        hasPagination ? "bottom-24" : "bottom-8"
-      } right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110 will-change-transform`}
+        hasPagination ? "bottom-32" : "bottom-8"
+      } right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[1000] group hover:scale-110 will-change-transform`}
       style={{ transform: "translateZ(0)" }}
       aria-label="Scroll to top"
     >

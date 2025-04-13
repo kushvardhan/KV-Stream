@@ -128,13 +128,11 @@ const SideNav = ({ onToggle }) => {
         className={`sidebar-container max-w-[100vw] ${
           isMobile
             ? "fixed inset-y-0 left-0 z-[100] w-[75%] xs:w-[60%] sm:w-[50%] md:w-[40%]"
-            : "w-full md:w-[20%] lg:w-[18%] xl:w-[15%] md:fixed md:inset-y-0 md:left-0 md:z-[100]"
-        } h-full border-r border-zinc-400 py-8 px-4 overflow-x-hidden ${
+            : "w-full md:w-[20%] lg:w-[18%] xl:w-[15%] md:fixed md:top-0 md:bottom-0 md:left-0 md:z-[100] md:h-screen"
+        } border-r border-zinc-400 py-8 px-4 overflow-x-hidden ${
           isMobile
-            ? "overflow-y-auto"
-            : isFixedRoute
-            ? "md:overflow-y-hidden"
-            : "overflow-y-auto"
+            ? "overflow-y-auto h-full"
+            : "md:overflow-y-auto md:max-h-screen"
         } scrollbar-thin scrollbar-thumb-zinc-500 scrollbar-track-transparent hover:scrollbar-thumb-zinc-600 transition-all duration-300 bg-[#1F1E24] ${
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         }`}
