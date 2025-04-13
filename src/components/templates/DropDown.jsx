@@ -42,7 +42,7 @@ const DropDown = ({ title, options, func }) => {
 
       {isOpen && (
         <ul
-          className="fixed mt-2 w-28 sm:w-32 bg-[#2D2B37] rounded-md shadow-lg z-[9999] text-xs animate-fadeIn"
+          className="fixed mt-2 w-28 sm:w-32 bg-[#2D2B37] rounded-md shadow-lg z-[9999] text-xs animate-fadeIn overflow-visible"
           style={{
             left: ref.current
               ? ref.current.getBoundingClientRect().left + "px"

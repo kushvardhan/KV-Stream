@@ -37,7 +37,12 @@ const Cards = memo(
     return (
       <Link
         to={getPath()}
-        className="relative rounded-lg shadow-md transition-transform duration-300 hover:scale-105 w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[350px] group max-w-[280px] mx-auto"
+        className="relative rounded-lg shadow-md transition-all duration-300 hover:shadow-xl w-full h-[280px] sm:h-[300px] md:h-[330px] lg:h-[350px] group max-w-[280px] mx-auto select-none"
+        style={{
+          transform: "none",
+          backfaceVisibility: "hidden",
+          touchAction: "manipulation",
+        }}
       >
         {data.poster_path || data.backdrop_path || data.profile_path ? (
           <img

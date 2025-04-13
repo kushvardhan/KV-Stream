@@ -260,27 +260,33 @@ const CategoryContent = () => {
     <div className="w-full h-full flex flex-col md:block pt-4 md:pt-0 scroll-container">
       <SideNav onToggle={handleSidebarToggle} />
       <div
-        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full overflow-x-hidden overflow-auto transition-all duration-300 md:ml-[20%] lg:ml-[18%] xl:ml-[15%] ${
+        className={`w-full md:w-[80%] lg:w-[82%] xl:w-[85%] h-full min-h-screen overflow-x-hidden overflow-auto transition-all duration-300 md:ml-[20%] lg:ml-[18%] xl:ml-[15%] ${
           sidebarOpen ? "filter brightness-[0.85]" : ""
         }`}
       >
         <TopNav />
 
-        <div className="p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
-            <div className="flex flex-row items-center space-x-4">
-              <button
-                onClick={() => navigate(-1)}
-                className="relative text-zinc-400 hover:text-white w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full shadow-md hover:bg-zinc-700 hover:scale-110 transition-all duration-300"
-                aria-label="Go back"
+        <div className="p-4 sm:p-6 pb-20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sticky top-0 bg-[#1F1E24] z-[50] py-4 -mx-4 -mt-4 px-4 sm:-mx-6 sm:-mt-6 sm:px-6 border-b border-zinc-800">
+            <div className="flex flex-row items-center space-x-4 mb-4 sm:mb-0">
+              <div
+                className="w-10 h-10 flex-shrink-0 select-none"
+                style={{ touchAction: "none" }}
               >
-                <i className="ri-arrow-left-line text-xl"></i>
-              </button>
+                <div
+                  onClick={() => navigate(-1)}
+                  className="w-10 h-10 flex items-center justify-center bg-[#2c2c2c] rounded-full shadow-md cursor-pointer select-none"
+                  aria-label="Go back"
+                  style={{ touchAction: "none", transform: "none !important" }}
+                >
+                  <i className="ri-arrow-left-line text-xl text-zinc-400"></i>
+                </div>
+              </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h1>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3 ml-14 sm:ml-0 overflow-visible">
               <DropDown
                 title="Sort By"
                 options={["Popularity", "Rating", "Latest", "Oldest"]}
@@ -294,70 +300,79 @@ const CategoryContent = () => {
             </div>
           </div>
 
-          {loading && content.length === 0 ? (
-            <CategoryShimmer />
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 px-4 sm:px-6">
-                {content.map((item) => (
-                  <Cards
-                    key={item.id}
-                    data={item}
-                    title={mediaType}
-                    category={category}
-                  />
-                ))}
-              </div>
-
-              {loading && (
-                <div className="text-center py-8 text-[#6556CD]">
-                  <i className="ri-loader-4-line animate-spin text-2xl"></i>
-                  <p className="mt-2">Loading more content...</p>
+          <div className="mt-8">
+            {loading && content.length === 0 ? (
+              <CategoryShimmer />
+            ) : (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 px-4 sm:px-6">
+                  {content.map((item) => (
+                    <Cards
+                      key={item.id}
+                      data={item}
+                      title={mediaType}
+                      category={category}
+                    />
+                  ))}
                 </div>
-              )}
 
-              {!loading && content.length === 0 && (
-                <div className="text-center py-8 text-zinc-400 min-h-[50vh] flex flex-col items-center justify-center">
-                  <i className="ri-emotion-sad-line text-4xl"></i>
-                  <p className="mt-2">No content found for this category</p>
-                </div>
-              )}
+                {loading && (
+                  <div className="text-center py-8 text-[#6556CD]">
+                    <i className="ri-loader-4-line animate-spin text-2xl"></i>
+                    <p className="mt-2">Loading more content...</p>
+                  </div>
+                )}
 
-              {/* Pagination controls - only show if we have more than 1 page */}
-              {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-4 mt-8">
-                  <button
-                    onClick={handlePrevPage}
-                    disabled={page === 1}
-                    className={`px-4 py-2 rounded-md ${
-                      page === 1
-                        ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
-                        : "bg-[#6556CD] text-white hover:bg-[#5747C7]"
-                    } transition-colors`}
-                  >
-                    Previous
-                  </button>
-                  <span className="text-white">
-                    Page {page} of {totalPages}
-                  </span>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={page === totalPages}
-                    className={`px-4 py-2 rounded-md ${
-                      page === totalPages
-                        ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
-                        : "bg-[#6556CD] text-white hover:bg-[#5747C7]"
-                    } transition-colors`}
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
+                {!loading && content.length === 0 && (
+                  <div className="text-center py-8 text-zinc-400 flex flex-col items-center justify-center min-h-[200px]">
+                    <i className="ri-emotion-sad-line text-4xl"></i>
+                    <p className="mt-2">No content found for this category</p>
+                    <p className="mt-4 text-sm text-zinc-500">
+                      Try changing the Type or Sort options above
+                    </p>
+                  </div>
+                )}
 
-              {/* Use the new ScrollToTopButton component */}
-              <ScrollToTopButton show={showTopButton} color="primary" />
-            </>
-          )}
+                {/* Pagination controls - only show if we have more than 1 page */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 mt-8">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={page === 1}
+                      className={`px-4 py-2 rounded-md ${
+                        page === 1
+                          ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
+                          : "bg-[#6556CD] text-white hover:bg-[#5747C7]"
+                      } transition-colors`}
+                    >
+                      Previous
+                    </button>
+                    <span className="text-white">
+                      Page {page} of {totalPages}
+                    </span>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={page === totalPages}
+                      className={`px-4 py-2 rounded-md ${
+                        page === totalPages
+                          ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
+                          : "bg-[#6556CD] text-white hover:bg-[#5747C7]"
+                      } transition-colors`}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+
+                {/* Use the new ScrollToTopButton component */}
+                <ScrollToTopButton
+                  show={showTopButton}
+                  color="primary"
+                  hasPagination={totalPages > 1}
+                />
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

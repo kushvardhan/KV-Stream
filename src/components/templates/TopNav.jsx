@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../utils/axios";
 
 const TopNav = ({ searchOnly = false }) => {
@@ -10,6 +10,7 @@ const TopNav = ({ searchOnly = false }) => {
   const searchInputRef = useRef(null);
   const searchResultsRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Check if we're on the home page
   const isHomePage = location.pathname === "/";
@@ -49,9 +50,25 @@ const TopNav = ({ searchOnly = false }) => {
     };
   }, [searchBar]);
 
-  // Handle clicks outside search container
+  // Handle clicks outside search container and clicks on search results
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleInteraction = (event) => {
+      // Check if the interaction is on an element with data-href attribute
+      let target = event.target;
+      while (target) {
+        if (target.dataset && target.dataset.href) {
+          // Navigate to the href
+          console.log(
+            "Global interaction handler - navigating to:",
+            target.dataset.href
+          );
+          window.location.href = target.dataset.href;
+          return;
+        }
+        target = target.parentElement;
+      }
+
+      // Handle interactions outside search container
       if (
         searchContainerRef.current &&
         !searchContainerRef.current.contains(event.target)
@@ -60,13 +77,22 @@ const TopNav = ({ searchOnly = false }) => {
       }
     };
 
-    // Add higher priority to this event listener
-    document.addEventListener("mousedown", handleClickOutside, {
+    // Add higher priority to these event listeners
+    document.addEventListener("mousedown", handleInteraction, {
       capture: true,
     });
+    document.addEventListener("touchstart", handleInteraction, {
+      capture: true,
+      passive: false,
+    });
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside, {
+      document.removeEventListener("mousedown", handleInteraction, {
         capture: true,
+      });
+      document.removeEventListener("touchstart", handleInteraction, {
+        capture: true,
+        passive: false,
       });
     };
   }, []);
@@ -101,12 +127,14 @@ const TopNav = ({ searchOnly = false }) => {
     };
   }, [searches]);
 
-  // Function to handle search result click
+  // Function to handle search result click - simplified for keyboard navigation
   const handleSearchResultClick = (detailPath) => {
-    console.log("Search result clicked:", detailPath);
+    // Clear search bar and results
     setSearchBar("");
     setSearches(null);
-    window.location.href = detailPath;
+
+    // Navigate to the detail path
+    navigate(detailPath);
   };
 
   // Handle keyboard navigation
@@ -137,6 +165,7 @@ const TopNav = ({ searchOnly = false }) => {
             : mediaType === "person"
             ? `/peoples/details/${id}`
             : `/movies/details/${id}`;
+        // Simply call the handleSearchResultClick function with the path
         handleSearchResultClick(path);
       }
     }
@@ -171,6 +200,7 @@ const TopNav = ({ searchOnly = false }) => {
         )}
 
         {/* Search container */}
+
         <div
           ref={searchContainerRef}
           className="w-full md:w-[60%] lg:w-[60%] max-w-3xl mx-auto h-full flex items-center"
@@ -230,7 +260,8 @@ const TopNav = ({ searchOnly = false }) => {
       {/* Search results */}
       {searches && searches.length > 0 && (
         <div
-          className="bg-[#2c2c2c] rounded-md shadow-lg max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30 search-results"
+          className="bg-[#2c2c2c] rounded-md shadow-lg max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30 search-results pointer-events-auto touch-manipulation"
+          onClick={(e) => e.stopPropagation()}
           style={{
             position: "fixed",
             top: searchContainerRef.current
@@ -247,14 +278,17 @@ const TopNav = ({ searchOnly = false }) => {
             width: searchContainerRef.current
               ? searchContainerRef.current.getBoundingClientRect().width + "px"
               : "60%",
-            zIndex: 9999,
+            zIndex: 10000,
           }}
         >
-          <div className="p-2">
-            <h3 className="text-zinc-400 text-xs font-semibold mb-2 px-2">
+          <div className="p-2" onClick={(e) => e.stopPropagation()}>
+            <h3
+              className="text-zinc-400 text-xs font-semibold mb-2 px-2"
+              onClick={(e) => e.stopPropagation()}
+            >
               Search Results
             </h3>
-            <ul ref={searchResultsRef}>
+            <ul ref={searchResultsRef} onClick={(e) => e.stopPropagation()}>
               {searches.map((search, index) => {
                 // Skip items without title or name
                 if (!search.title && !search.name) return null;
@@ -269,22 +303,59 @@ const TopNav = ({ searchOnly = false }) => {
                     ? `/peoples/details/${search.id}`
                     : `/movies/details/${search.id}`;
 
+                console.log(
+                  "Rendering search item:",
+                  search.title || search.name,
+                  "path:",
+                  detailPath
+                );
+
                 return (
                   <li
                     key={search.id}
-                    onClick={() => handleSearchResultClick(detailPath)}
-                    className={`cursor-pointer ${
+                    data-href={detailPath}
+                    onClick={() => {
+                      console.log(
+                        "List item clicked, navigating to:",
+                        detailPath
+                      );
+                      window.location.href = detailPath;
+                    }}
+                    className={`cursor-pointer touch-manipulation ${
                       selectedIndex === index
                         ? "bg-[#6556CD]/20 text-white border-l-4 border-[#6556CD] pl-1"
                         : "text-zinc-300 hover:bg-[#3c3c3c]"
-                    } rounded-md transition-all duration-200 hover:shadow-md active:shadow-inner hover:bg-[#3c3c3c]/80 hover:scale-[1.01] active:scale-[0.99]`}
+                    } rounded-md transition-all duration-200 hover:shadow-md active:shadow-inner hover:bg-[#3c3c3c]/80 hover:scale-[1.01] active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-[#6556CD]/50`}
                   >
-                    <div
-                      className="flex items-center p-2 w-full group"
-                      onClick={() => handleSearchResultClick(detailPath)}
-                      style={{ cursor: "pointer" }}
+                    <button
+                      type="button"
+                      data-href={detailPath}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        console.log(
+                          "Button clicked, navigating to:",
+                          detailPath
+                        );
+                        window.location.href = detailPath;
+                      }}
+                      className="flex items-center p-3 w-full group touch-manipulation bg-transparent border-0"
+                      style={{
+                        cursor: "pointer",
+                        textDecoration: "none",
+                        color: "inherit",
+                        WebkitTapHighlightColor: "rgba(0,0,0,0)",
+                        WebkitTouchCallout: "none",
+                        userSelect: "none",
+                        textAlign: "left",
+                      }}
                     >
-                      <div className="w-10 h-10 rounded-md overflow-hidden bg-[#3c3c3c] flex-shrink-0">
+                      <div
+                        className="w-10 h-10 rounded-md overflow-hidden bg-[#3c3c3c] flex-shrink-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = detailPath;
+                        }}
+                      >
                         {search.poster_path || search.profile_path ? (
                           <img
                             src={`https://image.tmdb.org/t/p/w92${
@@ -293,9 +364,19 @@ const TopNav = ({ searchOnly = false }) => {
                             alt={search.title || search.name}
                             className="w-full h-full object-cover"
                             loading="lazy"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.location.href = detailPath;
+                            }}
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-[#3c3c3c] text-zinc-500">
+                          <div
+                            className="w-full h-full flex items-center justify-center bg-[#3c3c3c] text-zinc-500"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.location.href = detailPath;
+                            }}
+                          >
                             <i
                               className={
                                 search.media_type === "movie"
@@ -304,15 +385,37 @@ const TopNav = ({ searchOnly = false }) => {
                                   ? "ri-tv-2-line"
                                   : "ri-user-line"
                               }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.location.href = detailPath;
+                              }}
                             ></i>
                           </div>
                         )}
                       </div>
-                      <div className="ml-3 flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">
+                      <div
+                        className="ml-3 flex-1 min-w-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = detailPath;
+                        }}
+                      >
+                        <p
+                          className="text-sm font-medium truncate"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = detailPath;
+                          }}
+                        >
                           {search.title || search.name}
                         </p>
-                        <p className="text-xs text-zinc-400 truncate">
+                        <p
+                          className="text-xs text-zinc-400 truncate"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = detailPath;
+                          }}
+                        >
                           {search.media_type === "movie"
                             ? "Movie"
                             : search.media_type === "tv"
@@ -324,10 +427,22 @@ const TopNav = ({ searchOnly = false }) => {
                             ` • ${search.first_air_date.split("-")[0]}`}
                         </p>
                       </div>
-                      <div className="ml-2 text-[#6556CD] group-hover:translate-x-1 transition-transform duration-200">
-                        <i className="ri-arrow-right-s-line"></i>
+                      <div
+                        className="ml-2 text-[#6556CD] group-hover:translate-x-1 transition-transform duration-200"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = detailPath;
+                        }}
+                      >
+                        <i
+                          className="ri-arrow-right-s-line"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = detailPath;
+                          }}
+                        ></i>
                       </div>
-                    </div>
+                    </button>
                   </li>
                 );
               })}
@@ -339,7 +454,8 @@ const TopNav = ({ searchOnly = false }) => {
       {/* No results */}
       {searches && searches.length === 0 && (
         <div
-          className="bg-[#2c2c2c] rounded-md shadow-lg border border-zinc-700/30 search-results"
+          className="bg-[#2c2c2c] rounded-md shadow-lg border border-zinc-700/30 search-results pointer-events-auto"
+          onClick={(e) => e.stopPropagation()}
           style={{
             position: "fixed",
             top: searchContainerRef.current
@@ -356,11 +472,13 @@ const TopNav = ({ searchOnly = false }) => {
             width: searchContainerRef.current
               ? searchContainerRef.current.getBoundingClientRect().width + "px"
               : "60%",
-            zIndex: 9999,
+            zIndex: 10000,
           }}
         >
-          <div className="p-4 text-center">
-            <p className="text-zinc-400">No results found</p>
+          <div className="p-4 text-center" onClick={(e) => e.stopPropagation()}>
+            <p className="text-zinc-400" onClick={(e) => e.stopPropagation()}>
+              No results found
+            </p>
           </div>
         </div>
       )}

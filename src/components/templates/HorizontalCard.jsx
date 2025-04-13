@@ -95,8 +95,24 @@ const HorizontalCard = ({ trending }) => {
           }
 
           return (
-            <Link key={index} to={detailsPath} className="group">
-              <div className="relative w-[140px] min-w-[140px] sm:w-[160px] sm:min-w-[160px] md:w-[180px] md:min-w-[180px] h-[250px] sm:h-[280px] md:h-[320px] rounded-lg overflow-hidden bg-zinc-800 shadow-lg transition-transform duration-300 group-hover:scale-105">
+            <Link
+              key={index}
+              to={detailsPath}
+              className="group select-none"
+              style={{
+                transform: "none",
+                backfaceVisibility: "hidden",
+                touchAction: "manipulation",
+              }}
+            >
+              <div
+                className="relative w-[140px] min-w-[140px] sm:w-[160px] sm:min-w-[160px] md:w-[180px] md:min-w-[180px] h-[250px] sm:h-[280px] md:h-[320px] rounded-lg overflow-hidden bg-zinc-800 shadow-lg transition-all duration-300 hover:shadow-xl select-none"
+                style={{
+                  transform: "none",
+                  backfaceVisibility: "hidden",
+                  touchAction: "manipulation",
+                }}
+              >
                 <img
                   src={
                     item.poster_path || item.backdrop_path || item.profile_path

@@ -127,11 +127,17 @@ const Home = () => {
           <>
             <HorizontalCard trending={trending} />
 
-            <div className="mt-4 p-4">
+            <div
+              className="mt-4 p-4 overflow-visible"
+              style={{ transform: "translateZ(0)", willChange: "auto" }}
+            >
               <h2 className="text-xl sm:text-2xl font-bold mb-4 text-white">
                 Popular Categories
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
+              <div
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 overflow-visible select-none"
+                style={{ transform: "translateZ(0)", willChange: "auto" }}
+              >
                 {[
                   {
                     name: "Action",
@@ -187,12 +193,27 @@ const Home = () => {
                   <Link
                     key={index}
                     to={`/category/${category.name.toLowerCase()}`}
-                    className={`${category.color} rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-lg h-24 sm:h-32 w-full`}
+                    className={`${category.color} rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center cursor-pointer transition-colors duration-300 hover:shadow-lg h-24 sm:h-32 w-full select-none`}
+                    style={{
+                      transform: "none",
+                      backfaceVisibility: "hidden",
+                      touchAction: "none",
+                    }}
                   >
                     <i
-                      className={`${category.icon} text-2xl sm:text-3xl text-white mb-2`}
+                      className={`${category.icon} text-2xl sm:text-3xl text-white mb-2 select-none`}
+                      style={{
+                        transform: "none",
+                        backfaceVisibility: "hidden",
+                      }}
                     ></i>
-                    <span className="text-xs sm:text-sm md:text-base font-medium text-white text-center whitespace-normal">
+                    <span
+                      className="text-xs sm:text-sm md:text-base font-medium text-white text-center whitespace-normal select-none"
+                      style={{
+                        transform: "none",
+                        backfaceVisibility: "hidden",
+                      }}
+                    >
                       {category.name}
                     </span>
                   </Link>

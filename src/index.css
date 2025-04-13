@@ -168,6 +168,101 @@ body {
   scrollbar-color: #6556cd rgba(0, 0, 0, 0.1);
 }
 
+/* Touch-friendly styles */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Improve touch target size */
+.search-results button {
+  min-height: 44px; /* Apple's recommended minimum touch target size */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Add active state for touch devices */
+.search-results button:active,
+.search-results li:active {
+  background-color: rgba(101, 86, 205, 0.2);
+}
+
+/* Fix button styling */
+.search-results button {
+  font: inherit;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: inherit;
+}
+
+/* Make sure all elements in search results are clickable */
+.search-results li,
+.search-results button,
+.search-results div,
+.search-results p,
+.search-results i,
+.search-results img {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+/* Add a highlight effect on hover */
+.search-results li:hover {
+  background-color: rgba(101, 86, 205, 0.1);
+}
+
+/* Prevent scrolling on back button hover */
+.sticky button,
+.sticky [aria-label="Go back"] {
+  transform: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease !important;
+  will-change: auto !important;
+  backface-visibility: hidden;
+}
+
+/* Prevent scrolling on category cards */
+.grid a[href^="/category/"] {
+  transform: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+  will-change: auto !important;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Prevent scrolling on all card components */
+a[href^="/movies/details/"],
+a[href^="/tv-shows/details/"],
+a[href^="/peoples/details/"],
+.group,
+.group > div,
+.group img,
+.group * {
+  transform: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease,
+    brightness 0.3s ease !important;
+  will-change: auto !important;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fix container divs that hold cards */
+.flex.flex-wrap.justify-center,
+.grid.grid-cols-2,
+.grid.grid-cols-3,
+.grid.grid-cols-4,
+.grid.grid-cols-5 {
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  overflow: visible;
+}
+
 /* Additional scrollbar thumb styles for better cross-browser support */
 html {
   --scrollbar-thumb-min-height: 6vh;

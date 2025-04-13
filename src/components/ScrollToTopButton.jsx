@@ -6,7 +6,11 @@ import React from "react";
  * @param {boolean} props.show - Whether to show the button
  * @param {string} props.color - Color theme for the button (primary, orange, indigo, etc.)
  */
-const ScrollToTopButton = ({ show, color = "primary" }) => {
+const ScrollToTopButton = ({
+  show,
+  color = "primary",
+  hasPagination = false,
+}) => {
   // Define gradient colors based on the theme
   const getGradient = () => {
     switch (color) {
@@ -47,7 +51,9 @@ const ScrollToTopButton = ({ show, color = "primary" }) => {
         // Force focus away from the button to prevent keyboard issues
         document.activeElement.blur();
       }}
-      className={`fixed bottom-8 right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110 will-change-transform`}
+      className={`fixed ${
+        hasPagination ? "bottom-24" : "bottom-8"
+      } right-8 bg-gradient-to-r ${getGradient()} text-white p-4 rounded-full shadow-xl transition-all duration-300 z-[999] group hover:scale-110 will-change-transform`}
       style={{ transform: "translateZ(0)" }}
       aria-label="Scroll to top"
     >
