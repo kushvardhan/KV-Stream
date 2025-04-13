@@ -359,7 +359,9 @@ const TopNav = ({ searchOnly = false }) => {
                         className="w-10 h-10 rounded-md overflow-hidden bg-[#3c3c3c] flex-shrink-0"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.location.href = detailPath;
+                          window.location.assign(
+                            window.location.origin + detailPath
+                          );
                         }}
                       >
                         {search.poster_path || search.profile_path ? (
@@ -372,7 +374,9 @@ const TopNav = ({ searchOnly = false }) => {
                             loading="lazy"
                             onClick={(e) => {
                               e.stopPropagation();
-                              window.location.href = detailPath;
+                              window.location.assign(
+                                window.location.origin + detailPath
+                              );
                             }}
                           />
                         ) : (
