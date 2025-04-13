@@ -370,6 +370,67 @@ const MovieDetails = () => {
           )}
 
           <div
+            ref={(el) => {
+              // Add drag-to-scroll functionality
+              if (el) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                const handleMouseDown = (e) => {
+                  isDown = true;
+                  el.classList.add("active");
+                  startX = e.pageX - el.offsetLeft;
+                  scrollLeft = el.scrollLeft;
+                };
+
+                const handleMouseLeave = () => {
+                  isDown = false;
+                  el.classList.remove("active");
+                };
+
+                const handleMouseUp = () => {
+                  isDown = false;
+                  el.classList.remove("active");
+                };
+
+                const handleMouseMove = (e) => {
+                  if (!isDown) return;
+                  e.preventDefault();
+                  const x = e.pageX - el.offsetLeft;
+                  const walk = (x - startX) * 1.5;
+                  el.scrollLeft = scrollLeft - walk;
+                };
+
+                const handleTouchStart = (e) => {
+                  isDown = true;
+                  el.classList.add("active");
+                  startX = e.touches[0].pageX - el.offsetLeft;
+                  scrollLeft = el.scrollLeft;
+                };
+
+                const handleTouchMove = (e) => {
+                  if (!isDown) return;
+                  const x = e.touches[0].pageX - el.offsetLeft;
+                  const walk = (x - startX) * 1.5;
+                  el.scrollLeft = scrollLeft - walk;
+                };
+
+                el.addEventListener("mousedown", handleMouseDown);
+                el.addEventListener("mouseleave", handleMouseLeave);
+                el.addEventListener("mouseup", handleMouseUp);
+                el.addEventListener("mousemove", handleMouseMove);
+                el.addEventListener("touchstart", handleTouchStart, {
+                  passive: true,
+                });
+                el.addEventListener("touchend", handleMouseUp, {
+                  passive: true,
+                });
+                el.addEventListener("touchmove", handleTouchMove, {
+                  passive: false,
+                });
+              }
+            }}
             className="flex overflow-x-auto space-x-4 scroll-smooth p-2 horizontal-scroll cast-scroll"
             style={{
               scrollbarWidth: "thin",
@@ -448,6 +509,67 @@ const MovieDetails = () => {
           )}
 
           <div
+            ref={(el) => {
+              // Add drag-to-scroll functionality
+              if (el) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                const handleMouseDown = (e) => {
+                  isDown = true;
+                  el.classList.add("active");
+                  startX = e.pageX - el.offsetLeft;
+                  scrollLeft = el.scrollLeft;
+                };
+
+                const handleMouseLeave = () => {
+                  isDown = false;
+                  el.classList.remove("active");
+                };
+
+                const handleMouseUp = () => {
+                  isDown = false;
+                  el.classList.remove("active");
+                };
+
+                const handleMouseMove = (e) => {
+                  if (!isDown) return;
+                  e.preventDefault();
+                  const x = e.pageX - el.offsetLeft;
+                  const walk = (x - startX) * 1.5;
+                  el.scrollLeft = scrollLeft - walk;
+                };
+
+                const handleTouchStart = (e) => {
+                  isDown = true;
+                  el.classList.add("active");
+                  startX = e.touches[0].pageX - el.offsetLeft;
+                  scrollLeft = el.scrollLeft;
+                };
+
+                const handleTouchMove = (e) => {
+                  if (!isDown) return;
+                  const x = e.touches[0].pageX - el.offsetLeft;
+                  const walk = (x - startX) * 1.5;
+                  el.scrollLeft = scrollLeft - walk;
+                };
+
+                el.addEventListener("mousedown", handleMouseDown);
+                el.addEventListener("mouseleave", handleMouseLeave);
+                el.addEventListener("mouseup", handleMouseUp);
+                el.addEventListener("mousemove", handleMouseMove);
+                el.addEventListener("touchstart", handleTouchStart, {
+                  passive: true,
+                });
+                el.addEventListener("touchend", handleMouseUp, {
+                  passive: true,
+                });
+                el.addEventListener("touchmove", handleTouchMove, {
+                  passive: false,
+                });
+              }
+            }}
             className="flex overflow-x-auto space-x-4 scroll-smooth p-2 horizontal-scroll crew-scroll"
             style={{
               scrollbarWidth: "thin",

@@ -98,7 +98,13 @@ const CategoryContent = () => {
           return;
       }
 
+      console.log(`Fetching data from endpoint: ${endpoint}`);
       const { data } = await axios.get(endpoint);
+      console.log(
+        `Received ${
+          data.results ? data.results.length : 0
+        } results for ${mediaType}`
+      );
 
       // Only update content if we have results or if this is a new category/sort/media type
       if (data.results && data.results.length > 0) {
@@ -156,8 +162,13 @@ const CategoryContent = () => {
 
   // Handle media type change
   const handleMediaTypeChange = (option) => {
-    setMediaType(option.toLowerCase());
+    console.log("Media type changed to:", option);
+    // Convert "TV" to "tv" and "Movie" to "movie"
+    const mediaTypeValue = option === "TV" ? "tv" : option.toLowerCase();
+    console.log("Setting media type to:", mediaTypeValue);
+    setMediaType(mediaTypeValue);
     setPage(1); // Reset to first page when media type changes
+    setContent([]); // Clear content to avoid showing wrong media type while loading
   };
 
   // Handle pagination

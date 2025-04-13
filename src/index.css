@@ -255,6 +255,12 @@ html {
 .horizontal-scroll {
   scrollbar-width: thin;
   scrollbar-color: #6556cd #2c2c2c;
+  cursor: grab;
+  user-select: none;
+}
+
+.horizontal-scroll.active {
+  cursor: grabbing;
 }
 
 .horizontal-scroll::-webkit-scrollbar {

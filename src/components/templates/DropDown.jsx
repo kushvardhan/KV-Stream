@@ -58,6 +58,7 @@ const DropDown = ({ title, options, func }) => {
             <li
               key={i}
               onClick={() => {
+                console.log(`Selected dropdown option: ${option}`);
                 setSelected(option);
                 func(option);
                 setIsOpen(false);

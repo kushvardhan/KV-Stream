@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import useDragScroll from "../../hooks/useDragScroll";
 
 const HorizontalScroll = ({ children, title }) => {
-  const scrollRef = useRef(null);
+  // Use our custom drag scroll hook
+  const { ref: scrollRef } = useDragScroll();
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
 

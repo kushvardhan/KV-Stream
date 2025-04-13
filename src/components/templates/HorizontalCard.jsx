@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useDragScroll from "../../hooks/useDragScroll";
 import noImage from "/noImage.jpeg";
 
 const HorizontalCard = ({ trending }) => {
-  const scrollRef = useRef(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
+
+  // Use our custom drag scroll hook
+  const { ref: scrollRef } = useDragScroll();
 
   const checkScroll = () => {
     if (scrollRef.current) {

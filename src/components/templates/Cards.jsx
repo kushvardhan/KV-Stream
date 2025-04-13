@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 const Cards = memo(
   ({ data, category, title }) => {
     // Determine the media type with proper fallbacks
-    const mediaType = data.media_type || title || category || "movie";
+    let mediaType = data.media_type || title || category || "movie";
+
+    // Normalize media type to handle different formats
+    if (mediaType === "TV") mediaType = "tv";
+    if (mediaType === "Movie") mediaType = "movie";
 
     // Don't show description for people
     const isPerson = mediaType === "person" || mediaType === "people";
