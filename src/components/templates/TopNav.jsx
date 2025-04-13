@@ -12,32 +12,24 @@ const TopNav = ({ searchOnly = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Check if we're on the home page
   const isHomePage = location.pathname === "/";
-
-  // Check if we're on the popular page to use different background color
   const isPopularPage = location.pathname.includes("/popular");
 
-  // Get search results
   const getSearches = async () => {
     try {
       if (searchBar.trim() === "") {
         setSearches(null);
         return;
       }
-      console.log("Searching for:", searchBar);
       const { data } = await instance.get(
         `/search/multi?query=${encodeURIComponent(searchBar)}`
       );
-      console.log("Search results:", data.results);
-      setSearches(data.results || []); // Ensure we always have an array
+      setSearches(data.results || []);
     } catch (err) {
-      console.error("Search error:", err);
-      setSearches([]); // Set empty array on error
+      setSearches([]);
     }
   };
 
-  // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchBar.trim() !== "") {
@@ -50,34 +42,25 @@ const TopNav = ({ searchOnly = false }) => {
     };
   }, [searchBar]);
 
-  // Handle clicks outside search container and clicks on search results
   useEffect(() => {
     const handleInteraction = (event) => {
-      // Check if the interaction is on an element with data-href attribute
       let target = event.target;
       while (target) {
         if (target.dataset && target.dataset.href) {
-          // Navigate to the href
-          console.log(
-            "Global interaction handler - navigating to:",
-            target.dataset.href
-          );
           window.location.href = target.dataset.href;
           return;
         }
         target = target.parentElement;
       }
 
-      // Handle interactions outside search container
       if (
         searchContainerRef.current &&
         !searchContainerRef.current.contains(event.target)
       ) {
-        setSearches(null); // Only hide search results, don't clear the search bar
+        setSearches(null);
       }
     };
 
-    // Add higher priority to these event listeners
     document.addEventListener("mousedown", handleInteraction, {
       capture: true,
     });
@@ -97,7 +80,6 @@ const TopNav = ({ searchOnly = false }) => {
     };
   }, []);
 
-  // Effect to scroll selected item into view
   useEffect(() => {
     if (selectedIndex >= 0 && searchResultsRef.current) {
       const selectedElement = searchResultsRef.current.querySelector(
@@ -112,11 +94,9 @@ const TopNav = ({ searchOnly = false }) => {
     }
   }, [selectedIndex]);
 
-  // Update search results position when scrolling
   useEffect(() => {
     const updatePosition = () => {
       if (searches && searches.length > 0 && searchContainerRef.current) {
-        // Force a re-render to update position
         setSearches([...searches]);
       }
     };
@@ -127,17 +107,12 @@ const TopNav = ({ searchOnly = false }) => {
     };
   }, [searches]);
 
-  // Function to handle search result click - simplified for keyboard navigation
   const handleSearchResultClick = (detailPath) => {
-    // Clear search bar and results
     setSearchBar("");
     setSearches(null);
-
-    // Navigate to the detail path
     navigate(detailPath);
   };
 
-  // Handle keyboard navigation
   const handleKeyDown = (e) => {
     if (!searches) return;
 
@@ -155,8 +130,6 @@ const TopNav = ({ searchOnly = false }) => {
       if (selected) {
         const mediaType = selected.media_type;
         const id = selected.id;
-
-        // Use the same navigation approach as the click handler
         const path =
           mediaType === "movie"
             ? `/movies/details/${id}`
@@ -165,7 +138,6 @@ const TopNav = ({ searchOnly = false }) => {
             : mediaType === "person"
             ? `/peoples/details/${id}`
             : `/movies/details/${id}`;
-        // Simply call the handleSearchResultClick function with the path
         handleSearchResultClick(path);
       }
     }
@@ -181,16 +153,13 @@ const TopNav = ({ searchOnly = false }) => {
       style={{ position: "relative", overflow: "visible" }}
     >
       <div className="flex items-center w-full h-full">
-        {/* Hamburger menu for mobile - only shown on small screens and on home page */}
         {isHomePage && !searchOnly && (
           <button
             onClick={() => {
               try {
                 const event = new CustomEvent("toggle-sidebar");
                 window.dispatchEvent(event);
-              } catch (error) {
-                console.error("Error dispatching toggle-sidebar event:", error);
-              }
+              } catch (error) {}
             }}
             className="p-2 rounded-md bg-[#1F1E24] text-white md:hidden flex items-center justify-center mr-2 hover:bg-zinc-700 transition-colors hover:scale-110 active:scale-95"
             aria-label="Toggle sidebar menu"
@@ -198,8 +167,6 @@ const TopNav = ({ searchOnly = false }) => {
             <i className="ri-menu-line text-xl"></i>
           </button>
         )}
-
-        {/* Search container */}
 
         <div
           ref={searchContainerRef}
@@ -246,18 +213,16 @@ const TopNav = ({ searchOnly = false }) => {
         </div>
       </div>
 
-      {/* Invisible overlay to capture clicks outside search results */}
       {searches && (
         <div
           className="fixed inset-0 bg-transparent"
           style={{ zIndex: 9990 }}
           onClick={() => {
-            setSearches(null); // Only hide search results, don't clear the search bar
+            setSearches(null);
           }}
         ></div>
       )}
 
-      {/* Search results */}
       {searches && searches.length > 0 && (
         <div
           className="bg-[#2c2c2c] rounded-md shadow-lg max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#6556CD] scrollbar-track-[#2c2c2c] border border-zinc-700/30 search-results pointer-events-auto touch-manipulation"
@@ -290,10 +255,7 @@ const TopNav = ({ searchOnly = false }) => {
             </h3>
             <ul ref={searchResultsRef} onClick={(e) => e.stopPropagation()}>
               {searches.map((search, index) => {
-                // Skip items without title or name
                 if (!search.title && !search.name) return null;
-
-                // Determine the correct path
                 const detailPath =
                   search.media_type === "movie"
                     ? `/movies/details/${search.id}`
@@ -303,23 +265,11 @@ const TopNav = ({ searchOnly = false }) => {
                     ? `/peoples/details/${search.id}`
                     : `/movies/details/${search.id}`;
 
-                console.log(
-                  "Rendering search item:",
-                  search.title || search.name,
-                  "path:",
-                  detailPath
-                );
-
                 return (
                   <li
                     key={search.id}
                     data-href={detailPath}
                     onClick={() => {
-                      console.log(
-                        "List item clicked, navigating to:",
-                        detailPath
-                      );
-                      // Use direct navigation to avoid client-side routing issues
                       window.location.assign(
                         window.location.origin + detailPath
                       );
@@ -335,11 +285,7 @@ const TopNav = ({ searchOnly = false }) => {
                       data-href={detailPath}
                       onClick={(e) => {
                         e.stopPropagation();
-                        console.log(
-                          "Button clicked, navigating to:",
-                          detailPath
-                        );
-                        // Use direct navigation to avoid client-side routing issues
+
                         window.location.assign(
                           window.location.origin + detailPath
                         );
@@ -384,7 +330,9 @@ const TopNav = ({ searchOnly = false }) => {
                             className="w-full h-full flex items-center justify-center bg-[#3c3c3c] text-zinc-500"
                             onClick={(e) => {
                               e.stopPropagation();
-                              window.location.assign(window.location.origin + detailPath);
+                              window.location.assign(
+                                window.location.origin + detailPath
+                              );
                             }}
                           >
                             <i
@@ -397,7 +345,9 @@ const TopNav = ({ searchOnly = false }) => {
                               }
                               onClick={(e) => {
                                 e.stopPropagation();
-                                window.location.assign(window.location.origin + detailPath);
+                                window.location.assign(
+                                  window.location.origin + detailPath
+                                );
                               }}
                             ></i>
                           </div>
@@ -407,14 +357,18 @@ const TopNav = ({ searchOnly = false }) => {
                         className="ml-3 flex-1 min-w-0"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.location.assign(window.location.origin + detailPath);
+                          window.location.assign(
+                            window.location.origin + detailPath
+                          );
                         }}
                       >
                         <p
                           className="text-sm font-medium truncate"
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.assign(window.location.origin + detailPath);
+                            window.location.assign(
+                              window.location.origin + detailPath
+                            );
                           }}
                         >
                           {search.title || search.name}
@@ -423,7 +377,9 @@ const TopNav = ({ searchOnly = false }) => {
                           className="text-xs text-zinc-400 truncate"
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.assign(window.location.origin + detailPath);
+                            window.location.assign(
+                              window.location.origin + detailPath
+                            );
                           }}
                         >
                           {search.media_type === "movie"
@@ -441,14 +397,18 @@ const TopNav = ({ searchOnly = false }) => {
                         className="ml-2 text-[#6556CD] group-hover:translate-x-1 transition-transform duration-200"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.location.assign(window.location.origin + detailPath);
+                          window.location.assign(
+                            window.location.origin + detailPath
+                          );
                         }}
                       >
                         <i
                           className="ri-arrow-right-s-line"
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.location.assign(window.location.origin + detailPath);
+                            window.location.assign(
+                              window.location.origin + detailPath
+                            );
                           }}
                         ></i>
                       </div>
@@ -461,7 +421,6 @@ const TopNav = ({ searchOnly = false }) => {
         </div>
       )}
 
-      {/* No results */}
       {searches && searches.length === 0 && (
         <div
           className="bg-[#2c2c2c] rounded-md shadow-lg border border-zinc-700/30 search-results pointer-events-auto"

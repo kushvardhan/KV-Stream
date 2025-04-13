@@ -18,10 +18,8 @@ const ContactUs = () => {
   const contactEmail = "kushvardhan39797@gmail.com";
 
   useEffect(() => {
-    // Add class to body to disable scrolling
     document.body.style.overflow = "hidden";
 
-    // Cleanup function to restore scrolling when component unmounts
     return () => {
       document.body.style.overflow = "";
     };
@@ -30,11 +28,8 @@ const ContactUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Reset errors
     const newErrors = { name: false, email: false, message: false };
     let hasError = false;
-
-    // Validate each field
     if (!name.trim()) {
       newErrors.name = true;
       hasError = true;
@@ -61,21 +56,12 @@ const ContactUs = () => {
     setErrors(newErrors);
 
     if (!hasError) {
-      // All fields are valid, send the message
-
-      // First, store name for notification
       setSubmittedName(name);
-
-      // Then clear form fields
       setName("");
       setEmail("");
       setMessage("");
-
-      // Then show success animation and notification
       setFormSubmitted(true);
       setShowNotification(true);
-
-      // Hide notification after a delay (longer on mobile)
       const isMobile = window.innerWidth < 640;
       const notificationDuration = isMobile ? 4000 : 3000;
 
@@ -84,14 +70,11 @@ const ContactUs = () => {
         setShowNotification(false);
       }, notificationDuration);
     } else if (hasError && !newErrors.email) {
-      // Show general error if there are missing fields but email format is correct
-      // We'll use the form validation UI instead of alerts
     }
   };
 
   return (
     <>
-      {/* DaisyUI Toast Notification */}
       {showNotification && (
         <div className="toast toast-end toast-top custom-toast">
           <div className="alert alert-success bg-green-600 text-white shadow-lg rounded-lg flex items-center">

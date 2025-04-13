@@ -7,8 +7,8 @@ import ScrollToTop from "./components/templates/ScrollToTop";
 import "./index.css";
 import store from "./store/store.jsx";
 
-// Disable console.log in production
-if (process.env.NODE_ENV === "production") {
+// Disable all console logs
+{
   console.log = () => {};
   console.error = () => {};
   console.debug = () => {};
