@@ -339,7 +339,10 @@ const TopNav = ({ searchOnly = false }) => {
                           "Button clicked, navigating to:",
                           detailPath
                         );
-                        window.location.href = detailPath;
+                        // Use direct navigation to avoid client-side routing issues
+                        window.location.assign(
+                          window.location.origin + detailPath
+                        );
                       }}
                       className="flex items-center p-3 w-full group touch-manipulation bg-transparent border-0"
                       style={{
