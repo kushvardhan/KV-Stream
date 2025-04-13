@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import ErrorBoundary from "./components/templates/ErrorBoundary";
 import ScrollToTop from "./components/templates/ScrollToTop";
+import { ThemeProvider } from "./context/ThemeContext";
 import "./index.css";
 import store from "./store/store.jsx";
 
@@ -18,10 +19,12 @@ if (process.env.NODE_ENV === "production") {
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <ErrorBoundary>
-      <BrowserRouter>
-        <ScrollToTop />
-        <App />
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </ErrorBoundary>
   </Provider>
 );
